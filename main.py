@@ -3,7 +3,7 @@ import uuid
 from graph import create_graph
 from tools import create_tools
 from functions import setup_environment, _print_event
-from main_agent import create_llm, create_assistant,create_groq
+from conversation_agent import create_llm, create_assistant,create_groq
 
 def main():
     setup_environment()
@@ -37,8 +37,7 @@ def main():
         print("\nAssistant:", end=" ")
         for event in events:
             _print_event(event, _printed)
-        
-        print()  # Add a newline for better readability
+        print()
 
 if __name__ == "__main__":
     main()

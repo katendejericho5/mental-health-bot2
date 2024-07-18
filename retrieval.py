@@ -27,8 +27,6 @@ def query_similar_texts(text, count=5):
     except Exception as e:
         print(f"Error querying similar texts: {e}")
         return None
- 
-    
 
 def retrieve_db(text, count=5):
 

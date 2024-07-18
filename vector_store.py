@@ -51,6 +51,16 @@ def store_documents():
     vector_store = store_documents_in_pinecone(docs, embeddings, INDEX_NAME)
     print("Documents stored successfully in Pinecone.")
     return vector_store
+
+
+def doc_retriever(query, embeddings, index_name):
+    vector_store = PineconeVectorStore.from_documents(query, embeddings,index_name=index_name)
+    return vector_store.as_retriever()
+    
+
+
+
+
 # New function to delete Pinecone index
 def delete_pinecone_index(index_name):
     pc = initialize_pinecone()

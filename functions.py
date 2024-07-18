@@ -1,9 +1,9 @@
 import os
-import getpass
 
 def setup_environment():
     os.environ["TAVILY_API_KEY"] = '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'
     os.environ["OPENAI_API_KEY"] = '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'
+    os.environ["PINECONE_API_KEY"] = '1a2097d8-79f1-48d8-bbfc-35e12d082eb2'
 
 
 def _print_event(event: dict, _printed: set, max_length=1500):

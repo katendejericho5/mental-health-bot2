@@ -22,6 +22,14 @@ class _ChatBotState extends State<ChatBot> {
             height: 80,
             child: Center(
               child: Container(
+                child: Center(
+                    child: Text(
+                  'Companion Mode',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Color.fromARGB(146, 0, 0, 0)),
+                )),
                 height: 50,
                 width: 280,
                 decoration: BoxDecoration(
@@ -38,7 +46,7 @@ class _ChatBotState extends State<ChatBot> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Image(
+                const Image(
                   image: AssetImage('lib/images/ponytail.png'),
                   height: 100,
                 ),
@@ -49,11 +57,19 @@ class _ChatBotState extends State<ChatBot> {
                     borderRadius: BorderRadius.circular(33),
                     color: Color.fromARGB(193, 10, 83, 110),
                   ),
+                  child: const Center(
+                      child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Hi! This is Becky your Companion, how can\ni help you',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
                 )
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Center(
@@ -78,12 +94,22 @@ class _ChatBotState extends State<ChatBot> {
                   width: 220,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(33),
-                    color: Color.fromARGB(193, 10, 83, 110),
+                    color: Color.fromARGB(255, 155, 214, 236),
                   ),
+                  child: const Center(
+                      child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Okay! This is Jessy and i have a few questions\nfor you',
+                      style: TextStyle(
+                        color: Color.fromARGB(193, 10, 83, 110),
+                      ),
+                    ),
+                  )),
                 ),
                 Image(
-                  image: AssetImage('lib/images/ponytail.png'),
-                  height: 100,
+                  image: AssetImage('lib/images/manager.png'),
+                  height: 90,
                 ),
               ],
             ),

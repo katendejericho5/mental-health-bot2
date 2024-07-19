@@ -13,7 +13,7 @@ class MentalHealthPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 224, 244, 255),
+              Color.fromARGB(151, 1, 129, 248),
               Color.fromARGB(255, 198, 223, 255),
             ],
             begin: Alignment.topLeft,

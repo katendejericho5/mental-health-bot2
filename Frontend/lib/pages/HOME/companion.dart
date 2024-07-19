@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MentalHealthPage extends StatelessWidget {
-  const MentalHealthPage({super.key});
+class CompanionModePage extends StatelessWidget {
+  const CompanionModePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class MentalHealthPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
-                'Mental Health',
+                'Companion',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,
@@ -61,14 +61,14 @@ class MentalHealthPage extends StatelessWidget {
                       ),
                       child: Center(
                         child: Container(
-                          width: 150, // SVG size
+                          width: 200, // SVG size
                           height: 150, // SVG size
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.transparent,
                           ),
                           child: SvgPicture.asset(
-                            'assets/undraw_mindfulness_8gqa.svg',
+                            'assets/undraw_snow_games_tq9r.svg', 
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -78,11 +78,10 @@ class MentalHealthPage extends StatelessWidget {
                     Positioned(
                       bottom: 0,
                       child: Row(
-                        
                         children: [
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.houseMedicalFlag,
+                              FontAwesomeIcons.heart,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -91,7 +90,7 @@ class MentalHealthPage extends StatelessWidget {
                           const SizedBox(width: 140),
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.userDoctor,
+                              FontAwesomeIcons.comments,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -104,7 +103,7 @@ class MentalHealthPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Therapist Mode Button with padding and increased width
+            // Companion Mode Button with padding and increased width
             Expanded(
               flex: 1,
               child: Padding(
@@ -124,7 +123,7 @@ class MentalHealthPage extends StatelessWidget {
                         onPressed: () {
                           // Define your onPressed function here
                         },
-                        child: const Text('Therapist Mode'),
+                        child: const Text('Engage Companion'),
                       ),
                     ),
                   ],

@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final items = <Widget>[
       Icon(Icons.home, color: Color.fromARGB(255, 205, 223, 238)),
-      Icon(Icons.group, color: Color.fromARGB(255, 205, 223, 238)),
+      Icon(Icons.chat, color: Color.fromARGB(255, 205, 223, 238)),
       Icon(Icons.person, color: Color.fromARGB(255, 205, 223, 238)),
     ];
     return Scaffold(

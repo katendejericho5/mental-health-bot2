@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/pages/HOME/home.dart';
 import 'package:mentalhealth/pages/HOME/homepage.dart';
 import 'package:mentalhealth/pages/WelcomeScreen.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'pages/HOME/therapist.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
       routes: {
-        '/home': (context) => Home(),
-        '/homepage': (context) => Homepage(),
+        '/home': (context) => const MentalHealthPage(),
+        '/homepage': (context) => const Homepage(),
       },
     );
   }

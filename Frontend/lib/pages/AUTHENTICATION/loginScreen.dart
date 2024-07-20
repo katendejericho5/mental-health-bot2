@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mentalhealth/pages/HOME/homepage.dart';
+import 'package:mentalhealth/pages/homescreen.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({Key? key}) : super(key: key);
@@ -142,6 +144,18 @@ class _loginScreenState extends State<loginScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>  HomeScreen()),
+                            );
+                          },
+                          child: const Text('Homescreeen')),
                       const SizedBox(
                         height: 150,
                       ),

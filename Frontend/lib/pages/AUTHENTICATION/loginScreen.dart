@@ -15,10 +15,10 @@ class _loginScreenState extends State<loginScreen> {
 
   Future<void> _signIn() async {
     try {
-      await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+      // await _auth.signInWithEmailAndPassword(
+      //   email: _emailController.text,
+      //   password: _passwordController.text,
+      // );
       Navigator.pushNamed(context, '/home');
     } catch (e) {
       print(e); // Handle errors as needed

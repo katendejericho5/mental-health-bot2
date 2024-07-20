@@ -68,7 +68,7 @@ class CompanionModePage extends StatelessWidget {
                             color: Colors.transparent,
                           ),
                           child: SvgPicture.asset(
-                            'assets/undraw_snow_games_tq9r.svg',
+                            'assets/undraw_snow_games_tq9r.svg', 
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -121,7 +121,7 @@ class CompanionModePage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/home');
+                          // Define your onPressed function here
                         },
                         child: const Text('Engage Companion'),
                       ),

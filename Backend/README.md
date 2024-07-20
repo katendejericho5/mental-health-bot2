@@ -62,7 +62,7 @@ The Mental Health Chatbot is designed to act as a virtual psychotherapist, utili
 To start the Flask server, run:
 
 ```
-python app.py
+python main.py
 ```
 
 The server will start on `http://localhost:5000` by default.

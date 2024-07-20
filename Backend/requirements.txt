@@ -1,0 +1,40 @@
+# Language model libraries
+langchain-core
+langchain-openai
+langchain-groq
+
+# Vector store and embeddings
+langchain-pinecone
+
+# Web framework
+flask
+
+# Environment variables
+python-dotenv
+
+# Utility libraries
+typing-extensions
+
+# Graph and state management
+langgraph
+
+# Logging
+logging
+
+# Search tool
+langchain-community
+
+# Tool creation
+langchain
+
+# PDF processing (commented out, include if needed)
+langchain-community[pdf]
+
+# Pinecone (commented out, include if needed)
+pinecone-client
+
+# OpenAI (ensure it's installed separately if not included in langchain-openai)
+openai
+
+# UUID for thread generation
+uuid

@@ -3,24 +3,18 @@ from flask import Flask, request, jsonify
 import uuid
 import os
 import logging
-<<<<<<< HEAD
+
+from flask_cors import CORS
 
 # Ensure logging is configured
 
-=======
-from flask_cors import CORS
->>>>>>> combined
 
 # Load environment variables
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-<<<<<<< HEAD
-
-=======
 CORS(app)
->>>>>>> combined
 
 # Initialize chatbot components
 from graph import create_graph
@@ -61,11 +55,7 @@ def chat():
 
         events = graph.stream({"messages": ("user", user_input)}, config, stream_mode="values")
 
-<<<<<<< HEAD
-        response = {"message": None}
-=======
         response = {"response": None}
->>>>>>> combined
         for event in events:
             formatted_message = format_event(event)
             if formatted_message and "message" in formatted_message:

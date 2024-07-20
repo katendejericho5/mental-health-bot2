@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mentalhealth/pages/HOME/home.dart';
 import 'package:mentalhealth/pages/HOME/homepage.dart';
 import 'package:mentalhealth/pages/WelcomeScreen.dart';
+import 'package:mentalhealth/pages/homescreen.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => Home(),
         '/homepage': (context) => Homepage(),
+        '/homescreen': (context) => HomeScreen(),
       },
     );
   }

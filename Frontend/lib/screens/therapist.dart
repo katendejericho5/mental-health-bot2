@@ -1,9 +1,37 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mentalhealth/services/api_service.dart';
+import 'package:mentalhealth/screens/chatbot.dart';
 
-class MentalHealthPage extends StatelessWidget {
-  const MentalHealthPage({super.key});
+class TherapistPage extends StatefulWidget {
+  const TherapistPage({super.key});
+
+  @override
+  TherapistPageState createState() => TherapistPageState();
+}
+
+class TherapistPageState extends State<TherapistPage> {
+  String? _threadId;
+
+  Future<void> _handleTherapistMode() async {
+    final apiService = ApiService();
+
+    try {
+      _threadId ??= await apiService.createThread();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatBot(threadId: _threadId!),
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +54,7 @@ class MentalHealthPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
-                'Mental Health',
+                'Therapist',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,

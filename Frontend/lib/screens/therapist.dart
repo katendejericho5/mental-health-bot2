@@ -106,11 +106,10 @@ class TherapistPageState extends State<TherapistPage> {
                     Positioned(
                       bottom: 0,
                       child: Row(
-                        
                         children: [
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.houseMedicalFlag,
+                              FontAwesomeIcons.heart,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -119,7 +118,7 @@ class TherapistPageState extends State<TherapistPage> {
                           const SizedBox(width: 140),
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.userDoctor,
+                              FontAwesomeIcons.comments,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -149,9 +148,7 @@ class TherapistPageState extends State<TherapistPage> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: () {
-                          // Define your onPressed function here
-                        },
+                        onPressed: _handleTherapistMode,
                         child: const Text('Therapist Mode'),
                       ),
                     ),

@@ -30,7 +30,9 @@ def create_groq():
     return ChatGroq(
         temperature=0.4,
         # model="llama3-groq-8b-8192-tool-use-preview",
-        model="llama3-70b-8192",
+        # llama3-70b-8192
+        model="llama3-groq-70b-8192-tool-use-preview",
+        
         api_key="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",
     )
 

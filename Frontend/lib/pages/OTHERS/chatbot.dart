@@ -13,7 +13,7 @@ class _ChatBotState extends State<ChatBot> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 205, 223, 238),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 37, 150, 190),
+        backgroundColor: const Color.fromARGB(151, 1, 129, 248),
       ),
       body: ListView(
         children: [

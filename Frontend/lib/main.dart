@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/pages/HOME/companion.dart';
+import 'package:mentalhealth/companion.dart';
 // import 'package:mentalhealth/pages/HOME/homepage.dart';
 // import 'package:mentalhealth/pages/WelcomeScreen.dart';
-import 'firebase_options.dart';
+import 'pages/OTHERS/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'pages/HOME/therapist.dart';
+import 'therapist.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
       home: const CompanionModePage(),
       routes: {
         // '/home': (context) => const MentalHealthPage(),
+
         '/home': (context) => const MentalHealthPage(),
-        '/homepage': (context) => const CompanionModePage(),
+        '/homepage': (context) => const MentalHealthPage(),
       },
     );
   }

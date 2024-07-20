@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mentalhealth/api_service.dart';
+import 'package:mentalhealth/chatbot.dart';
 
-class MentalHealthPage extends StatelessWidget {
+class MentalHealthPage extends StatefulWidget {
   const MentalHealthPage({super.key});
+
+  @override
+  MentalHealthPageState createState() => MentalHealthPageState();
+}
+
+class MentalHealthPageState extends State<MentalHealthPage> {
+  String? _threadId;
+
+  Future<void> _handleTherapistMode() async {
+    final apiService = ApiService();
+
+    try {
+      _threadId ??= await apiService.createThread();
+      // Navigate to the ChatBot screen with the threadId
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatBot(threadId: _threadId!),
+        ),
+      );
+    } catch (e) {
+      // Handle any errors that occur during thread creation or navigation
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +147,7 @@ class MentalHealthPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/homepage');
-                        },
+                        onPressed: _handleTherapistMode,
                         child: const Text('Therapist Mode'),
                       ),
                     ),

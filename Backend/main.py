@@ -3,16 +3,14 @@ from flask import Flask, request, jsonify
 import uuid
 import os
 import logging
-
-# Ensure logging is configured
-
+from flask_cors import CORS
 
 # Load environment variables
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-
+CORS(app)
 
 # Initialize chatbot components
 from graph import create_graph
@@ -53,13 +51,13 @@ def chat():
 
         events = graph.stream({"messages": ("user", user_input)}, config, stream_mode="values")
 
-        response = {"message": None}
+        response = {"response": None}
         for event in events:
             formatted_message = format_event(event)
             if formatted_message and "message" in formatted_message:
-                response["message"] = formatted_message["message"]
+                response["response"] = formatted_message["message"]
 
-        if response["message"] is None:
+        if response["response"] is None:
             return jsonify({"error": "No AI response found"}), 404
 
         return jsonify(response)
@@ -68,4 +66,4 @@ def chat():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

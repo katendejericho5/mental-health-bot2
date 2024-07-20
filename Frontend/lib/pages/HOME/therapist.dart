@@ -78,11 +78,10 @@ class MentalHealthPage extends StatelessWidget {
                     Positioned(
                       bottom: 0,
                       child: Row(
-                        
                         children: [
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.houseMedicalFlag,
+                              FontAwesomeIcons.heart,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -91,7 +90,7 @@ class MentalHealthPage extends StatelessWidget {
                           const SizedBox(width: 140),
                           IconButton(
                             icon: const FaIcon(
-                              FontAwesomeIcons.userDoctor,
+                              FontAwesomeIcons.comments,
                               color: Colors.white,
                               size: 30,
                             ),
@@ -122,7 +121,7 @@ class MentalHealthPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // Define your onPressed function here
+                          Navigator.pushNamed(context, '/homepage');
                         },
                         child: const Text('Therapist Mode'),
                       ),

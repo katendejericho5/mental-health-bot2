@@ -1,12 +1,16 @@
 import os
 from langchain_core.messages import AIMessage, HumanMessage
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
 def setup_environment():
-    os.environ["TAVILY_API_KEY"] = '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'
-    os.environ["OPENAI_API_KEY"] = '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'
-    os.environ["PINECONE_API_KEY"] = '1a2097d8-79f1-48d8-bbfc-35e12d082eb2'
-
+    os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_API_KEY")
+    # os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+    os.environ['OPENAI_API_KEY']= os.getenv('OPENAI_API_KEY')
+    os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
+    os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 
 
 def format_event(event):

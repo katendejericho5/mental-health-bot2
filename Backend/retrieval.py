@@ -4,8 +4,8 @@ from langchain_openai import OpenAIEmbeddings
 
 
 # Set API keys and environment variables
-os.environ["OPENAI_API_KEY"] = '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'
-os.environ["PINECONE_API_KEY"] = '1a2097d8-79f1-48d8-bbfc-35e12d082eb2'
+os.environ["OPENAI_API_KEY"] =  os.getenv('OPENAI_API_KEY')
+os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
 os.environ["PINECONE_ENVIRONMENT"] = 'gcp-starter'
 
 INDEX_NAME = "test-index"

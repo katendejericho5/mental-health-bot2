@@ -6,21 +6,22 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Mental Health',
           style: TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
-            color: Colors.teal[900],
+            color: Colors.white,
           ),
         ),
         centerTitle: true,
-        leading: Icon(Icons.menu, color: Colors.teal[900]),
-        actions: [
-          Icon(Icons.settings, color: Colors.teal[900]),
+        leading: const Icon(Icons.menu, color: Colors.white),
+        actions: const [
+          Icon(Icons.settings, color: Colors.white),
         ],
+        backgroundColor: const Color.fromARGB(255, 8, 79, 75),
       ),
-      backgroundColor: Colors.teal[50],
+      backgroundColor: const Color.fromARGB(255, 8, 79, 75),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -95,14 +96,16 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-
           const SizedBox(height: 20.0),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Icon(Icons.local_hospital, color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
-              Icon(Icons.healing, color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
-              Icon(Icons.local_pharmacy, color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
+              Icon(Icons.local_hospital,
+                  color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
+              Icon(Icons.healing,
+                  color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
+              Icon(Icons.local_pharmacy,
+                  color: Color.fromARGB(255, 13, 172, 240), size: 40.0),
             ],
           ),
         ],

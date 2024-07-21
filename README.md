@@ -1,5 +1,11 @@
 # WellCareBot: Mental Health Chatbot
 
+![Screenshot_20240720-083611](https://github.com/user-attachments/assets/2e5fb439-bd50-42cb-acba-afc6de50cd7c)
+![Screenshot_20240720-194852](https://github.com/user-attachments/assets/0a461b55-9dd6-4b55-9bca-56ae2e6f8eec)
+![Screenshot_20240720-194903](https://github.com/user-attachments/assets/0023d3e7-dd5d-4997-be54-4be6b2f5e218)
+![Screenshot_20240720-173624](https://github.com/user-attachments/assets/04f6c5c3-33ba-4a80-91c7-e29ee184e4ad)
+![Screenshot_20240720-203751](https://github.com/user-attachments/assets/94dc3d90-b87d-4011-bc2a-aebd8c1beb7d)
+
 This project implements a mental health chatbot using advanced language models and various tools to provide empathetic, professional, and evidence-based support to users seeking help with their mental health and emotional well-being.
 
 ## Table of Contents
@@ -92,12 +98,7 @@ The server will start on `http://localhost:5000` by default.
 
 
 
-4![Screenshot_20240720-083611](https://github.com/user-attachments/assets/2e5fb439-bd50-42cb-acba-afc6de50cd7c)
-![Screenshot_20240720-194852](https://github.com/user-attachments/assets/0a461b55-9dd6-4b55-9bca-56ae2e6f8eec)
-![Screenshot_20240720-194903](https://github.com/user-attachments/assets/0023d3e7-dd5d-4997-be54-4be6b2f5e218)
-![Screenshot_20240720-173624](https://github.com/user-attachments/assets/04f6c5c3-33ba-4a80-91c7-e29ee184e4ad)
-![Screenshot_20240720-203751](https://github.com/user-attachments/assets/94dc3d90-b87d-4011-bc2a-aebd8c1beb7d)
-. Run the application on an emulator or connected device:
+4. Run the application on an emulator or connected device:
    ```bash
    flutter run
    ```

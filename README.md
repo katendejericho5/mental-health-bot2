@@ -1,6 +1,7 @@
 # WellCareBot: Mental Health Chatbot
-![IMG-20240721-WA0008](https://github.com/user-attachments/assets/03798479-6347-4af5-a8e7-6964b423223a)
+
 ![IMG-20240721-WA0007](https://github.com/user-attachments/assets/15ea0048-5ceb-4a61-afff-3429a0a90e7f)
+![IMG-20240721-WA0008](https://github.com/user-attachments/assets/03798479-6347-4af5-a8e7-6964b423223a)
 
 
 This project implements a mental health chatbot using advanced language models and various tools to provide empathetic, professional, and evidence-based support to users seeking help with their mental health and emotional well-being.
@@ -97,6 +98,10 @@ The server will start on `http://localhost:5000` by default.
 4. Run the application on an emulator or connected device:
    ```bash
    flutter run
+   ```
+5. Link to the apk via google drive
+ ```bash   
+   https://drive.google.com/drive/folders/1M1rfdRwTkqWhKcJbs5asiiVXlEfZZZ3o?usp=sharing
    ```
 
 ## Usage

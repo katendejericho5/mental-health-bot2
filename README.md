@@ -54,7 +54,7 @@ The WellCareBot is designed to act as a virtual psychotherapist, utilizing a com
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/mental-health-chatbot.git
+   git clone https://github.com/katendejericho5/mental-health-chatbot.git
    cd mental-health-chatbot/backend
    ```
 

@@ -1,26 +1,41 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart'; // Import the package
 
-class Profile extends StatefulWidget {
+class CreateProfileScreen extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _CreateProfileScreenState createState() => _CreateProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _CreateProfileScreenState extends State<CreateProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   String _fullName = '';
   String _phoneNumber = '';
   String? _selectedGender;
+  XFile? _profileImage;
+  PhoneNumber? _phoneNumberModel; // To store the phone number model
 
   // Gender options
   final List<String> _genders = ['Male', 'Female', 'Other'];
+
+  // Method to pick an image from gallery
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _profileImage = image;
+    });
+  }
 
   void _continue() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       // Handle profile creation logic here
       print('Full Name: $_fullName');
-      print('Phone Number: $_phoneNumber');
+      print('Phone Number: ${_phoneNumberModel?.phoneNumber}');
       print('Gender: $_selectedGender');
+      print('Profile Image: ${_profileImage?.path}');
     }
   }
 
@@ -32,19 +47,56 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Your Profile'),
-        backgroundColor: Colors.blue,
-      ),
+      appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              Text(
-                'Please complete your profile:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              Column(
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        'Create Your Profile',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 32,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Please enter your details to complete your profile, don't worry your details are private",
+                        maxLines: 3,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.grey[200],
+                        backgroundImage: _profileImage != null
+                            ? FileImage(File(_profileImage!.path))
+                            : null,
+                        child: _profileImage == null
+                            ? Icon(
+                                Icons.camera_alt,
+                                size: 40,
+                                color: Colors.grey[600],
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 20.0),
               TextFormField(
@@ -52,6 +104,7 @@ class _ProfileState extends State<Profile> {
                   labelText: 'Full Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
                   ),
                 ),
                 validator: (value) {
@@ -65,25 +118,43 @@ class _ProfileState extends State<Profile> {
                 },
               ),
               SizedBox(height: 16.0),
-              TextFormField(
-                decoration: InputDecoration(
+              InternationalPhoneNumberInput(
+                spaceBetweenSelectorAndTextField:0,
+                inputDecoration: InputDecoration(
                   labelText: 'Phone Number',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
+                  ),
+                  
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                     // Set black border when focused
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border when enabled
                   ),
                 ),
-                keyboardType: TextInputType.phone,
+                initialValue: _phoneNumberModel,
+                onInputChanged: (PhoneNumber number) {
+                  _phoneNumberModel = number;
+                },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (_phoneNumberModel == null || _phoneNumberModel!.phoneNumber == null || _phoneNumberModel!.phoneNumber!.isEmpty) {
                     return 'Please enter your phone number';
-                  } else if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
-                    return 'Please enter a valid phone number';
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _phoneNumber = value!;
-                },
+                selectorConfig: SelectorConfig(
+                  selectorType: PhoneInputSelectorType.DROPDOWN,
+                ),
+                ignoreBlank: false,
+                autoValidateMode: AutovalidateMode.onUserInteraction,
+                selectorTextStyle: TextStyle(color: Colors.black),
+                formatInput: false,
+                keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 16.0),
               DropdownButtonFormField<String>(
@@ -91,6 +162,7 @@ class _ProfileState extends State<Profile> {
                   labelText: 'Gender',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
                   ),
                 ),
                 value: _selectedGender,
@@ -116,34 +188,48 @@ class _ProfileState extends State<Profile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    onPressed: _skip,
-                    child: Text('Skip'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 20.0),
-                      textStyle: TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(right: 8.0),
+                      child: ElevatedButton(
+                        onPressed: _skip,
+                        child: Text('Skip'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          side: BorderSide(color: Colors.grey),
+                          padding: EdgeInsets.symmetric(vertical: 15.0),
+                          textStyle: TextStyle(fontSize: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: _continue,
-                    child: Text('Continue'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 20.0),
-                      textStyle: TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 8.0),
+                      child: ElevatedButton(
+                        onPressed: _continue,
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: EdgeInsets.symmetric(vertical: 15.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
-              ),
+              )
             ],
           ),
         ),

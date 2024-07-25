@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:mentalhealth/screens/Authentication/forgot_password.dart';
 import 'package:mentalhealth/screens/Authentication/registration.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -148,6 +149,12 @@ class _LoginScreenState extends State<LoginScreen> {
               TextButton(
                 onPressed: () {
                   // Handle forgot password logic
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordScreen(),
+                    ),
+                  );
                 },
                 child: Text(
                   'Forgot Password?',

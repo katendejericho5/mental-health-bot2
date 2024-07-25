@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mentalhealth/screens/Authentication/registration.dart';
 import 'package:mentalhealth/screens/Home/homepage.dart';
+import 'package:mentalhealth/screens/homepage2.dart';
 
 class IntroductionPage extends StatelessWidget {
   IntroductionPage({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class IntroductionPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) =>  HomePage2(),
           ),
         );
       },

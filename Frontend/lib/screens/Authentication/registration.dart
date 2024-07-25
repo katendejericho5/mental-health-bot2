@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:mentalhealth/screens/Authentication/login.dart';
 import 'package:mentalhealth/screens/Authentication/profile.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -189,6 +190,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextButton(
                     onPressed: () {
                       // Handle login navigation
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       'Login',
@@ -200,7 +207,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+               Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey,
+                      height: 36,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text('or'),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey,
+                      height: 36,
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

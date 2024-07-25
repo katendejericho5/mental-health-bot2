@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _name = '';
   String _email = '';
   String _password = '';
+  bool _obscureText = true;
 
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
@@ -19,6 +21,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Email: $_email');
       print('Password: $_password');
     }
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
@@ -62,10 +70,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
+              SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  labelStyle: TextStyle(color: Colors.blue),
+                  prefixIcon: Icon(Icons.person, color: Colors.blue),
                   border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -83,7 +98,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.green),
+                  prefixIcon: Icon(Icons.email, color: Colors.green),
                   border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -104,11 +125,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.red),
+                  prefixIcon: Icon(Icons.lock, color: Colors.red),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.red,
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _obscureText,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
@@ -132,6 +166,63 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Already have an account?'),
+                  TextButton(
+                    onPressed: () {
+                      // Handle login navigation
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.google,
+                      // color: Colors.white,
+                    ),
+                    iconSize: 50.0,
+                    onPressed: () {
+                      // Handle Google login
+                    },
+                  ),
+                  SizedBox(width: 20.0),
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.microsoft,
+                      // color: Colors.white,
+                    ),
+                    iconSize: 50.0,
+                    onPressed: () {
+                      // Handle Microsoft login
+                    },
+                  ),
+                  SizedBox(width: 20.0),
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.apple,
+                      // color: Colors.white,
+                    ),
+                    iconSize: 50.0,
+                    onPressed: () {
+                      // Handle Apple login
+                    },
+                  ),
+                ],
               ),
             ],
           ),

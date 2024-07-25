@@ -102,7 +102,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
-                        color: Colors.black, width: 2.0), // Set black border
+                      color: Colors.black,
+                    ), // Set black border
                   ),
                 ),
                 validator: (value) {
@@ -124,18 +125,21 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
-                        color: Colors.black, width: 2.0), // Set black border
+                      color: Colors.black,
+                    ), // Set black border
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
                     // Set black border when focused
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.0), // Set black border when enabled
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 onChanged: (phone) {
@@ -150,7 +154,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
-                        color: Colors.black, width: 2.0), // Set black border
+                      color: Colors.black,
+                    ), // Set black border
                   ),
                 ),
                 value: _selectedGender,

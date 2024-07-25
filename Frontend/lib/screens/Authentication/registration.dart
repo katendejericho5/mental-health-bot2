@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:mentalhealth/screens/Authentication/profile.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -20,6 +21,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Name: $_name');
       print('Email: $_email');
       print('Password: $_password');
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Profile(),
+        ),
+      );
     }
   }
 
@@ -57,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 20),
                   Container(
                     child: Text(
                       'Create Your Account',
@@ -66,16 +74,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    height: 80.0, // Adjust the height as needed
                   ),
+                  SizedBox(height: 8),
                 ],
               ),
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Username',
-                  labelStyle: TextStyle(color: Colors.blue),
-                  prefixIcon: Icon(Icons.person, color: Colors.blue),
+                  // labelStyle: TextStyle(color: Colors.blue),
+                  // prefixIcon: Icon(Icons.person, color: Colors.blue),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -98,13 +106,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  labelStyle: TextStyle(color: Colors.green),
-                  prefixIcon: Icon(Icons.email, color: Colors.green),
+                  // labelStyle: TextStyle(color: Colors.green),
+                  // prefixIcon: Icon(Icons.email, color: Colors.green),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    // borderSide: BorderSide(color: Colors.green),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -125,12 +133,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  labelStyle: TextStyle(color: Colors.red),
-                  prefixIcon: Icon(Icons.lock, color: Colors.red),
+                  // labelStyle: TextStyle(color: Colors.red),
+                  // prefixIcon: Icon(Icons.lock, color: Colors.red),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.red,
+                      // color: Colors.red,
                     ),
                     onPressed: _togglePasswordVisibility,
                   ),
@@ -138,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    // borderSide: BorderSide(color: Colors.red),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -158,8 +166,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _submit,
-                child: Text('Register'),
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(vertical: 15.0),
                   textStyle: TextStyle(fontSize: 18),
                   shape: RoundedRectangleBorder(
@@ -188,13 +202,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 20.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.google,
-                      // color: Colors.white,
-                    ),
+                    icon: Brand(Brands.google),
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
@@ -202,10 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(width: 20.0),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.microsoft,
-                      // color: Colors.white,
-                    ),
+                    icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Microsoft login
@@ -213,10 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(width: 20.0),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.apple,
-                      // color: Colors.white,
-                    ),
+                    icon: Brand(Brands.apple_logo),
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Apple login

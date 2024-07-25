@@ -46,7 +46,9 @@ dependencies:
   introduction_screen: ^3.1.14
   icons_plus: ^5.0.0
   image_picker: ^1.1.2
-  intl_phone_number_input: ^0.7.4 
+  # intl_phone_number_input: ^0.7.4 
+  intl_phone_field: ^3.1.0
+
 
 dev_dependencies:
   flutter_test:

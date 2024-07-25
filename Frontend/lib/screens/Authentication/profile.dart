@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart'; // Import the package
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   @override
@@ -11,10 +11,8 @@ class CreateProfileScreen extends StatefulWidget {
 class _CreateProfileScreenState extends State<CreateProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   String _fullName = '';
-  String _phoneNumber = '';
   String? _selectedGender;
   XFile? _profileImage;
-  PhoneNumber? _phoneNumberModel; // To store the phone number model
 
   // Gender options
   final List<String> _genders = ['Male', 'Female', 'Other'];
@@ -33,7 +31,6 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
       _formKey.currentState?.save();
       // Handle profile creation logic here
       print('Full Name: $_fullName');
-      print('Phone Number: ${_phoneNumberModel?.phoneNumber}');
       print('Gender: $_selectedGender');
       print('Profile Image: ${_profileImage?.path}');
     }
@@ -104,7 +101,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   labelText: 'Full Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
+                    borderSide: BorderSide(
+                        color: Colors.black, width: 2.0), // Set black border
                   ),
                 ),
                 validator: (value) {
@@ -118,42 +116,31 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 },
               ),
               SizedBox(height: 16.0),
-              InternationalPhoneNumberInput(
-                spaceBetweenSelectorAndTextField:0,
-                inputDecoration: InputDecoration(
+              IntlPhoneField(
+                flagsButtonPadding: const EdgeInsets.all(8),
+                dropdownIconPosition: IconPosition.trailing,
+                decoration: InputDecoration(
                   labelText: 'Phone Number',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
+                    borderSide: BorderSide(
+                        color: Colors.black, width: 2.0), // Set black border
                   ),
-                  
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(color: Colors.black, width: 2.0),
-                     // Set black border when focused
+                    // Set black border when focused
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border when enabled
+                    borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2.0), // Set black border when enabled
                   ),
                 ),
-                initialValue: _phoneNumberModel,
-                onInputChanged: (PhoneNumber number) {
-                  _phoneNumberModel = number;
+                onChanged: (phone) {
+                  print(phone.completeNumber);
                 },
-                validator: (value) {
-                  if (_phoneNumberModel == null || _phoneNumberModel!.phoneNumber == null || _phoneNumberModel!.phoneNumber!.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
-                selectorConfig: SelectorConfig(
-                  selectorType: PhoneInputSelectorType.DROPDOWN,
-                ),
-                ignoreBlank: false,
-                autoValidateMode: AutovalidateMode.onUserInteraction,
-                selectorTextStyle: TextStyle(color: Colors.black),
-                formatInput: false,
                 keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 16.0),
@@ -162,7 +149,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   labelText: 'Gender',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0), // Set black border
+                    borderSide: BorderSide(
+                        color: Colors.black, width: 2.0), // Set black border
                   ),
                 ),
                 value: _selectedGender,

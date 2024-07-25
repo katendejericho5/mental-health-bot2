@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/screens/homepage.dart';
+import 'package:mentalhealth/screens/introduction.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,9 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: IntroductionPage(),
     );
   }
 }

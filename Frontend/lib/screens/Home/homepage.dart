@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mentalhealth/screens/companion.dart';
-import 'package:mentalhealth/screens/therapist.dart';
+import 'package:mentalhealth/screens/Home/companion.dart';
+import 'package:mentalhealth/screens/Home/therapist.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

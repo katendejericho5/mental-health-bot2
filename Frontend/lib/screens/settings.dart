@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
+// import 'package:provider/provider.dart';
+// import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _darkMode = false;
+  // bool _darkMode = false;
   bool _notificationsEnabled = true;
 
   @override
@@ -21,18 +21,18 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildSwitchListTile(
-              title: 'Enable Dark Mode',
-              value: _darkMode,
-              onChanged: (bool value) {
-                setState(() {
-                  _darkMode = value;
-                  Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-                    _darkMode ? ThemeMode.dark : ThemeMode.light,
-                  );
-                });
-              },
-            ),
+            // _buildSwitchListTile(
+            //   title: 'Enable Dark Mode',
+            //   value: _darkMode,
+            //   onChanged: (bool value) {
+            //     setState(() {
+            //       _darkMode = value;
+            //       Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+            //         _darkMode ? ThemeMode.dark : ThemeMode.light,
+            //       );
+            //     });
+            //   },
+            // ),
             _buildSwitchListTile(
               title: 'Enable Notifications',
               value: _notificationsEnabled,

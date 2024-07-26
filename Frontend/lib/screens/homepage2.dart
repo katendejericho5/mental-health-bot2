@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mentalhealth/main.dart';
 import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
 import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
+import 'package:mentalhealth/screens/history.dart';
+import 'package:mentalhealth/screens/privacy_and_policy.dart';
 import 'package:mentalhealth/screens/settings.dart';
 import 'package:mentalhealth/services/api_service.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +17,14 @@ class HomePage2 extends StatefulWidget {
 
 class _HomePage2State extends State<HomePage2> {
   String? _threadId;
+  bool _darkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
+        ThemeMode.dark;
+  }
 
   Future<void> _handleTherapistMode() async {
     final apiService = ApiService();
@@ -51,7 +62,14 @@ class _HomePage2State extends State<HomePage2> {
     }
   }
 
-  bool _darkMode = false;
+  void _toggleTheme() {
+    setState(() {
+      _darkMode = !_darkMode;
+      Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+        _darkMode ? ThemeMode.dark : ThemeMode.light,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +91,15 @@ class _HomePage2State extends State<HomePage2> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              // Handle notifications
-            },
+            icon: FaIcon(
+              _darkMode ? FontAwesomeIcons.sun : FontAwesomeIcons.moon,
+              color: _darkMode ? Colors.white : Colors.black,
+            ),
+            onPressed: _toggleTheme,
           ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Handle settings
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SettingsPage()),
@@ -95,16 +113,14 @@ class _HomePage2State extends State<HomePage2> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(109, 237, 241, 238),
-              ),
+              decoration: BoxDecoration(),
               accountName: Text(
                 "Katende Jericho",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 18, color: Colors.blue),
               ),
               accountEmail: Text(
                 "katendejericho5@gmail.com",
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 12, color: Colors.blue),
               ),
               currentAccountPicture: CircleAvatar(
                 backgroundImage:
@@ -116,13 +132,16 @@ class _HomePage2State extends State<HomePage2> {
               title: Text('History'),
               onTap: () {
                 // Handle history tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatHistoryPage()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
-                // Handle settings
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SettingsPage()),
@@ -134,6 +153,10 @@ class _HomePage2State extends State<HomePage2> {
               title: Text('Privacy and Policy'),
               onTap: () {
                 // Handle privacy and policy tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                );
               },
             ),
             ListTile(
@@ -147,25 +170,21 @@ class _HomePage2State extends State<HomePage2> {
             SizedBox(
               height: 80,
             ),
-            ListTile(
-              leading: Icon(Icons.brightness_6),
-              title: Text('Dark Theme'),
-              trailing: Switch(
-                value: _darkMode, // Change to your current theme state
-
-                onChanged: (bool value) {
-                  setState(() {
-                    _darkMode = value;
-                    Provider.of<ThemeNotifier>(context, listen: false)
-                        .setThemeMode(
-                      _darkMode ? ThemeMode.dark : ThemeMode.light,
-                    );
-                  });
-
-                  // Handle theme toggle
-                },
-              ),
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.brightness_6),
+            //   title: Text('Dark Theme'),
+            //   trailing: Switch(
+            //     value: _darkMode, // Change to your current theme state
+            //     onChanged: (bool value) {
+            //       setState(() {
+            //         _darkMode = value;
+            //         Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+            //           _darkMode ? ThemeMode.dark : ThemeMode.light,
+            //         );
+            //       });
+            //     },
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),

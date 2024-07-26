@@ -59,7 +59,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Companion'),
+        title: Text('Therapist'),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications),

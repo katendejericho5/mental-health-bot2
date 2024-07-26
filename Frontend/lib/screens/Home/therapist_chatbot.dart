@@ -3,16 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mentalhealth/models/models.dart';
 import 'package:mentalhealth/services/api_service.dart';
 
-class ChatBot extends StatefulWidget {
+class TherapistChatBot extends StatefulWidget {
   final String threadId;
 
-  const ChatBot({super.key, required this.threadId});
+  const TherapistChatBot({super.key, required this.threadId});
 
   @override
-  State<ChatBot> createState() => _ChatBotState();
+  State<TherapistChatBot> createState() => _TherapistChatBotState();
 }
 
-class _ChatBotState extends State<ChatBot> {
+class _TherapistChatBotState extends State<TherapistChatBot> {
   final TextEditingController _controller = TextEditingController();
   final ApiService _apiService = ApiService();
   final List<Message> _messages = [];
@@ -180,5 +180,3 @@ class _ChatBotState extends State<ChatBot> {
     );
   }
 }
-
-

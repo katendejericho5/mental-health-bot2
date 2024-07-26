@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mentalhealth/services/api_service.dart';
-import 'package:mentalhealth/screens/Home/chatbot.dart';
+import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
 
 class TherapistPage extends StatefulWidget {
   const TherapistPage({super.key});
@@ -23,7 +23,7 @@ class TherapistPageState extends State<TherapistPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatBot(threadId: _threadId!),
+          builder: (context) => TherapistChatBot(threadId: _threadId!),
         ),
       );
     } catch (e) {

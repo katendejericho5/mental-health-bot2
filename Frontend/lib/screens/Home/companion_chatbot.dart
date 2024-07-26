@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/models/models.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:mentalhealth/services/api_service.dart';
 
 class CompanionChatBot extends StatefulWidget {
@@ -14,24 +15,39 @@ class CompanionChatBot extends StatefulWidget {
 class _CompanionChatBotState extends State<CompanionChatBot> {
   final TextEditingController _controller = TextEditingController();
   final ApiService _apiService = ApiService();
-  final List<Message> _messages = [];
+  final List<types.Message> _messages = [];
 
-  void _sendMessage() async {
-    final userInput = _controller.text;
+  void _sendMessage(types.PartialText message) async {
+    final userInput = message.text;
     if (userInput.isNotEmpty) {
       setState(() {
-        _messages.add(Message(text: userInput, isUser: true));
+        _messages.add(types.TextMessage(
+          author: types.User(id: 'user'),
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: DateTime.now().toString(),
+          text: userInput,
+        ));
       });
 
       try {
         final response =
             await _apiService.getChatbotResponse(userInput, widget.threadId);
         setState(() {
-          _messages.add(Message(text: response, isUser: false));
+          _messages.add(types.TextMessage(
+            author: types.User(id: 'bot'),
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: DateTime.now().toString(),
+            text: response,
+          ));
         });
       } catch (e) {
         setState(() {
-          _messages.add(Message(text: "Error: ${e.toString()}", isUser: false));
+          _messages.add(types.TextMessage(
+            author: types.User(id: 'bot'),
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: DateTime.now().toString(),
+            text: "Error: ${e.toString()}",
+          ));
         });
       }
 
@@ -59,104 +75,42 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                return Align(
-                  alignment: message.isUser
-                      ? Alignment.centerLeft
-                      : Alignment.centerRight,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: message.isUser ? Colors.blue : Colors.grey[300],
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12.0),
-                        topRight: Radius.circular(12.0),
-                        bottomLeft: message.isUser ? Radius.circular(0) : Radius.circular(12.0),
-                        bottomRight: message.isUser ? Radius.circular(12.0) : Radius.circular(0),
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(
-                            message.isUser
-                                ? 'assets/user_icon.png' // Update with your actual user icon path
-                                : 'assets/bot_icon.png', // Update with your actual bot icon path
-                          ),
-                          radius: 20,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            message.text,
-                            style: TextStyle(
-                              color: message.isUser ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+      body: Chat(
+        messages: _messages,
+        onSendPressed: (message) {
+          _sendMessage(message);
+        },
+        user: types.User(id: 'user'),
+        showUserAvatars: true,
+        showUserNames: true,
+        scrollPhysics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        theme: DefaultChatTheme(
+          // INPUT TEXTFIELD THEME
+          inputTextCursorColor: Colors.blue,
+          inputSurfaceTintColor: Colors.yellow,
+          inputBackgroundColor: Colors.white,
+          inputTextColor: Colors.black,
+          sendButtonIcon: const Icon(Icons.send, color: Colors.lightBlue),
+          inputMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          inputTextStyle: const TextStyle(
+            color: Colors.black,
+          ),
+          inputBorderRadius: const BorderRadius.horizontal(
+            left: Radius.circular(10),
+            right: Radius.circular(10),
+          ),
+          inputContainerDecoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black, width: 1.0),
+            borderRadius: const BorderRadius.horizontal(
+              left: Radius.circular(30),
+              right: Radius.circular(30),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: 'Enter your message',
-                        hintStyle: TextStyle(color: Colors.grey[600]),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 15),
-                      ),
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: _sendMessage,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                  ),
-                  child: const Icon(Icons.send, color: Colors.lightBlue),
-                ),
-              ],
-            ),
-          ),
-        ],
+          // OTHER CHANGES IN THEME
+          primaryColor: Colors.blue,
+        ),
       ),
     );
   }

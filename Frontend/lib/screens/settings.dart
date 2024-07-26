@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mentalhealth/screens/about.dart';
+import 'package:mentalhealth/screens/feedback.dart';
+import 'package:mentalhealth/screens/privacy_and_policy.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
@@ -9,7 +12,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   // bool _darkMode = false;
-  bool _notificationsEnabled = true;
+  // bool _notificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -33,27 +36,45 @@ class _SettingsPageState extends State<SettingsPage> {
             //     });
             //   },
             // ),
-            _buildSwitchListTile(
-              title: 'Enable Notifications',
-              value: _notificationsEnabled,
-              onChanged: (bool value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                  // Handle notifications settings
-                });
+            // _buildSwitchListTile(
+            //   title: 'Enable Notifications',
+            //   value: _notificationsEnabled,
+            //   onChanged: (bool value) {
+            //     setState(() {
+            //       _notificationsEnabled = value;
+            //       // Handle notifications settings
+            //     });
+            //   },
+            // ),
+            _buildListTile(
+              title: 'Feedback',
+              onTap: () {
+                // Navigate to Privacy Settings page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FeedbackPage()),
+                );
               },
             ),
             SizedBox(height: 20),
             _buildListTile(
-              title: 'Privacy Settings',
+              title: 'Privacy and Policy',
               onTap: () {
                 // Navigate to Privacy Settings page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                );
               },
             ),
             _buildListTile(
               title: 'About',
               onTap: () {
                 // Navigate to About page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutPage()),
+                );
               },
             ),
           ],
@@ -71,8 +92,10 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       elevation: 1,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        title: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        title: Text(title,
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
         trailing: Switch(
           value: value,
           onChanged: onChanged,
@@ -89,8 +112,10 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       elevation: 1,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        title: Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        title: Text(title,
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
         trailing: Icon(Icons.arrow_forward_ios),
         onTap: onTap,
       ),

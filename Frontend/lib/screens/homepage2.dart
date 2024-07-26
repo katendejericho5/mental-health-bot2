@@ -159,32 +159,26 @@ class _HomePage2State extends State<HomePage2> {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.language),
-              title: Text('Language'),
-              onTap: () {
-                // Handle language tap
-              },
-            ),
+
             Divider(),
             SizedBox(
               height: 80,
             ),
-            // ListTile(
-            //   leading: Icon(Icons.brightness_6),
-            //   title: Text('Dark Theme'),
-            //   trailing: Switch(
-            //     value: _darkMode, // Change to your current theme state
-            //     onChanged: (bool value) {
-            //       setState(() {
-            //         _darkMode = value;
-            //         Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-            //           _darkMode ? ThemeMode.dark : ThemeMode.light,
-            //         );
-            //       });
-            //     },
-            //   ),
-            // ),
+            ListTile(
+              leading: Icon(Icons.brightness_6),
+              title: Text('Dark Theme'),
+              trailing: Switch(
+                value: _darkMode, // Change to your current theme state
+                onChanged: (bool value) {
+                  setState(() {
+                    _darkMode = value;
+                    Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+                      _darkMode ? ThemeMode.dark : ThemeMode.light,
+                    );
+                  });
+                },
+              ),
+            ),
             SizedBox(
               height: 10,
             ),

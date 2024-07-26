@@ -53,18 +53,18 @@ dependencies:
   provider: ^6.1.2
   markdown_widget: ^2.3.2+6
   url_launcher: ^6.3.0
+  flutter_launcher_icons: ^0.13.1
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/app_icon.png"
+  image_path: "assets/playstore.png"
   min_sdk_android: 16 # android min sdk min:16, default 21
   # web:
   #   generate: true

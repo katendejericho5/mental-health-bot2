@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mentalhealth/main.dart';
-import 'package:mentalhealth/screens/Home/companion.dart';
 import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
-import 'package:mentalhealth/screens/Home/therapist.dart';
 import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
 import 'package:mentalhealth/screens/settings.dart';
 import 'package:mentalhealth/services/api_service.dart';

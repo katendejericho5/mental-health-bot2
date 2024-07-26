@@ -59,7 +59,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Companion ChatBot'),
+        title: Text('Companion'),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications),
@@ -77,6 +77,9 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       ),
       body: Chat(
         messages: _messages,
+        scrollToUnreadOptions: const ScrollToUnreadOptions(
+          scrollOnOpen: true,
+        ),
         onSendPressed: (message) {
           _sendMessage(message);
         },

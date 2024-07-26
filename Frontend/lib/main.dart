@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/screens/introduction.dart';
+import 'package:mentalhealth/screens/settings.dart';
+import 'package:provider/provider.dart';
+import 'screens/introduction.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => ThemeNotifier(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,13 +16,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: IntroductionPage(),
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          themeMode: themeNotifier.themeMode,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          darkTheme: ThemeData.dark(),
+          home: IntroductionPage(),
+          routes: {
+            // '/chat': (context) => CompanionChatBot(threadId: 'some_thread_id'),
+            '/settings': (context) => SettingsPage(),
+          },
+        );
+      },
     );
+  }
+}
+
+class ThemeNotifier with ChangeNotifier {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  ThemeMode get themeMode => _themeMode;
+
+  void setThemeMode(ThemeMode mode) {
+    _themeMode = mode;
+    notifyListeners();
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mentalhealth/main.dart';
 import 'package:mentalhealth/screens/Home/companion.dart';
 import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
 import 'package:mentalhealth/screens/Home/therapist.dart';
 import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
+import 'package:mentalhealth/screens/settings.dart';
 import 'package:mentalhealth/services/api_service.dart';
+import 'package:provider/provider.dart';
 
 class HomePage2 extends StatefulWidget {
   @override
@@ -50,6 +53,8 @@ class _HomePage2State extends State<HomePage2> {
     }
   }
 
+  bool _darkMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +84,10 @@ class _HomePage2State extends State<HomePage2> {
             icon: Icon(Icons.settings),
             onPressed: () {
               // Handle settings
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
             },
           ),
         ],
@@ -115,7 +124,11 @@ class _HomePage2State extends State<HomePage2> {
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
-                // Handle settings tap
+                // Handle settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
               },
             ),
             ListTile(
@@ -140,8 +153,17 @@ class _HomePage2State extends State<HomePage2> {
               leading: Icon(Icons.brightness_6),
               title: Text('Dark Theme'),
               trailing: Switch(
-                value: false, // Change to your current theme state
-                onChanged: (value) {
+                value: _darkMode, // Change to your current theme state
+
+                onChanged: (bool value) {
+                  setState(() {
+                    _darkMode = value;
+                    Provider.of<ThemeNotifier>(context, listen: false)
+                        .setThemeMode(
+                      _darkMode ? ThemeMode.dark : ThemeMode.light,
+                    );
+                  });
+
                   // Handle theme toggle
                 },
               ),

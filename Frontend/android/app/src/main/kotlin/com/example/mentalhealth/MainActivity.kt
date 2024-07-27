@@ -1,4 +1,4 @@
-package com.example.wellCareBot
+package com.example.mentalhealth
 
 import io.flutter.embedding.android.FlutterActivity
 

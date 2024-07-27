@@ -5,8 +5,6 @@ import 'package:mentalhealth/main.dart';
 import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
 import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
 import 'package:mentalhealth/screens/booking.dart';
-import 'package:mentalhealth/screens/history.dart';
-import 'package:mentalhealth/screens/privacy_and_policy.dart';
 import 'package:mentalhealth/screens/profile_page.dart';
 import 'package:mentalhealth/screens/settings.dart';
 import 'package:mentalhealth/services/api_service.dart';
@@ -19,14 +17,11 @@ class HomePage2 extends StatefulWidget {
 
 class _HomePage2State extends State<HomePage2> {
   String? _threadId;
-  bool _darkMode = false;
   int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
-        ThemeMode.dark;
   }
 
   Future<void> _handleTherapistMode() async {

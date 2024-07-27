@@ -1,7 +1,7 @@
+import 'package:WellCareBot/screens/history.dart';
+import 'package:WellCareBot/screens/privacy_and_policy.dart';
+import 'package:WellCareBot/screens/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/screens/history.dart';
-import 'package:mentalhealth/screens/privacy_and_policy.dart';
-import 'package:mentalhealth/screens/settings.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({

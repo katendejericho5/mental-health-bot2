@@ -1,13 +1,13 @@
+import 'package:WellCareBot/main.dart';
+import 'package:WellCareBot/screens/Home/companion_chatbot.dart';
+import 'package:WellCareBot/screens/Home/therapist_chatbot.dart';
+import 'package:WellCareBot/screens/booking.dart';
+import 'package:WellCareBot/screens/profile_page.dart';
+import 'package:WellCareBot/screens/settings.dart';
+import 'package:WellCareBot/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mentalhealth/main.dart';
-import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
-import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
-import 'package:mentalhealth/screens/booking.dart';
-import 'package:mentalhealth/screens/profile_page.dart';
-import 'package:mentalhealth/screens/settings.dart';
-import 'package:mentalhealth/services/api_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage2 extends StatefulWidget {

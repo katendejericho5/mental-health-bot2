@@ -1,8 +1,8 @@
+import 'package:WellCareBot/screens/about.dart';
+import 'package:WellCareBot/screens/feedback.dart';
+import 'package:WellCareBot/screens/privacy_and_policy.dart';
+import 'package:WellCareBot/screens/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/screens/about.dart';
-import 'package:mentalhealth/screens/feedback.dart';
-import 'package:mentalhealth/screens/privacy_and_policy.dart';
-import 'package:mentalhealth/screens/profile_page.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 

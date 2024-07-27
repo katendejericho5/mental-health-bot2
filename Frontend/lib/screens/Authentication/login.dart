@@ -1,7 +1,7 @@
+import 'package:WellCareBot/screens/Authentication/forgot_password.dart';
+import 'package:WellCareBot/screens/Authentication/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:mentalhealth/screens/Authentication/forgot_password.dart';
-import 'package:mentalhealth/screens/Authentication/registration.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

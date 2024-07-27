@@ -1,7 +1,7 @@
+import 'package:WellCareBot/screens/Home/companion.dart';
+import 'package:WellCareBot/screens/Home/therapist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mentalhealth/screens/Home/companion.dart';
-import 'package:mentalhealth/screens/Home/therapist.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

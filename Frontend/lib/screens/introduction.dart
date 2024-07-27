@@ -1,7 +1,7 @@
+import 'package:WellCareBot/screens/Authentication/registration.dart';
+import 'package:WellCareBot/screens/homepage2.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:mentalhealth/screens/Authentication/registration.dart';
-import 'package:mentalhealth/screens/homepage2.dart';
 
 class IntroductionPage extends StatelessWidget {
   IntroductionPage({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
+import 'package:WellCareBot/screens/Home/therapist_chatbot.dart';
+import 'package:WellCareBot/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mentalhealth/services/api_service.dart';
-import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
 
 class TherapistPage extends StatefulWidget {
   const TherapistPage({super.key});

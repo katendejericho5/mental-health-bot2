@@ -1,7 +1,7 @@
+import 'package:WellCareBot/screens/Authentication/login.dart';
+import 'package:WellCareBot/screens/Authentication/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:mentalhealth/screens/Authentication/login.dart';
-import 'package:mentalhealth/screens/Authentication/profile.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -207,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
-               Row(
+              Row(
                 children: [
                   Expanded(
                     child: Divider(

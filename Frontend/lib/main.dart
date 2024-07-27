@@ -1,5 +1,5 @@
+import 'package:WellCareBot/screens/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/screens/settings.dart';
 import 'package:provider/provider.dart';
 import 'screens/introduction.dart';
 

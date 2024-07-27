@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mentalhealth/main.dart';
 import 'package:mentalhealth/screens/Home/companion_chatbot.dart';
 import 'package:mentalhealth/screens/Home/therapist_chatbot.dart';
+import 'package:mentalhealth/screens/booking.dart';
 import 'package:mentalhealth/screens/history.dart';
 import 'package:mentalhealth/screens/privacy_and_policy.dart';
+import 'package:mentalhealth/screens/profile_page.dart';
 import 'package:mentalhealth/screens/settings.dart';
 import 'package:mentalhealth/services/api_service.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ class HomePage2 extends StatefulWidget {
 class _HomePage2State extends State<HomePage2> {
   String? _threadId;
   bool _darkMode = false;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -62,6 +65,68 @@ class _HomePage2State extends State<HomePage2> {
     }
   }
 
+  List<Widget> _pages() => [
+        HomeScreen(
+          onCompanionModePressed: _handleCompanionMode,
+          onTherapistModePressed: _handleTherapistMode,
+        ),
+        BookingsPage(),
+        SettingsPage(),
+      ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages()[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Bookings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  final Function onCompanionModePressed;
+  final Function onTherapistModePressed;
+
+  HomeScreen({
+    required this.onCompanionModePressed,
+    required this.onTherapistModePressed,
+  });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _darkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
+        ThemeMode.dark;
+  }
+
   void _toggleTheme() {
     setState(() {
       _darkMode = !_darkMode;
@@ -78,7 +143,12 @@ class _HomePage2State extends State<HomePage2> {
         leading: Builder(
           builder: (context) => GestureDetector(
             onTap: () {
-              Scaffold.of(context).openDrawer();
+              // navigate
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -108,111 +178,16 @@ class _HomePage2State extends State<HomePage2> {
           ),
         ],
       ),
-      drawer: Drawer(
-        width: 260,
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(),
-              accountName: Text(
-                "Katende Jericho",
-                style: TextStyle(fontSize: 18, color: Colors.blue),
-              ),
-              accountEmail: Text(
-                "katendejericho5@gmail.com",
-                style: TextStyle(fontSize: 12, color: Colors.blue),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage:
-                    AssetImage('assets/relaxation-7282116_1280.jpg'),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.history),
-              title: Text('History'),
-              onTap: () {
-                // Handle history tap
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatHistoryPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.privacy_tip),
-              title: Text('Privacy and Policy'),
-              onTap: () {
-                // Handle privacy and policy tap
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-                );
-              },
-            ),
-
-            Divider(),
-            SizedBox(
-              height: 80,
-            ),
-            ListTile(
-              leading: Icon(Icons.brightness_6),
-              title: Text('Dark Theme'),
-              trailing: Switch(
-                value: _darkMode, // Change to your current theme state
-                onChanged: (bool value) {
-                  setState(() {
-                    _darkMode = value;
-                    Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-                      _darkMode ? ThemeMode.dark : ThemeMode.light,
-                    );
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
                   'WellCareBot',
                   textAlign: TextAlign.center,
@@ -272,7 +247,7 @@ class _HomePage2State extends State<HomePage2> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: _handleCompanionMode,
+                        onPressed: () => widget.onCompanionModePressed(),
                         child: const Text('Companion Mode'),
                       ),
                     ),
@@ -289,7 +264,7 @@ class _HomePage2State extends State<HomePage2> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: _handleTherapistMode,
+                        onPressed: () => widget.onTherapistModePressed(),
                         child: const Text('Therapist Mode'),
                       ),
                     ),

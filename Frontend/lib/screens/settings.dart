@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mentalhealth/screens/about.dart';
 import 'package:mentalhealth/screens/feedback.dart';
 import 'package:mentalhealth/screens/privacy_and_policy.dart';
+import 'package:mentalhealth/screens/profile_page.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
@@ -53,6 +54,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => FeedbackPage()),
+                );
+              },
+            ),
+            SizedBox(height: 20),
+                 _buildListTile(
+              title: 'Profile',
+              onTap: () {
+                // Navigate to Privacy Settings page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
                 );
               },
             ),

@@ -24,7 +24,7 @@ This repository contains a Python script that allows you to fetch video transcri
    YOUTUBE_API_KEY=your-api-key
    ```
 
-   Replace `your-api-key` with your actual YouTube API key. For more details on how to create a youtube api key, follow this [guide](https://medium.com/@momayiz.imane/scraping-youtube-video-transcripts-5e3edee5656b).
+   Replace `your-api-key` with your actual YouTube API key.
 
 
 ## Usage

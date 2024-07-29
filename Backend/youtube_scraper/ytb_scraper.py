@@ -9,7 +9,6 @@ from googleapiclient.errors import HttpError
 from tqdm import tqdm
 from youtube_transcript_api import YouTubeTranscriptApi
 
-
 load_dotenv()
 api_key = os.getenv("YTB_API_KEY")
 youtube = build("youtube", "v3", developerKey=api_key)
@@ -41,7 +40,7 @@ def fetch_video_ids(channel_name):
     Args:
       channel_name: The name of the channel.
     Returns:
-      A list of {video ID, video url, title}.
+      A list of {video ID, video url, title, description}.
     """
     # Make a request to youtube api
     base_url = "https://www.googleapis.com/youtube/v3/channels"
@@ -68,7 +67,6 @@ def fetch_video_ids(channel_name):
         playlist_items_response = (
             youtube.playlistItems()
             .list(
-                # part="contentDetails",
                 part="snippet",
                 playlistId=playlist_id,
                 maxResults=50,
@@ -84,36 +82,34 @@ def fetch_video_ids(channel_name):
         if not next_page_token:
             break
 
-    # Extract video URLs
-    video_urls = []
+    # Extract video details
+    video_details = []
 
     for video in videos:
         video_id = video["snippet"]["resourceId"]["videoId"]
         video_url = f"https://www.youtube.com/watch?v={video_id}"
         video_title = video["snippet"]["title"]
-        video_urls.append({"ID": video_id, "URL": video_url, "Title": video_title})
+        video_description = video["snippet"]["description"]
+        video_details.append({"ID": video_id, "URL": video_url, "Title": video_title, "Description": video_description})
 
-    return video_urls
+    return video_details
 
 
-def fetch_and_save_transcript(video_id, file_name):
+def fetch_transcript(video_id):
     """
-    Saves the transcript of a video in a file.
+    Fetches the transcript of a video.
     Args:
-      transcript: The transcript of the video.
-      file_name: The name of the file in which the transcript will be saved.
+      video_id: The ID of the video.
     Returns:
-        True if the transcript was saved successfully, False otherwise.
+        The transcript as a string.
     """
     try:
         transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=["en"])
+        transcript_text = "\n".join([line["text"] for line in transcript])
     except Exception as e:
         print(f"An error occurred: {e}")
-        return False
-    with open(file_name, "w", encoding="utf-8") as file:
-        for line in transcript:
-            file.write(line["text"] + "\n")
-    return True
+        return None
+    return transcript_text
 
 
 if __name__ == "__main__":
@@ -147,29 +143,22 @@ if __name__ == "__main__":
         videos = videos[:max_videos]
 
     print(f"Fetching transcripts for {channel_name}...")
-    cnt = 0
     for i, video in enumerate(tqdm(videos)):
-        output_file = os.path.join(TRANSCRIPTS_DIR, f"{channel_name}_{i}.txt")
-        json_file = os.path.join(TRANSCRIPTS_DIR, "transcripts.json")
-
-        # save transcript
-        success = fetch_and_save_transcript(video["ID"], output_file)
-
-        # save json file with transcript_path, video_url, video_title
-        if success:
-            with open(json_file, "a", encoding="utf-8", newline="\n") as file:
+        transcript_text = fetch_transcript(video["ID"])
+        if transcript_text:
+            json_file = os.path.join(TRANSCRIPTS_DIR, f"{channel_name}_{i}.json")
+            with open(json_file, "w", encoding="utf-8", newline="\n") as file:
                 json.dump(
                     {
-                        "status": "success" if success else "failed",
                         "channel_name": channel_name,
-                        "transcript_path": output_file if success else "",
                         "video_url": video["URL"],
                         "video_title": video["Title"],
+                        # "video_description": video["Description"],
+                        "transcript": transcript_text,
                     },
                     file,
                     ensure_ascii=False,
                     indent=4,
                 )
-            cnt += 1
 
-    print(f"Saved {cnt} transcripts for {channel_name}.")
+    print(f"Saved transcripts for {channel_name}.")

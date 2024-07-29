@@ -1,0 +1,5 @@
+.env
+venv/
+*.ipynb
+transcripts/
+.vscode/

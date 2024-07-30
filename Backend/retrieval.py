@@ -1,7 +1,10 @@
 import os
+from dotenv import load_dotenv
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
 
+# Load the .env file
+load_dotenv()
 
 # Set API keys and environment variables
 os.environ["OPENAI_API_KEY"] =  os.getenv('OPENAI_API_KEY')

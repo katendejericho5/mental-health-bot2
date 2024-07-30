@@ -3,11 +3,12 @@ from flask import Flask, request, jsonify
 import uuid
 import os
 import logging
-
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # Ensure logging is configured
-
+logging.basicConfig(level=logging.INFO)
 
 # Load environment variables
 load_dotenv()
@@ -15,6 +16,13 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+
+# Initialize rate limiter
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 # Initialize chatbot components
 from graph import create_graph, create_graph_companion
@@ -31,6 +39,7 @@ therapist_graph = create_graph(therapist_assistant, tools)
 companion_graph = create_graph_companion(companion_assistant, tools)
 
 @app.route('/thread', methods=['GET'])
+@limiter.limit("5 per minute")
 def create_thread():
     try:
         thread_id = str(uuid.uuid4())
@@ -40,6 +49,7 @@ def create_thread():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/chat/therapist', methods=['POST'])
+@limiter.limit("30 per minute")
 def chat_therapist():
     try:
         data = request.json
@@ -72,6 +82,7 @@ def chat_therapist():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/chat/companion', methods=['POST'])
+@limiter.limit("30 per minute")
 def chat_companion():
     try:
         data = request.json

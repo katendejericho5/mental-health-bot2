@@ -1,3 +1,4 @@
+import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -16,6 +17,12 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   final TextEditingController _controller = TextEditingController();
   final ApiService _apiService = ApiService();
   final List<types.Message> _messages = [];
+
+@override
+void initState() {
+  super.initState();
+  AdHelper.loadRewardedAd();
+}
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
@@ -75,19 +82,10 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
               },
             ),
             TextButton(
-              child: Text('Renew'),
+              child: Text('Watch Ad'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                try {
-                  await _apiService.renewRateLimit();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Rate limit renewed successfully')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to renew rate limit')),
-                  );
-                }
+                _showAd(); // Show the rewarded ad
               },
             ),
           ],
@@ -96,7 +94,21 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
     );
   }
 
-  @override
+  void _showAd() {
+    AdHelper.showRewardedAd(() async {
+      try {
+        await _apiService.renewRateLimit();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Rate limit renewed successfully')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to renew rate limit')),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

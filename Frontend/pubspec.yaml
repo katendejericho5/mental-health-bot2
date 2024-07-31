@@ -54,6 +54,7 @@ dependencies:
   markdown_widget: ^2.3.2+6
   url_launcher: ^6.3.0
   flutter_launcher_icons: ^0.13.1
+  google_mobile_ads: ^5.1.0
 
 
 

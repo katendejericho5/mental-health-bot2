@@ -1,7 +1,8 @@
-import 'package:WellCareBot/services/api_service.dart';
+import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:WellCareBot/services/api_service.dart';
 
 class CompanionChatBot extends StatefulWidget {
   final String threadId;
@@ -17,6 +18,13 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   final ApiService _apiService = ApiService();
   final List<types.Message> _messages = [];
 
+  @override
+  void initState() {
+    super.initState();
+    AdHelper
+        .loadRewardedAd(); // Load the rewarded ad when the widget is initialized
+  }
+
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
     if (userInput.isNotEmpty) {
@@ -30,7 +38,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       });
 
       try {
-        final response = await _apiService.getChatbotResponseCompanion(userInput, widget.threadId);
+        final response = await _apiService.getChatbotResponseCompanion(
+            userInput, widget.threadId);
         setState(() {
           _messages.add(types.TextMessage(
             author: types.User(id: 'bot'),
@@ -48,7 +57,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
               author: types.User(id: 'bot'),
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: DateTime.now().toString(),
-            text: "Oops!😟 Something went wrong. Please try again later.",
+              text: "Oops!😟 Something went wrong. Please try again later.",
             ));
           });
         }
@@ -64,7 +73,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Rate Limit Exceeded'),
-          content: Text('You have reached the rate limit. Would you like to renew?'),
+          content:
+              Text('You have reached the rate limit. Watch an ad to renew?'),
           actions: <Widget>[
             TextButton(
               child: Text('Cancel'),
@@ -73,19 +83,22 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
               },
             ),
             TextButton(
-              child: Text('Renew'),
-              onPressed: () async {
+              child: Text('Watch Ad'),
+              onPressed: () {
                 Navigator.of(context).pop();
-                try {
-                  await _apiService.renewRateLimit();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Rate limit renewed successfully')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to renew rate limit')),
-                  );
-                }
+                AdHelper.showRewardedAd(() async {
+                  try {
+                    await _apiService.renewRateLimit();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Rate limit renewed successfully')),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to renew rate limit')),
+                    );
+                  }
+                });
               },
             ),
           ],

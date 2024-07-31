@@ -59,7 +59,7 @@ LIMITS = {
 
 def check_rate_limit(path):
     user_address = get_remote_address()
-    current_time = datetime.utcnow()
+    current_time = datetime.now(datetime.UTC)
     limit_info = LIMITS.get(path)
 
     if limit_info:

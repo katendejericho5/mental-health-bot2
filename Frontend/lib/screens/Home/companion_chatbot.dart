@@ -30,8 +30,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       });
 
       try {
-        final response =
-            await _apiService.getChatbotResponse(userInput, widget.threadId);
+        final response = await _apiService.getChatbotResponseCompanion(userInput, widget.threadId);
         setState(() {
           _messages.add(types.TextMessage(
             author: types.User(id: 'bot'),
@@ -46,7 +45,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
             author: types.User(id: 'bot'),
             createdAt: DateTime.now().millisecondsSinceEpoch,
             id: DateTime.now().toString(),
-            text: "Error: ${e.toString()}",
+            text: "Oops!😟 Something went wrong. Please try again later.",
           ));
         });
       }

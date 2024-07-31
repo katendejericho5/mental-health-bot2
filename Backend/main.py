@@ -29,6 +29,15 @@ from graph import create_graph, create_graph_companion
 from tools import create_tools
 from functions import format_event, setup_environment
 from agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
+from dotenv import load_dotenv
+from flask import Flask, request, jsonify
+import uuid
+import os
+import logging
+from flask_cors import CORS
+from datetime import datetime, timedelta
+from collections import defaultdict
+
 
 setup_environment()
 llm = create_groq()
@@ -38,8 +47,38 @@ companion_assistant = create_assistant_companion(llm, tools)
 therapist_graph = create_graph(therapist_assistant, tools)
 companion_graph = create_graph_companion(companion_assistant, tools)
 
+
+# Custom rate limit storage
+rate_limits = defaultdict(lambda: {'count': 0, 'reset_time': datetime.utcnow()})
+
+# Define rate limits
+LIMITS = {
+    '/chat/therapist': {'limit': 1, 'period': timedelta(minutes=1)},
+    '/chat/companion': {'limit': 30, 'period': timedelta(minutes=1)},
+}
+
+def check_rate_limit(path):
+    user_address = get_remote_address()
+    current_time = datetime.utcnow()
+    limit_info = LIMITS.get(path)
+
+    if limit_info:
+        user_limits = rate_limits[user_address]
+        if current_time > user_limits['reset_time']:
+            user_limits['count'] = 0
+            user_limits['reset_time'] = current_time + limit_info['period']
+
+        if user_limits['count'] < limit_info['limit']:
+            user_limits['count'] += 1
+            return True
+        else:
+            return False
+
+    return True
+
+
+
 @app.route('/thread', methods=['GET'])
-@limiter.limit("5 per minute")
 def create_thread():
     try:
         thread_id = str(uuid.uuid4())
@@ -49,8 +88,10 @@ def create_thread():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/chat/therapist', methods=['POST'])
-@limiter.limit("30 per minute")
 def chat_therapist():
+    if not check_rate_limit('/chat/therapist'):
+        return jsonify({"error": "Rate limit exceeded. Please wait before making more requests."}), 429
+
     try:
         data = request.json
         user_input = data.get('message')
@@ -82,8 +123,10 @@ def chat_therapist():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/chat/companion', methods=['POST'])
-@limiter.limit("30 per minute")
 def chat_companion():
+    if not check_rate_limit('/chat/companion'):
+        return jsonify({"error": "Rate limit exceeded. Please wait before making more requests."}), 429
+
     try:
         data = request.json
         user_input = data.get('message')
@@ -112,6 +155,20 @@ def chat_companion():
         return jsonify(response)
     except Exception as e:
         logging.error("Error in /chat/companion endpoint: %s", str(e))
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/renew-rate-limit', methods=['POST'])
+def renew_rate_limit():
+    try:
+        user_address = get_remote_address()
+        # Log the address for debugging
+        logging.info(f"Renewing rate limits for {user_address}")
+
+        # Manually renew limits
+        rate_limits[user_address]['reset_time'] = datetime.utcnow()
+        return jsonify({"message": "Rate limit successfully renewed"})
+    except Exception as e:
+        logging.error("Error in /renew-rate-limit endpoint: %s", str(e))
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

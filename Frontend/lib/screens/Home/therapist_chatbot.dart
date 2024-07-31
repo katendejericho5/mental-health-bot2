@@ -30,7 +30,8 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
       });
 
       try {
-        final response = await _apiService.getChatbotResponseTherapist(userInput, widget.threadId);
+        final response = await _apiService.getChatbotResponseTherapist(
+            userInput, widget.threadId);
         setState(() {
           _messages.add(types.TextMessage(
             author: types.User(id: 'bot'),
@@ -40,20 +41,62 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
           ));
         });
       } catch (e) {
-        setState(() {
-          _messages.add(types.TextMessage(
-            author: types.User(id: 'bot'),
-            createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: DateTime.now().toString(),
-            text: "Oops!😟 Something went wrong. Please try again later.",
-          ));
-        });
+        if (e.toString().contains('Rate limit exceeded')) {
+          _showRateLimitDialog();
+        } else {
+          setState(() {
+            _messages.add(types.TextMessage(
+              author: types.User(id: 'bot'),
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: DateTime.now().toString(),
+              text: "Oops!😟 Something went wrong. Please try again later.",
+            ));
+          });
+        }
       }
 
       _controller.clear();
     }
   }
 
+  void _showRateLimitDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Rate Limit Exceeded'),
+          content:
+              Text('You have reached the rate limit. Would you like to renew?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Renew'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                try {
+                  await _apiService.renewRateLimit();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Rate limit renewed successfully')),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to renew rate limit')),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

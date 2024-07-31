@@ -165,7 +165,7 @@ def renew_rate_limit():
         logging.info(f"Renewing rate limits for {user_address}")
 
         # Manually renew limits
-        rate_limits[user_address]['reset_time'] = datetime.utcnow()
+        rate_limits[user_address]['reset_time'] = datetime.now(datetime.UTC)
         return jsonify({"message": "Rate limit successfully renewed"})
     except Exception as e:
         logging.error("Error in /renew-rate-limit endpoint: %s", str(e))

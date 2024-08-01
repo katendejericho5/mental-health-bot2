@@ -57,6 +57,7 @@ dependencies:
   google_mobile_ads: ^5.1.0
   shared_preferences: ^2.3.0
   firebase_storage: ^12.1.2
+  flutter_email_sender: ^6.0.3
 
 
 

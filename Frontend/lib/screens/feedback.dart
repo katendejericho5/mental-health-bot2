@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class FeedbackPage extends StatefulWidget {
   @override
@@ -10,22 +11,34 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final TextEditingController _feedbackController = TextEditingController();
   bool _isSubmitting = false;
 
-  void _submitFeedback() {
+  void _submitFeedback() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         _isSubmitting = true;
       });
 
-      // Simulate a delay for form submission
-      Future.delayed(Duration(seconds: 2), () {
+      final Email email = Email(
+        body: _feedbackController.text,
+        subject: 'User Feedback',
+        recipients: ['katendejericho5@gmail.com'],
+        isHTML: false,
+      );
+
+      try {
+        await FlutterEmailSender.send(email);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Feedback sent successfully!')),
+        );
+        _feedbackController.clear();
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send feedback')),
+        );
+      } finally {
         setState(() {
           _isSubmitting = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Feedback submitted successfully!')),
-        );
-        _feedbackController.clear();
-      });
+      }
     }
   }
 
@@ -97,7 +110,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
           ],
         ),
       ),
-      resizeToAvoidBottomInset: true, // Ensures the content is resized to avoid bottom overflow
+      resizeToAvoidBottomInset:
+          true, // Ensures the content is resized to avoid bottom overflow
     );
   }
 }

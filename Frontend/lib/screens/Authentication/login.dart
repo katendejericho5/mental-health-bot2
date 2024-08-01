@@ -1,6 +1,10 @@
+import 'package:WellCareBot/models/user_model.dart';
+import 'package:WellCareBot/screens/homepage2.dart';
+import 'package:WellCareBot/services/auth_service.dart';
+import 'package:flutter/material.dart';
+
 import 'package:WellCareBot/screens/Authentication/forgot_password.dart';
 import 'package:WellCareBot/screens/Authentication/registration.dart';
-import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,14 +18,30 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
   bool _obscureText = true;
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // Handle login logic here
-      print('Email: $_email');
-      print('Password: $_password');
 
-      // Handle successful login, navigate to the next screen, etc.
+      AppUser? user = await FirebaseAuthHelper.signInUsingEmailPassword(
+        email: _email,
+        password: _password,
+      );
+
+      if (user != null) {
+        // Navigate to the home screen or user profile screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                HomePage2(), // Replace with your target screen
+          ),
+        );
+      } else {
+        // Handle login failure (e.g., show an error message)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed. Please try again.')),
+        );
+      }
     }
   }
 

@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:WellCareBot/screens/homepage2.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   @override
@@ -12,10 +16,16 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   String _fullName = '';
   String? _selectedGender;
+  String _phoneNumber = '';
   XFile? _profileImage;
 
   // Gender options
   final List<String> _genders = ['Male', 'Female', 'Other'];
+
+  // Firebase instances
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   // Method to pick an image from gallery
   Future<void> _pickImage() async {
@@ -26,13 +36,67 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     });
   }
 
-  void _continue() {
+  Future<String> _uploadProfilePicture(File profilePicture) async {
+    try {
+      final User user = _auth.currentUser!;
+      final String filePath =
+          'userProfilePictures/${user.uid}/profilePicture.jpg';
+      final Reference storageRef = _storage.ref().child(filePath);
+
+      // Start the upload task
+      UploadTask uploadTask = storageRef.putFile(profilePicture);
+
+      // Wait for the upload to complete
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});
+
+      // Get the download URL
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+      print('Upload complete, URL: $downloadURL');
+      return downloadURL;
+    } catch (e) {
+      print('Error uploading profile picture: $e');
+      return '';
+    }
+  }
+
+  Future<void> _saveUserProfile() async {
+    final User user = _auth.currentUser!;
+    String profilePictureURL = '';
+
+    if (_profileImage != null) {
+      profilePictureURL =
+          await _uploadProfilePicture(File(_profileImage!.path));
+    }
+
+    await _firestore.collection('users').doc(user.uid).set({
+      'fullName': _fullName,
+      'gender': _selectedGender,
+      'phoneNumber': _phoneNumber,
+      'profilePictureURL': profilePictureURL,
+      'email': user.email,
+      'createdOn': DateTime.now(),
+    });
+
+    print('Profile saved to Firestore');
+  }
+
+  void _continue() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
+      await _saveUserProfile();
       // Handle profile creation logic here
       print('Full Name: $_fullName');
       print('Gender: $_selectedGender');
       print('Profile Image: ${_profileImage?.path}');
+
+      // navigate to homepage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage2(), // Replace with your target screen
+        ),
+      );
     }
   }
 
@@ -143,6 +207,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   ),
                 ),
                 onChanged: (phone) {
+                  _phoneNumber = phone.completeNumber;
                   print(phone.completeNumber);
                 },
                 keyboardType: TextInputType.phone,

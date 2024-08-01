@@ -4,3 +4,5 @@ class Message {
 
   Message({required this.text, required this.isUser});
 }
+
+

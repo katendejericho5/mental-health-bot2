@@ -1,14 +1,17 @@
-import 'package:WellCareBot/main.dart';
 import 'package:WellCareBot/screens/Home/companion_chatbot.dart';
 import 'package:WellCareBot/screens/Home/therapist_chatbot.dart';
 import 'package:WellCareBot/screens/booking.dart';
 import 'package:WellCareBot/screens/profile_page.dart';
 import 'package:WellCareBot/screens/settings.dart';
 import 'package:WellCareBot/services/api_service.dart';
+import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage2 extends StatefulWidget {
   @override
@@ -114,12 +117,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _darkMode = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
     _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
         ThemeMode.dark;
+  }
+
+  Future<String> _fetchProfilePictureURL() async {
+    final User user = _auth.currentUser!;
+    final storageRef = _storage
+        .ref()
+        .child('userProfilePictures/${user.uid}/profilePicture.jpg');
+
+    try {
+      String downloadURL = await storageRef.getDownloadURL();
+      return downloadURL;
+    } catch (e) {
+      print('Error fetching profile picture: $e');
+      return '';
+    }
+  }
+
+  Future<String> _fetchUserName() async {
+    final User user = _auth.currentUser!;
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.uid).get();
+
+    return userDoc['fullName'] ?? 'User';
   }
 
   void _toggleTheme() {
@@ -135,30 +164,41 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              // navigate
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
+        leading: FutureBuilder<String>(
+          future: _fetchProfilePictureURL(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return CircleAvatar(
                 backgroundImage:
                     AssetImage('assets/relaxation-7282116_1280.jpg'),
-              ),
-            ),
-          ),
+              );
+            } else {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundImage: snapshot.data != ''
+                        ? NetworkImage(snapshot.data!)
+                        : AssetImage('assets/relaxation-7282116_1280.jpg'),
+                  ),
+                ),
+              );
+            }
+          },
         ),
         actions: [
           IconButton(
             icon: FaIcon(
-              _darkMode ? FontAwesomeIcons.sun : FontAwesomeIcons.moon,
-              color: _darkMode ? Colors.white : Colors.black,
+              _darkMode ? FontAwesomeIcons.sun : FontAwesomeIcons.cloudMoon,
+              color: _darkMode ? Colors.lightBlue : Colors.blue.shade700,
             ),
             onPressed: _toggleTheme,
           ),
@@ -175,45 +215,91 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'WellCareBot',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.blueGrey[800],
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                  ),
-                ),
+              FutureBuilder<String>(
+                future: _fetchUserName(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox.shrink(); // Placeholder while loading
+                  } else if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        Text(
+                          'WellCareBot',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.blueGrey[800],
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              'assets/relaxation-7282116_1280.jpg',
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            'Hello there',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'WellCareBot',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 32,
+                              color: Colors.blueGrey[800],
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image.asset(
+                                'assets/relaxation-7282116_1280.jpg',
+                                height: 150,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              'Hello, ${snapshot.data}',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
               ),
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset(
-                    'assets/relaxation-7282116_1280.jpg',
-                    height: 150,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: Text(
-                  'Hello, Jericho',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
               Center(
                 child: Text(
                   'Start a conversation with WellCareBot right now!',
@@ -224,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(

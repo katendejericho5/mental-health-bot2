@@ -1,5 +1,7 @@
+import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Authentication/profile.dart';
+import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -15,20 +17,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password = '';
   bool _obscureText = true;
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // Handle registration logic here
-      print('Name: $_name');
-      print('Email: $_email');
-      print('Password: $_password');
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CreateProfileScreen(),
-        ),
+      AppUser? user = await FirebaseAuthHelper.registerUsingEmailPassword(
+        name: _name,
+        email: _email,
+        password: _password,
       );
+
+      if (user != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateProfileScreen(),
+          ),
+        );
+      } else {
+        // Handle error (e.g., show a message to the user)
+      }
     }
   }
 

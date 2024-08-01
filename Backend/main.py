@@ -53,7 +53,7 @@ rate_limits = defaultdict(lambda: {'count': 0, 'reset_time': datetime.utcnow()})
 
 # Define rate limits
 LIMITS = {
-    '/chat/therapist': {'limit': 1, 'period': timedelta(minutes=1)},
+    '/chat/therapist': {'limit': 30, 'period': timedelta(minutes=1)},
     '/chat/companion': {'limit': 30, 'period': timedelta(minutes=1)},
 }
 

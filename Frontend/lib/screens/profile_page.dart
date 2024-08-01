@@ -1,3 +1,5 @@
+import 'package:WellCareBot/screens/Authentication/login.dart';
+import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,9 +18,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<Map<String, dynamic>> _fetchUserData() async {
     final User user = _auth.currentUser!;
-    DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.uid).get();
 
     return userDoc.data() as Map<String, dynamic>;
+  }
+
+  void _logout() async {
+    await FirebaseAuthHelper.logout();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 
   @override
@@ -44,9 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: data['profilePictureURL'] != '' 
-                          ? NetworkImage(data['profilePictureURL']) 
-                          : AssetImage('assets/relaxation-7282116_1280.jpg'),
+                        backgroundImage: data['profilePictureURL'] != ''
+                            ? NetworkImage(data['profilePictureURL'])
+                            : AssetImage('assets/relaxation-7282116_1280.jpg'),
                       ),
                       SizedBox(height: 10),
                       Text(
@@ -74,7 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChatHistoryPage()),
+                      MaterialPageRoute(
+                          builder: (context) => ChatHistoryPage()),
                     );
                   },
                 ),
@@ -105,9 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Divider(),
                 SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
-                    // Add logout functionality here
-                  },
+                  onPressed: _logout,
                   child: Text(
                     'Logout',
                     style: TextStyle(
@@ -116,7 +126,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 80.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 80.0),
                     textStyle: TextStyle(fontSize: 18),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),

@@ -1,5 +1,5 @@
-import 'package:WellCareBot/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:WellCareBot/models/user_model.dart';
 
 class FirebaseAuthHelper {
   static Future<AppUser?> registerUsingEmailPassword({
@@ -67,5 +67,13 @@ class FirebaseAuthHelper {
     }
 
     return null;
+  }
+
+  static Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print('Error during logout: $e');
+    }
   }
 }

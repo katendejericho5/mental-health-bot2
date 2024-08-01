@@ -103,6 +103,12 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   void _skip() {
     // Handle skip logic here
     print('Skipped profile creation');
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => HomePage2(), // Replace with your target screen
+    //   ),
+    // );
   }
 
   @override

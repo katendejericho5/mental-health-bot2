@@ -1,3 +1,4 @@
+import 'package:WellCareBot/screens/homepage2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
@@ -29,7 +30,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Feedback sent successfully!')),
         );
+
         _feedbackController.clear();
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage2(),
+        ),
+      );
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to send feedback')),

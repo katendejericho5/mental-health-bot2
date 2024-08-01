@@ -18,11 +18,11 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   final ApiService _apiService = ApiService();
   final List<types.Message> _messages = [];
 
-@override
-void initState() {
-  super.initState();
-  AdHelper.loadRewardedAd();
-}
+  @override
+  void initState() {
+    super.initState();
+    AdHelper.loadRewardedAd();
+  }
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
@@ -94,8 +94,8 @@ void initState() {
     );
   }
 
-  void _showAd() {
-    AdHelper.showRewardedAd(() async {
+  void _showAd() async {
+    bool adShown = await AdHelper.showRewardedAd(() async {
       try {
         await _apiService.renewRateLimit();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -103,10 +103,16 @@ void initState() {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to renew rate limit')),
+          SnackBar(content: Text('Failed to renew rate limit: $e')),
         );
       }
     });
+
+    if (!adShown) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to show ad. Please try again later.')),
+      );
+    }
   }
 
   @override

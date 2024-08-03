@@ -26,7 +26,7 @@ limiter = Limiter(
 
 # Initialize chatbot components
 from graph import create_graph, create_graph_companion
-from Backend.search_tool import create_tools
+from tools import create_tools
 from functions import format_event, setup_environment
 from agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
 from dotenv import load_dotenv
@@ -40,7 +40,8 @@ from collections import defaultdict
 
 
 setup_environment()
-llm = create_groq()
+# llm = create_groq()
+llm = create_llm()
 tools = create_tools()
 therapist_assistant = create_assistant_therapist(llm, tools)
 companion_assistant = create_assistant_companion(llm, tools)
@@ -96,17 +97,24 @@ def chat_therapist():
         data = request.json
         user_input = data.get('message')
         thread_id = data.get('thread_id')
+        email = data.get('email')
 
         if not user_input:
             return jsonify({"error": "No message provided"}), 400
 
         if not thread_id:
             return jsonify({"error": "No thread_id provided"}), 400
+        
+        if not email:
+            return jsonify({"error": "No email provided"}), 400
+        
+        # joining the user input and the email address to create a unique user input
+        user_input = 'user_input: '+user_input + " " + 'N0te: email:'+ email  + "this is only used in the getsuerbyemail function to get the user details not anything else"
 
         state = {"messages": [("user", user_input)]}
         config = {"configurable": {"thread_id": thread_id}}
 
-        events = therapist_graph.stream({"messages": ("user", user_input)}, config, stream_mode="values")
+        events = therapist_graph.stream({"messages": ("user", user_input,)}, config, stream_mode="values")
 
         response = {"response": None}
         for event in events:

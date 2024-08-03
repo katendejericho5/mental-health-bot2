@@ -1,7 +1,7 @@
 import os
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.tools import Tool
-from retrieval import retrieve_db
+from Backend.retrieval_tool import retrieve_db
 
 def create_tools(tavily_api_key=None):
     # If tavily_api_key is not provided, try to get it from environment variable

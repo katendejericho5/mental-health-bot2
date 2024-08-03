@@ -26,7 +26,7 @@ limiter = Limiter(
 
 # Initialize chatbot components
 from graph import create_graph, create_graph_companion
-from tools import create_tools
+from Backend.search_tool import create_tools
 from functions import format_event, setup_environment
 from agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
 from dotenv import load_dotenv

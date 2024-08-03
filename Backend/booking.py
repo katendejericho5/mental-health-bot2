@@ -1,5 +1,5 @@
-import firebase_admin
-from firebase_admin import credentials, firestore
+import firebase_admin # type: ignore
+from firebase_admin import credentials, firestore # type: ignore
 from datetime import datetime
 from langchain_core.tools import tool
 
@@ -12,7 +12,7 @@ def initialize_firebase():
     if not firebase_initialized:
         try:
             # Initialize Firebase
-            cred = credentials.Certificate('/home/jericho/Documents/GitHub/deeplearning/projects/mental-health-bot/Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-7337868583.json')
+            cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
             firebase_admin.initialize_app(cred)
             db = firestore.client()
             firebase_initialized = True

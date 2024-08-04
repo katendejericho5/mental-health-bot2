@@ -3,9 +3,7 @@ import 'package:WellCareBot/screens/Home/therapist_chatbot.dart';
 import 'package:WellCareBot/screens/Home/booking.dart';
 import 'package:WellCareBot/screens/Home/profile_page.dart';
 import 'package:WellCareBot/screens/Home/settings.dart';
-import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -19,55 +17,10 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
-  String? _threadId;
   int _currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> _handleTherapistMode() async {
-    final apiService = ApiService();
-
-    try {
-      _threadId ??= await apiService.createThread();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TherapistChatBot(threadId: _threadId!),
-        ),
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error: $e');
-      }
-    }
-  }
-
-  Future<void> _handleCompanionMode() async {
-    final apiService = ApiService();
-
-    try {
-      _threadId ??= await apiService.createThread();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CompanionChatBot(threadId: _threadId!),
-        ),
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error: $e');
-      }
-    }
-  }
-
   List<Widget> _pages() => [
-        HomeScreen(
-          onCompanionModePressed: _handleCompanionMode,
-          onTherapistModePressed: _handleTherapistMode,
-        ),
+        HomeScreen(),
         BookingsPage(),
         SettingsPage(),
       ];
@@ -103,14 +56,6 @@ class _HomePage2State extends State<HomePage2> {
 }
 
 class HomeScreen extends StatefulWidget {
-  final Function onCompanionModePressed;
-  final Function onTherapistModePressed;
-
-  HomeScreen({
-    required this.onCompanionModePressed,
-    required this.onTherapistModePressed,
-  });
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -328,7 +273,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: () => widget.onCompanionModePressed(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CompanionChatBot(
+                                threadId: 'companionship_thread_id',
+                              ),
+                            ),
+                          );
+                        },
                         child: const Text('Companion Mode'),
                       ),
                     ),
@@ -345,7 +299,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                        onPressed: () => widget.onTherapistModePressed(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TherapistChatBot(
+                                threadId: 'therapist_thread_id',
+                              ),
+                            ),
+                          );
+                        },
                         child: const Text('Therapist Mode'),
                       ),
                     ),

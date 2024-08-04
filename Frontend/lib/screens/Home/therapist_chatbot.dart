@@ -56,7 +56,6 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
     } else {
       // Handle case where user is not logged in
       // Redirect to login screen
-
     }
 
     // Load messages only after _userId is set
@@ -102,7 +101,8 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
       try {
         final response = await _apiService.getChatbotResponseTherapist(
-            userInput, widget.threadId);
+          userInput,
+        );
         final botMessage = ChatMessage(
           id: DateTime.now().toString(),
           threadId: widget.threadId,

@@ -39,7 +39,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
 
       try {
         final response = await _apiService.getChatbotResponseCompanion(
-            userInput, widget.threadId);
+          userInput,
+        );
         setState(() {
           _messages.add(types.TextMessage(
             author: types.User(id: 'bot'),

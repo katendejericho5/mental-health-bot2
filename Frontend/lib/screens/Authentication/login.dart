@@ -1,5 +1,5 @@
 import 'package:WellCareBot/models/user_model.dart';
-import 'package:WellCareBot/screens/homepage2.dart';
+import 'package:WellCareBot/screens/Home/homepage2.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 

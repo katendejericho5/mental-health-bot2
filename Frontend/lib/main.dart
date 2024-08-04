@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:WellCareBot/screens/Authentication/login.dart';
-import 'package:WellCareBot/screens/homepage2.dart';
-import 'package:WellCareBot/screens/settings.dart';
+import 'package:WellCareBot/screens/Home/homepage2.dart';
+import 'package:WellCareBot/screens/Home/settings.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

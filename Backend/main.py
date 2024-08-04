@@ -16,6 +16,14 @@ logging.basicConfig(level=logging.INFO)
 
 # Load environment variables
 load_dotenv()
+# Twilio configuration
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+
+# Initialize Twilio client
+twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -173,13 +181,6 @@ def renew_rate_limit():
         logging.error("Error in /renew-rate-limit endpoint: %s", str(e))
         return jsonify({"error": str(e)}), 500
 
-# Twilio configuration
-TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
-TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
-
-# Initialize Twilio client
-twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 @app.route('/whatsapp', methods=['POST'])
 def whatsapp():

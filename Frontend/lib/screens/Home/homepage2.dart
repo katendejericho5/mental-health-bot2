@@ -1,8 +1,8 @@
 import 'package:WellCareBot/screens/Home/companion_chatbot.dart';
 import 'package:WellCareBot/screens/Home/therapist_chatbot.dart';
-import 'package:WellCareBot/screens/booking.dart';
-import 'package:WellCareBot/screens/profile_page.dart';
-import 'package:WellCareBot/screens/settings.dart';
+import 'package:WellCareBot/screens/Home/booking.dart';
+import 'package:WellCareBot/screens/Home/profile_page.dart';
+import 'package:WellCareBot/screens/Home/settings.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/foundation.dart';

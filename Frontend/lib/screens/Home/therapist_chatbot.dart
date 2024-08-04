@@ -2,6 +2,8 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -31,10 +33,33 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   }
 
   Future<void> _fetchUserData() async {
-    final userData = await _firestoreService.fetchUserData();
-    setState(() {
-      _userId = userData['uid'];
-    });
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userDoc.exists && userDoc.data() != null) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+
+        setState(() {
+          _userId = userData['uid'] ??
+              user.uid; // Fallback to Firebase Auth UID if 'uid' is not present in userData
+        });
+      } else {
+        // Handle case where user document does not exist or data is null
+        setState(() {
+          _userId = user.uid; // Use Firebase Auth UID as a fallback
+        });
+      }
+    } else {
+      // Handle case where user is not logged in
+      // Redirect to login screen
+
+    }
+
+    // Load messages only after _userId is set
     _loadMessages();
   }
 

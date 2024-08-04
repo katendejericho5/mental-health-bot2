@@ -1,5 +1,7 @@
+import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:WellCareBot/services/api_service.dart';
+import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -16,44 +18,92 @@ class TherapistChatBot extends StatefulWidget {
 class _TherapistChatBotState extends State<TherapistChatBot> {
   final TextEditingController _controller = TextEditingController();
   final ApiService _apiService = ApiService();
+  final FirestoreService _firestoreService = FirestoreService();
   final List<types.Message> _messages = [];
+  late String _userId;
+  final String _botId = 'bot123';
 
   @override
   void initState() {
     super.initState();
     AdHelper.loadRewardedAd();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    final userData = await _firestoreService.fetchUserData();
+    setState(() {
+      _userId = userData['uid'];
+    });
+    _loadMessages();
+  }
+
+  void _loadMessages() {
+    _firestoreService.getMessages(widget.threadId).listen((messages) {
+      setState(() {
+        _messages.clear();
+        _messages.addAll(messages.map((message) => types.TextMessage(
+              author: types.User(id: message.author),
+              createdAt: message.createdAt,
+              id: message.id,
+              text: message.text,
+            )));
+      });
+    });
   }
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
     if (userInput.isNotEmpty) {
+      final chatMessage = ChatMessage(
+        id: DateTime.now().toString(),
+        threadId: widget.threadId,
+        userId: _userId,
+        author: _userId,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        text: userInput,
+      );
+
       setState(() {
         _messages.add(types.TextMessage(
-          author: types.User(id: 'user'),
-          createdAt: DateTime.now().millisecondsSinceEpoch,
-          id: DateTime.now().toString(),
+          author: types.User(id: _userId),
+          createdAt: chatMessage.createdAt,
+          id: chatMessage.id,
           text: userInput,
         ));
       });
 
+      await _firestoreService.addMessage(chatMessage);
+
       try {
         final response = await _apiService.getChatbotResponseTherapist(
             userInput, widget.threadId);
+        final botMessage = ChatMessage(
+          id: DateTime.now().toString(),
+          threadId: widget.threadId,
+          userId: _botId, // Use bot ID here
+          author: _botId,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          text: response,
+        );
+
         setState(() {
           _messages.add(types.TextMessage(
-            author: types.User(id: 'bot'),
-            createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: DateTime.now().toString(),
+            author: types.User(id: _botId), // Use bot ID here
+            createdAt: botMessage.createdAt,
+            id: botMessage.id,
             text: response,
           ));
         });
+
+        await _firestoreService.addMessage(botMessage);
       } catch (e) {
         if (e.toString().contains('Rate limit exceeded')) {
           _showRateLimitDialog();
         } else {
           setState(() {
             _messages.add(types.TextMessage(
-              author: types.User(id: 'bot'),
+              author: types.User(id: _botId), // Use bot ID here
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: DateTime.now().toString(),
               text: "Oops!😟 Something went wrong. Please try again later.",
@@ -140,7 +190,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         onSendPressed: (message) {
           _sendMessage(message);
         },
-        user: types.User(id: 'user'),
+        user: types.User(id: _userId),
         showUserAvatars: true,
         showUserNames: true,
         scrollPhysics: const BouncingScrollPhysics(),

@@ -109,7 +109,7 @@ def chat_therapist():
             return jsonify({"error": "No email provided"}), 400
         
         # joining the user input and the email address to create a unique user input
-        user_input = 'user_input: '+user_input + " " + 'N0te: email:'+ email  + "this is only used in the getsuerbyemail function to get the user details not anything else"
+        user_input = 'user_input: '+user_input + "--- " + '----------N0te: email: '+ email  + "  --- this is only used in the getuserbyemail function to get the user details not anything else"
 
         state = {"messages": [("user", user_input)]}
         config = {"configurable": {"thread_id": thread_id}}

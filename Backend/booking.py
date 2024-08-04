@@ -12,7 +12,7 @@ def initialize_firebase():
     if not firebase_initialized:
         try:
             # Initialize Firebase
-            cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+            cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
             firebase_admin.initialize_app(cred)
             db = firestore.client()
             firebase_initialized = True

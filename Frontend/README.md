@@ -1,4 +1,4 @@
-# mentalhealth
+# wellCareBot
 
 A new Flutter project.
 

@@ -1,0 +1,7 @@
+.env
+venv/
+*.ipynb
+transcripts/
+.vscode/
+
+# YT_TRANSCRIPTS/

@@ -38,3 +38,7 @@ openai
 
 # UUID for thread generation
 uuid
+
+
+# firebase admin
+firebase-admin

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "665593628324",
-    "project_id": "mentalhealth-bf2be",
-    "storage_bucket": "mentalhealth-bf2be.appspot.com"
+    "project_number": "255154726162",
+    "project_id": "wellcarebot-71cca",
+    "storage_bucket": "wellcarebot-71cca.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:665593628324:android:db9bfbc88e970239e54831",
+        "mobilesdk_app_id": "1:255154726162:android:848e5bd49c06ba1245ffcb",
         "android_client_info": {
-          "package_name": "com.example.mentalheath"
+          "package_name": "com.example.mentalhealth"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDIwXi7SkE9vqhETjy-tZqP9RvCr1WHXe8"
+          "current_key": "AIzaSyCI-RKncZnhXIzHKnOKbW54o0FZlI_2OKM"
         }
       ],
       "services": {

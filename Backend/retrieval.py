@@ -33,5 +33,3 @@ def retrieve_db(text, count=5):
     similar_texts = query_similar_texts(text, count)
     return similar_texts
 
-
-# what is a mentor search the retrieve_db tool  

@@ -86,7 +86,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChatHistoryPage()),
+                        builder: (context) => ChatHistoryPage(
+                          therapistThreadId: 'therapist_thread_id',
+                          companionshipThreadId: 'companionship_thread_id',
+                        ),
+                      ),
                     );
                   },
                 ),

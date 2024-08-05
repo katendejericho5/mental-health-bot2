@@ -1,7 +1,8 @@
-import firebase_admin # type: ignore
-from firebase_admin import credentials, firestore # type: ignore
+import firebase_admin  # type: ignore
+from firebase_admin import credentials, firestore  # type: ignore
 from datetime import datetime
 from langchain_core.tools import tool
+import os
 
 # Global variable to track if Firebase is already initialized
 firebase_initialized = False
@@ -12,7 +13,7 @@ def initialize_firebase():
     if not firebase_initialized:
         try:
             # Initialize Firebase
-            cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+            cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
             firebase_admin.initialize_app(cred)
             db = firestore.client()
             firebase_initialized = True

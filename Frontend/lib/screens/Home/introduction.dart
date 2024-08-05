@@ -1,5 +1,5 @@
 import 'package:WellCareBot/screens/Authentication/registration.dart';
-import 'package:WellCareBot/screens/Home/homepage2.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -71,7 +71,7 @@ class IntroductionPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  HomePage2(),
+            builder: (context) => HomePage(),
           ),
         );
       },
@@ -80,7 +80,7 @@ class IntroductionPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  RegisterScreen(),
+            builder: (context) => RegisterScreen(),
           ),
         );
       },

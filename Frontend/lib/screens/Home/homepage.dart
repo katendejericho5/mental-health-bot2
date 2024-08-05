@@ -11,12 +11,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomePage2 extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  State<HomePage2> createState() => _HomePage2State();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePage2State extends State<HomePage2> {
+class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   List<Widget> _pages() => [
@@ -109,35 +109,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: FutureBuilder<String>(
-          future: _fetchProfilePictureURL(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return CircleAvatar(
-                backgroundImage:
-                    AssetImage('assets/relaxation-7282116_1280.jpg'),
-              );
-            } else {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundImage: snapshot.data != ''
-                        ? NetworkImage(snapshot.data!)
-                        : AssetImage('assets/relaxation-7282116_1280.jpg'),
-                  ),
-                ),
-              );
-            }
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
           },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ProfilePicture(
+                profilePictureUrlFuture: _fetchProfilePictureURL()),
+          ),
         ),
         actions: [
           IconButton(
@@ -168,7 +151,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 future: _fetchUserName(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox.shrink(); // Placeholder while loading
+                    return Column(
+                      children: [
+                        Text(
+                          'WellCareBot',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.blueGrey[800],
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              'assets/relaxation-7282116_1280.jpg',
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            'Hello there',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ); // Placeholder while loading
                   } else if (snapshot.hasError) {
                     return Column(
                       children: [
@@ -319,6 +335,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ProfilePicture extends StatelessWidget {
+  final Future<String> profilePictureUrlFuture;
+
+  ProfilePicture({required this.profilePictureUrlFuture});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: profilePictureUrlFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircleAvatar(
+            backgroundImage: AssetImage('assets/relaxation-7282116_1280.jpg'),
+          );
+        } else if (snapshot.hasError || !snapshot.hasData) {
+          return CircleAvatar(
+            backgroundImage: AssetImage('assets/relaxation-7282116_1280.jpg'),
+          );
+        } else {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(snapshot.data!),
+          );
+        }
+      },
     );
   }
 }

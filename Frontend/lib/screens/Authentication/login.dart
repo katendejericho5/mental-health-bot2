@@ -1,5 +1,5 @@
 import 'package:WellCareBot/models/user_model.dart';
-import 'package:WellCareBot/screens/Home/homepage2.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                HomePage2(), // Replace with your target screen
+            builder: (context) => HomePage(), // Replace with your target screen
           ),
         );
       } else {

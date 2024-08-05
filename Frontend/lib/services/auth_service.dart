@@ -76,23 +76,23 @@ class FirebaseAuthHelper {
     return null;
   }
 
-  static Future<void> logout() async {
+  static Future<void> logout(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } catch (e) {
       print('Error during logout: $e');
     }
   }
-   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-   // Sign in with Google
-   Future<void> signInWithGoogle(BuildContext context) async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // Sign in with Google
+  Future<void> signInWithGoogle(BuildContext context) async {
     try {
-      // Request permissions
       final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
 
-      // Check if the user cancelled the sign-in process
       if (gUser == null) {
         throw PlatformException(
           code: 'sign_in_failed',
@@ -100,32 +100,51 @@ class FirebaseAuthHelper {
         );
       }
 
-      // Obtain auth details from the request
-      final GoogleSignInAuthentication? gAuth = await gUser.authentication;
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
 
-      // Create a new credential for the user
       final credential = GoogleAuthProvider.credential(
-        accessToken: gAuth?.accessToken,
-        idToken: gAuth?.idToken,
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
       );
 
-      // Use the new credential to sign in
-        UserCredential userCredential =
+      UserCredential userCredential =
           await _auth.signInWithCredential(credential);
       User? firebaseUser = userCredential.user;
-       // Check if the user's profile exists in Firestore
+
       if (firebaseUser != null) {
         DocumentSnapshot userDoc =
             await _firestore.collection('users').doc(firebaseUser.uid).get();
 
         if (!userDoc.exists) {
-          // Navigate to the profile creation screen
+          // Create a new user document with all available Google info
+          await _firestore.collection('users').doc(firebaseUser.uid).set({
+            'uid': firebaseUser.uid,
+            'fullName': firebaseUser.displayName,
+            'email': firebaseUser.email,
+            'profilePictureURL': firebaseUser.photoURL,
+            'phoneNumber': firebaseUser.phoneNumber,
+            'emailVerified': firebaseUser.emailVerified,
+            'creationTime':
+                firebaseUser.metadata.creationTime?.toIso8601String(),
+            'lastSignInTime':
+                firebaseUser.metadata.lastSignInTime?.toIso8601String(),
+            'providerData': firebaseUser.providerData
+                .map((userInfo) => {
+                      'providerId': userInfo.providerId,
+                      'uid': userInfo.uid,
+                      'fullName': userInfo.displayName,
+                      'email': userInfo.email,
+                      'phoneNumber': userInfo.phoneNumber,
+                      'profilePictureURL': userInfo.photoURL,
+                    })
+                .toList(),
+          });
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => CreateProfileScreen()),
           );
         } else {
-          // Navigate to the homepage
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
@@ -138,6 +157,5 @@ class FirebaseAuthHelper {
         message: e.toString(),
       );
     }
-    
   }
 }

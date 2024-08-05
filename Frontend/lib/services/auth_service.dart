@@ -158,4 +158,59 @@ class FirebaseAuthHelper {
       );
     }
   }
+
+ Future<void> signInWithMicrosoft(BuildContext context) async {
+    final OAuthProvider provider = OAuthProvider('microsoft.com');
+    provider.setCustomParameters(
+        {"tenant": "39e1b070-39da-4546-bd43-fd0d9ed2cefc"});
+
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithProvider(provider);
+      User? firebaseUser = userCredential.user;
+
+      if (firebaseUser != null) {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(firebaseUser.uid).get();
+
+        if (!userDoc.exists) {
+          // Create a new user document with all available Microsoft info
+          await _firestore.collection('users').doc(firebaseUser.uid).set({
+            'uid': firebaseUser.uid,
+            'fullName': firebaseUser.displayName,
+            'email': firebaseUser.email,
+            'profilePictureURL': firebaseUser.photoURL,
+            'phoneNumber': firebaseUser.phoneNumber,
+            'emailVerified': firebaseUser.emailVerified,
+            'creationTime':
+                firebaseUser.metadata.creationTime?.toIso8601String(),
+            'lastSignInTime':
+                firebaseUser.metadata.lastSignInTime?.toIso8601String(),
+            'providerData': firebaseUser.providerData
+                .map((userInfo) => {
+                      'providerId': userInfo.providerId,
+                      'uid': userInfo.uid,
+                      'fullName': userInfo.displayName,
+                      'email': userInfo.email,
+                      'phoneNumber': userInfo.phoneNumber,
+                      'profilePictureURL': userInfo.photoURL,
+                    })
+                .toList(),
+          });
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => CreateProfileScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        }
+      }
+    } catch (e) {
+      print("Error signing in with Microsoft: $e");
+    }
+  }
 }

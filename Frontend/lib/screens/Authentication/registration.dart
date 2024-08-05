@@ -250,8 +250,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

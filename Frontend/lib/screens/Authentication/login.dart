@@ -3,6 +3,7 @@
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:WellCareBot/screens/Authentication/forgot_password.dart';
@@ -240,8 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

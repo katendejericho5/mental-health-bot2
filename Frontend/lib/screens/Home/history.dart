@@ -55,6 +55,16 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
     });
   }
 
+  String _getSenderLabel(String author) {
+    if (author == 'user') {
+      return 'From You';
+    } else if (author == 'bot123') {
+      return 'From WellcareBot';
+    } else {
+      return 'From You'; // Fallback for any unexpected values
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -94,7 +104,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                       final message = messages[index];
                       return ListTile(
                         title: Text(message.text),
-                        subtitle: Text('From: ${message.author}'),
+                        subtitle: Text(_getSenderLabel(message.author)),
                         trailing: Text(
                           DateTime.fromMillisecondsSinceEpoch(message.createdAt)
                               .toLocal()
@@ -123,7 +133,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                       final message = messages[index];
                       return ListTile(
                         title: Text(message.text),
-                        subtitle: Text('From: ${message.author}'),
+                        subtitle: Text(_getSenderLabel(message.author)),
                         trailing: Text(
                           DateTime.fromMillisecondsSinceEpoch(message.createdAt)
                               .toLocal()

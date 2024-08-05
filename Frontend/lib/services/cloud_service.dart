@@ -1,3 +1,4 @@
+import 'package:WellCareBot/models/booking_model.dart';
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,8 +22,9 @@ class FirestoreService {
         .collection('messages')
         .orderBy('created_at', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => ChatMessage.fromMap(doc.data())).toList());
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ChatMessage.fromMap(doc.data()))
+            .toList());
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
@@ -32,5 +34,15 @@ class FirestoreService {
         await _db.collection('users').doc(user.uid).get();
 
     return userDoc.data() as Map<String, dynamic>;
+  }
+
+  Stream<List<Booking>> getUserBookings(String userId) {
+    return _db
+        .collection('bookings')
+        .where('user_id', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Booking.fromFirestore(doc.data()))
+            .toList());
   }
 }

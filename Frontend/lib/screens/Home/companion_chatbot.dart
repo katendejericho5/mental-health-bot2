@@ -192,6 +192,11 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.brightness == Brightness.light
+        ? Colors.white // Light theme background
+        : Colors.grey[900]!; // Dark theme background
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Companion'),
@@ -234,30 +239,32 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         scrollPhysics: const BouncingScrollPhysics(),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         theme: DefaultChatTheme(
+          backgroundColor: backgroundColor,
+          
+
           // INPUT TEXTFIELD THEME
-          inputTextCursorColor: Colors.blue,
-          inputSurfaceTintColor: Colors.yellow,
-          inputBackgroundColor: Colors.white,
-          inputTextColor: Colors.black,
-          sendButtonIcon: const Icon(Icons.send, color: Colors.lightBlue),
+          inputTextCursorColor: theme.colorScheme.primary,
+          inputSurfaceTintColor: theme.colorScheme.surfaceTint,
+          inputBackgroundColor: theme.colorScheme.surface,
+          inputTextColor: theme.colorScheme.onSurface,
+          sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
           inputMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          inputTextStyle: const TextStyle(
-            color: Colors.black,
+          inputTextStyle: TextStyle(
+            color: theme.colorScheme.onSurface,
           ),
           inputBorderRadius: const BorderRadius.horizontal(
             left: Radius.circular(10),
             right: Radius.circular(10),
           ),
           inputContainerDecoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black, width: 1.0),
+            color: theme.colorScheme.surface,
+            border: Border.all(color: theme.colorScheme.outline, width: 1.0),
             borderRadius: const BorderRadius.horizontal(
               left: Radius.circular(30),
               right: Radius.circular(30),
             ),
           ),
-          // OTHER CHANGES IN THEME
-          primaryColor: Colors.blue,
+          primaryColor: theme.colorScheme.primary,
         ),
       ),
     );

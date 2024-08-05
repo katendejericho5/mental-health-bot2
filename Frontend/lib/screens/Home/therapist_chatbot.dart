@@ -39,7 +39,6 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
       await _fetchUserData();
       _loadMessages();
     } catch (e) {
-      // Handle any errors, perhaps show a dialog to the user
       print('Error initializing data: $e');
     }
   }
@@ -59,8 +58,6 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         _userId = user.uid;
       }
     } else {
-      // Handle case where user is not logged in
-      // You might want to throw an exception or navigate to a login screen
       throw Exception('User not logged in');
     }
   }
@@ -109,7 +106,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         final botMessage = ChatMessage(
           id: DateTime.now().toString(),
           threadId: widget.threadId,
-          userId: _botId, // Use bot ID here
+          userId: _botId,
           author: _botId,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           text: response,
@@ -117,7 +114,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
         setState(() {
           _messages.add(types.TextMessage(
-            author: types.User(id: _botId), // Use bot ID here
+            author: types.User(id: _botId),
             createdAt: botMessage.createdAt,
             id: botMessage.id,
             text: response,
@@ -131,7 +128,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         } else {
           setState(() {
             _messages.add(types.TextMessage(
-              author: types.User(id: _botId), // Use bot ID here
+              author: types.User(id: _botId),
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: DateTime.now().toString(),
               text: "Oops!😟 Something went wrong. Please try again later.",
@@ -163,7 +160,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
               child: Text('Watch Ad'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                _showAd(); // Show the rewarded ad
+                _showAd();
               },
             ),
           ],
@@ -195,6 +192,11 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.brightness == Brightness.light
+        ? Colors.white // Light theme background
+        : Colors.grey[900]!; // Dark theme background
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Therapist'),
@@ -237,30 +239,29 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         scrollPhysics: const BouncingScrollPhysics(),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         theme: DefaultChatTheme(
-          // INPUT TEXTFIELD THEME
-          inputTextCursorColor: Colors.blue,
-          inputSurfaceTintColor: Colors.yellow,
-          inputBackgroundColor: Colors.white,
-          inputTextColor: Colors.black,
-          sendButtonIcon: const Icon(Icons.send, color: Colors.lightBlue),
+          backgroundColor: backgroundColor,
+          inputTextCursorColor: theme.colorScheme.primary,
+          inputSurfaceTintColor: theme.colorScheme.surfaceTint,
+          inputBackgroundColor: theme.colorScheme.surface,
+          inputTextColor: theme.colorScheme.onSurface,
+          sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
           inputMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          inputTextStyle: const TextStyle(
-            color: Colors.black,
+          inputTextStyle: TextStyle(
+            color: theme.colorScheme.onSurface,
           ),
           inputBorderRadius: const BorderRadius.horizontal(
             left: Radius.circular(10),
             right: Radius.circular(10),
           ),
           inputContainerDecoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black, width: 1.0),
+            color: theme.colorScheme.surface,
+            border: Border.all(color: theme.colorScheme.outline, width: 1.0),
             borderRadius: const BorderRadius.horizontal(
               left: Radius.circular(30),
               right: Radius.circular(30),
             ),
           ),
-          // OTHER CHANGES IN THEME
-          primaryColor: Colors.blue,
+          primaryColor: theme.colorScheme.primary,
         ),
       ),
     );

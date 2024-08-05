@@ -22,14 +22,24 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   final ApiService _apiService = ApiService();
   final FirestoreService _firestoreService = FirestoreService();
   final List<types.Message> _messages = [];
-  late String _userId;
+  late String _userId = '';
   final String _botId = 'bot123';
 
   @override
   void initState() {
     super.initState();
     AdHelper.loadRewardedAd();
-    _fetchUserData();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await _fetchUserData();
+      _loadMessages();
+    } catch (e) {
+      // Handle any errors, perhaps show a dialog to the user
+      print('Error initializing data: $e');
+    }
   }
 
   Future<void> _fetchUserData() async {
@@ -42,24 +52,15 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
       if (userDoc.exists && userDoc.data() != null) {
         final userData = userDoc.data() as Map<String, dynamic>;
-
-        setState(() {
-          _userId = userData['uid'] ??
-              user.uid; // Fallback to Firebase Auth UID if 'uid' is not present in userData
-        });
+        _userId = userData['uid'] ?? user.uid;
       } else {
-        // Handle case where user document does not exist or data is null
-        setState(() {
-          _userId = user.uid; // Use Firebase Auth UID as a fallback
-        });
+        _userId = user.uid;
       }
     } else {
       // Handle case where user is not logged in
-      // Redirect to login screen
+      // You might want to throw an exception or navigate to a login screen
+      throw Exception('User not logged in');
     }
-
-    // Load messages only after _userId is set
-    _loadMessages();
   }
 
   void _loadMessages() {

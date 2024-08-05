@@ -1,4 +1,6 @@
 import 'package:WellCareBot/models/history_model.dart';
+import 'package:WellCareBot/screens/Home/history.dart';
+import 'package:WellCareBot/screens/Home/settings.dart';
 import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
@@ -198,15 +200,28 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         title: Text('Therapist'),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.history_outlined),
             onPressed: () {
-              // Handle notifications
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatHistoryPage(
+                    therapistThreadId: 'therapist_thread_id',
+                    companionshipThreadId: 'companionship_thread_id',
+                  ),
+                ),
+              );
             },
           ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Handle settings
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(),
+                ),
+              );
             },
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For date formatting
 
 class ChatHistoryPage extends StatefulWidget {
   final String therapistThreadId;
@@ -42,7 +43,9 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
           .orderBy('created_at', descending: _isDescending)
           .get();
 
-      return messagesSnapshot.docs.map((doc) => ChatMessage.fromMap(doc.data())).toList();
+      return messagesSnapshot.docs
+          .map((doc) => ChatMessage.fromMap(doc.data()))
+          .toList();
     } else {
       throw Exception('User not logged in');
     }
@@ -65,6 +68,12 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
     }
   }
 
+  String _formatDate(int timestamp) {
+    final date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    final formatter = DateFormat('yyyy-MM-dd – HH:mm');
+    return formatter.format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -74,7 +83,9 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
           title: Text('Chat History'),
           actions: [
             IconButton(
-              icon: Icon(_isDescending ? Icons.arrow_downward : Icons.arrow_upward),
+              icon: Icon(
+                _isDescending ? Icons.arrow_downward : Icons.arrow_upward,
+              ),
               onPressed: _toggleSortOrder,
             ),
           ],
@@ -103,13 +114,33 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                     itemBuilder: (context, index) {
                       final message = messages[index];
                       return ListTile(
-                        title: Text(message.text),
-                        subtitle: Text(_getSenderLabel(message.author)),
-                        trailing: Text(
-                          DateTime.fromMillisecondsSinceEpoch(message.createdAt)
-                              .toLocal()
-                              .toString(),
+                        title: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(message.text),
+                          ),
                         ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _getSenderLabel(message.author),
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ), // Space between label and timestamp
+                            Text(
+                              _formatDate(message.createdAt),
+                              style: TextStyle(color: Colors.greenAccent),
+                            ),
+                          ],
+                        ),
+                        isThreeLine: true,
                       );
                     },
                   );
@@ -132,13 +163,33 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                     itemBuilder: (context, index) {
                       final message = messages[index];
                       return ListTile(
-                        title: Text(message.text),
-                        subtitle: Text(_getSenderLabel(message.author)),
-                        trailing: Text(
-                          DateTime.fromMillisecondsSinceEpoch(message.createdAt)
-                              .toLocal()
-                              .toString(),
+                        title: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(message.text),
+                          ),
                         ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _getSenderLabel(message.author),
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                                height:
+                                    4.0), // Space between label and timestamp
+                            Text(
+                              _formatDate(message.createdAt),
+                              style: TextStyle(color: Colors.greenAccent),
+                            ),
+                          ],
+                        ),
+                        isThreeLine: true,
                       );
                     },
                   );

@@ -233,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
-                      FirebaseAuthHelper().signInWithGoogle();
+                      FirebaseAuthHelper().signInWithGoogle(context);
                     },
                   ),
                   SizedBox(width: 20.0),

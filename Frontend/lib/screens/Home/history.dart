@@ -5,21 +5,7 @@ class ChatHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Sample data
     final chatHistories = [
-      {
-        'mode': 'Companion Mode',
-        'timestamp': '2024-07-01',
-        'lastMessage': 'How are you feeling today?'
-      },
-      {
-        'mode': 'Therapist Mode',
-        'timestamp': '2024-07-02',
-        'lastMessage': 'Let’s discuss your progress.'
-      },
-      {
-        'mode': 'Companion Mode',
-        'timestamp': '2024-07-03',
-        'lastMessage': 'Remember to stay positive!'
-      },
+      
     ];
 
     return Scaffold(

@@ -123,21 +123,21 @@ class FirebaseAuthHelper {
             'email': firebaseUser.email,
             'profilePictureURL': firebaseUser.photoURL,
             'phoneNumber': firebaseUser.phoneNumber,
-            'emailVerified': firebaseUser.emailVerified,
-            'creationTime':
-                firebaseUser.metadata.creationTime?.toIso8601String(),
-            'lastSignInTime':
-                firebaseUser.metadata.lastSignInTime?.toIso8601String(),
-            'providerData': firebaseUser.providerData
-                .map((userInfo) => {
-                      'providerId': userInfo.providerId,
-                      'uid': userInfo.uid,
-                      'fullName': userInfo.displayName,
-                      'email': userInfo.email,
-                      'phoneNumber': userInfo.phoneNumber,
-                      'profilePictureURL': userInfo.photoURL,
-                    })
-                .toList(),
+            // 'emailVerified': firebaseUser.emailVerified,
+            // 'creationTime':
+            //     firebaseUser.metadata.creationTime?.toIso8601String(),
+            // 'lastSignInTime':
+            //     firebaseUser.metadata.lastSignInTime?.toIso8601String(),
+            // 'providerData': firebaseUser.providerData
+            //     .map((userInfo) => {
+            //           'providerId': userInfo.providerId,
+            //           'uid': userInfo.uid,
+            //           'fullName': userInfo.displayName,
+            //           'email': userInfo.email,
+            //           'phoneNumber': userInfo.phoneNumber,
+            //           'profilePictureURL': userInfo.photoURL,
+            //         })
+            //     .toList(),
           });
 
           Navigator.pushReplacement(
@@ -159,7 +159,7 @@ class FirebaseAuthHelper {
     }
   }
 
- Future<void> signInWithMicrosoft(BuildContext context) async {
+  Future<void> signInWithMicrosoft(BuildContext context) async {
     final OAuthProvider provider = OAuthProvider('microsoft.com');
     provider.setCustomParameters(
         {"tenant": "39e1b070-39da-4546-bd43-fd0d9ed2cefc"});
@@ -181,21 +181,21 @@ class FirebaseAuthHelper {
             'email': firebaseUser.email,
             'profilePictureURL': firebaseUser.photoURL,
             'phoneNumber': firebaseUser.phoneNumber,
-            'emailVerified': firebaseUser.emailVerified,
-            'creationTime':
-                firebaseUser.metadata.creationTime?.toIso8601String(),
-            'lastSignInTime':
-                firebaseUser.metadata.lastSignInTime?.toIso8601String(),
-            'providerData': firebaseUser.providerData
-                .map((userInfo) => {
-                      'providerId': userInfo.providerId,
-                      'uid': userInfo.uid,
-                      'fullName': userInfo.displayName,
-                      'email': userInfo.email,
-                      'phoneNumber': userInfo.phoneNumber,
-                      'profilePictureURL': userInfo.photoURL,
-                    })
-                .toList(),
+            // 'emailVerified': firebaseUser.emailVerified,
+            // 'creationTime':
+            //     firebaseUser.metadata.creationTime?.toIso8601String(),
+            // 'lastSignInTime':
+            //     firebaseUser.metadata.lastSignInTime?.toIso8601String(),
+            // 'providerData': firebaseUser.providerData
+            //     .map((userInfo) => {
+            //           'providerId': userInfo.providerId,
+            //           'uid': userInfo.uid,
+            //           'fullName': userInfo.displayName,
+            //           'email': userInfo.email,
+            //           'phoneNumber': userInfo.phoneNumber,
+            //           'profilePictureURL': userInfo.photoURL,
+            //         })
+            //     .toList(),
           });
 
           Navigator.pushReplacement(

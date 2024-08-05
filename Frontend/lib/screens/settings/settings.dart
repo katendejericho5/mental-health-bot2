@@ -1,7 +1,7 @@
-import 'package:WellCareBot/screens/Home/about.dart';
-import 'package:WellCareBot/screens/Home/feedback.dart';
-import 'package:WellCareBot/screens/Home/privacy_and_policy.dart';
-import 'package:WellCareBot/screens/Home/profile_page.dart';
+import 'package:WellCareBot/screens/settings/about.dart';
+import 'package:WellCareBot/screens/settings/feedback.dart';
+import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
+import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier

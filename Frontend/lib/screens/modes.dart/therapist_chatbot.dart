@@ -1,6 +1,6 @@
 import 'package:WellCareBot/models/history_model.dart';
-import 'package:WellCareBot/screens/Home/history.dart';
-import 'package:WellCareBot/screens/Home/settings.dart';
+import 'package:WellCareBot/screens/settings/history.dart';
+import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/services/ad_helper.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
@@ -10,16 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
-class CompanionChatBot extends StatefulWidget {
+class TherapistChatBot extends StatefulWidget {
   final String threadId;
 
-  const CompanionChatBot({super.key, required this.threadId});
+  const TherapistChatBot({super.key, required this.threadId});
 
   @override
-  State<CompanionChatBot> createState() => _CompanionChatBotState();
+  State<TherapistChatBot> createState() => _TherapistChatBotState();
 }
 
-class _CompanionChatBotState extends State<CompanionChatBot> {
+class _TherapistChatBotState extends State<TherapistChatBot> {
   final TextEditingController _controller = TextEditingController();
   final ApiService _apiService = ApiService();
   final FirestoreService _firestoreService = FirestoreService();
@@ -100,7 +100,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       await _firestoreService.addMessage(chatMessage);
 
       try {
-        final response = await _apiService.getChatbotResponseCompanion(
+        final response = await _apiService.getChatbotResponseTherapist(
           userInput,
         );
         final botMessage = ChatMessage(
@@ -199,7 +199,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Companion'),
+        title: Text('Therapist'),
         actions: [
           IconButton(
             icon: Icon(Icons.history_outlined),
@@ -240,9 +240,6 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         theme: DefaultChatTheme(
           backgroundColor: backgroundColor,
-          
-
-          // INPUT TEXTFIELD THEME
           inputTextCursorColor: theme.colorScheme.primary,
           inputSurfaceTintColor: theme.colorScheme.surfaceTint,
           inputBackgroundColor: theme.colorScheme.surface,

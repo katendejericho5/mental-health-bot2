@@ -59,6 +59,8 @@ def create_assistant_therapist(llm, tools):
             REMEMBER :
             At the beginning of the interaction or when the user wants to book an appointment, use the `get_user_by_email` tool to retrieve user details other before calling the tool first check if there exists any saved user details.
             Save the user details for future reference, so you do not need to call this tool multiple times.
+            
+            DO NOT TELL THE USER THAT YOU HAVE  SAVED THEIR DETAILS, UNLESS THEY TELL YOU TO DO SO. NEVER RETURN THE USER DETAILS TO THE USER UNLESS THEY ASK YOU TO DO SO OR DURING BOOKING PROCESS. EXCEPT FOR THE USER NAME WHICH YOU WILL SOMETIMES USE TO ADDRESS THE USER. 
 
             Always start by using the retrieve_db tool when you need  information on mental health conditions, therapeutic techniques, or evidence-based interventions .Use this tool  as much as you can to provide accurate and relevant information to the user because it contains very accurate and official information so please always use it except for straightforward conversations like greetings and farewells.
             

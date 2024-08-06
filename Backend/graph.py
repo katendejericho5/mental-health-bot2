@@ -23,7 +23,7 @@ def tools_condition(state: State) -> Union[str, None]:
     messages = state['messages']
     last_message = messages[-1]
     # If the last message includes tool calls, route to the "tools" node
-    if len(messages) > 20:
+    if len(messages) > 6:
         return "summarize_conversation"
     elif last_message.tool_calls:
         return "tools"
@@ -64,7 +64,7 @@ def summarize_conversation(state: State):
     response = model.invoke(messages)
     # We now need to delete messages that we no longer want to show up
     # I will delete all but the last two messages, but you can change this
-    delete_messages = [RemoveMessage(id=m.id) for m in state["messages"][:-10]]
+    delete_messages = [RemoveMessage(id=m.id) for m in state["messages"][:-2]]
     return {"summary": response.content, "messages": delete_messages}
 
 

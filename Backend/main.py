@@ -111,7 +111,7 @@ def chat_therapist():
             return jsonify({"error": "No email provided"}), 400
         
         # joining the user input and the email address to create a unique user input
-        user_input = f'user_input: {user_input}--- ----------N0te: email: {email} --- this is only used in the getuserbyemail function to get the user details not anything else. At the beginning of the interaction or when the user wants to book an appointment, use the get_user_by_email tool to retrieve user details other before calling the tool first check if there exists any saved user details. Save the user details for future reference, so you do not need to call this tool multiple times.'
+        user_input = f'user_input: {user_input}--- ----------N0te: email: {email} --- this is only used in the getuserbyemail function to get the user details not anything else. At the beginning of the interaction or when the user wants to book an appointment, use the get_user_by_email tool to retrieve user details other before calling the tool first check if there exists any saved user details. Save the user details for future reference, so you do not need to call this tool multiple times.-------------------------- getuserbyemail only allows email as its argument.'
 
         state = {"messages": [("user", user_input)]}
         config = {"configurable": {"thread_id": thread_id}}

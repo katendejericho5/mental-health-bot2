@@ -1,7 +1,7 @@
 import os
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.tools import Tool
-from booking import  create_booking_tool, get_all_therapists, get_therapist_by_name, get_user_by_email, is_slot_available
+from booking import  create_booking_tool, get_all_therapists, get_all_therapists_tool, get_therapist_by_name, get_user_by_email_tool, is_slot_available
 from retrieval import retrieve_db
 from langchain_core.messages import HumanMessage, ToolMessage
 
@@ -21,26 +21,26 @@ def create_tools(tavily_api_key=None):
         description="Search and return information about Mental Health from the database"
     )
     
-    get_all_therapists_tool = Tool(
-        name="get_all_therapists",
-        func=get_all_therapists,
-        description="Get a list of all therapists"
-    )  
-    get_therapist_by_name_tool = Tool(
-        name="get_therapist_by_name",
-        func=get_therapist_by_name,
-        description="Get the therapist details"
-    )
-    get_user_by_email_tool = Tool(
-        name="get_user_by_email",
-        func=get_user_by_email,
-        description="Get the user details using the email provided" 
-    )
-    is_slot_available_tool = Tool(
-        name="is_slot_available",
-        func=is_slot_available,
-        description="Check if the slot is available"
-    )
+    # get_all_therapists_tool = Tool(
+    #     name="get_all_therapists",
+    #     func=get_all_therapists,
+    #     description="Get a list of all therapists"
+    # )  
+    # get_therapist_by_name_tool = Tool(
+    #     name="get_therapist_by_name",
+    #     func=get_therapist_by_name,
+    #     description="Get the therapist details"
+    # )
+    # get_user_by_email_tool = Tool(
+    #     name="get_user_by_email",
+    #     func=get_user_by_email,
+    #     description="Get the user details using the email provided" 
+    # )
+    # is_slot_available_tool = Tool(
+    #     name="is_slot_available",
+    #     func=is_slot_available,
+    #     description="Check if the slot is available"
+    # )
 
 
 

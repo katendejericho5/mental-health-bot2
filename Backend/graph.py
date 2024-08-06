@@ -94,6 +94,8 @@ def create_graph_companion(assistant, tools):
     tool_node = ToolNode(tools)
 
     builder.add_node("tools", tool_node)
+    builder.add_node(summarize_conversation)
+    builder.add_edge("summarize_conversation", "assistant")
 
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)

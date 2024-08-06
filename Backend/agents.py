@@ -3,6 +3,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 
+def filter_messages(messages: list):
+    # Get the first 5 messages
+    first_5 = messages[:20]
+    # Get the last 10 messages
+    last_10 = messages[-20:]
+    # Combine the two lists
+    filtered_messages = first_5 + last_10
+    return filtered_messages
+
 class Assistant:
     def __init__(self, runnable):
         self.runnable = runnable
@@ -18,7 +27,7 @@ class Assistant:
                 or isinstance(result.content, list)
                 and not result.content[0].get("text")
             ):
-                messages = state["messages"] + [("user", "Respond but do not mention the tool the user already knows you are an expert ")]
+                messages = filter_messages(state["messages"]) + [("user", "Respond but do not mention the tool the user already knows you are an expert ")]
                 state = {**state, "messages": messages}
             else:
                 break

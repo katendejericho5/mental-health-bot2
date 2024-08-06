@@ -19,6 +19,7 @@ def tools_condition(state: State) -> Union[str, None]:
     # Otherwise, end the conversation
     return END
 
+
 def create_graph(assistant, tools):
     builder = StateGraph(State)
     builder.add_node("assistant", assistant)

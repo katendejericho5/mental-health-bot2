@@ -1,6 +1,7 @@
 import os
 from typing import Annotated, Union
 from langchain_openai import ChatOpenAI
+from pymongo import MongoClient
 from typing_extensions import TypedDict
 from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
@@ -11,6 +12,8 @@ from langchain_core.messages import HumanMessage
 from langchain_core.messages import SystemMessage, RemoveMessage
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import MessagesState, StateGraph, START, END
+
+from custom_checkpointer import MongoDBSaver
 
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
@@ -83,6 +86,8 @@ def create_graph(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
+    MONGO_URI = os.getenv("MONGO_URI")
+    memory = MongoDBSaver(MongoClient(MONGO_URI), "checkpoints_db", "checkpoints_collection")
     memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)
 
@@ -100,5 +105,7 @@ def create_graph_companion(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
+    MONGO_URI = os.getenv("MONGO_URI")
+    memory = MongoDBSaver(MongoClient(MONGO_URI), "checkpoints_db", "checkpoints_collection")
     memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)

@@ -1,7 +1,8 @@
-import firebase_admin # type: ignore
-from firebase_admin import credentials, firestore # type: ignore
+import firebase_admin  # type: ignore
+from firebase_admin import credentials, firestore  # type: ignore
 from datetime import datetime
 from langchain_core.tools import tool
+import os
 
 # Global variable to track if Firebase is already initialized
 firebase_initialized = False
@@ -10,15 +11,55 @@ db = None
 def initialize_firebase():
     global firebase_initialized, db
     if not firebase_initialized:
+        # Try the first path first, then the second path
         try:
-            # Initialize Firebase
-            cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
-            firebase_admin.initialize_app(cred)
-            db = firestore.client()
-            firebase_initialized = True
-            print("Firebase initialized successfully.")
+            try:
+                cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+                firebase_admin.initialize_app(cred)
+                db = firestore.client()
+                firebase_initialized = True
+                print("Firebase initialized successfully with the first path.")
+                return
+            except Exception as e:
+                print(f"Error initializing Firebase with the first path: {e}")
+            
+            try:
+                cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+                firebase_admin.initialize_app(cred)
+                db = firestore.client()
+                firebase_initialized = True
+                print("Firebase initialized successfully with the second path.")
+                return
+            except Exception as e:
+                print(f"Error initializing Firebase with the second path: {e}")
+        except Exception as e:
+            print(f"Error initializing Firebase with the second path: {e}")
+
+        # If initialization fails, try the second path first, then the first path
+        try:
+            try:
+                cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+                firebase_admin.initialize_app(cred)
+                db = firestore.client()
+                firebase_initialized = True
+                print("Firebase initialized successfully with the second path.")
+                return
+            except Exception as e:
+                print(f"Error initializing Firebase with the second path: {e}")
+            
+            try:
+                cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+                firebase_admin.initialize_app(cred)
+                db = firestore.client()
+                firebase_initialized = True
+                print("Firebase initialized successfully with the first path.")
+                return
+            except Exception as e:
+                print(f"Error initializing Firebase with the first path: {e}")
+
         except Exception as e:
             print(f"Error initializing Firebase: {e}")
+
 
 def get_all_therapists(*args, **kwargs):
     try:

@@ -92,7 +92,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Therapist'),
-              Tab(text: 'Companionship'),
+              Tab(text: 'Companion'),
             ],
           ),
         ),

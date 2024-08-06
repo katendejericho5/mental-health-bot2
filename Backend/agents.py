@@ -2,6 +2,8 @@ import os
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
+from langchain_core.messages import SystemMessage, RemoveMessage
+
 
 def filter_messages(messages: list):
     # Get the first 5 messages
@@ -27,7 +29,12 @@ class Assistant:
                 or isinstance(result.content, list)
                 and not result.content[0].get("text")
             ):
-                messages = filter_messages(state["messages"]) + [("user", "Respond but do not mention the tool the user already knows you are an expert ")]
+                summary = state.get("summary", "")
+                if summary:
+                    system_message = f"Summary of conversation earlier: {summary}"
+                    messages = [SystemMessage(content=system_message)] + state["messages"]
+                else:
+                    messages = state["messages"]
                 state = {**state, "messages": messages}
             else:
                 break

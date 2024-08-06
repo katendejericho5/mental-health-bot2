@@ -25,7 +25,7 @@ def tools_condition(state: State) -> Union[str, None]:
     # If the last message includes tool calls, route to the "tools" node
     if len(messages) > 6:
         return "summarize_conversation"
-    elif last_message.tool_calls:
+    if last_message.tool_calls:
         return "tools"
         # Otherwise, end the conversation
     else:
@@ -78,7 +78,7 @@ def create_graph(assistant, tools):
 
     builder.add_node("tools", tool_node)
     builder.add_node(summarize_conversation)
-
+    builder.add_edge("summarize_conversation", "assistant")
 
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)

@@ -12,9 +12,8 @@ from langchain_core.messages import SystemMessage, RemoveMessage
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import MessagesState, StateGraph, START, END
 
-from custom_checkpointer import RedisSaver, initialize_sync_pool
 
-sync_pool = initialize_sync_pool(host="redis-18753.c57.us-east-1-4.ec2.redns.redis-cloud.com", port=18753,password='ILRF8edC01Rul1kisv3hmsvxWsDos4vc',db=0)
+# sync_pool = initialize_sync_pool(host="redis-18753.c57.us-east-1-4.ec2.redns.redis-cloud.com", port=18753,password='ILRF8edC01Rul1kisv3hmsvxWsDos4vc',db=0)
 
 
 # r = redis.Redis(
@@ -94,8 +93,7 @@ def create_graph(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
-    # memory = SqliteSaver.from_conn_string(":memory:")
-    memory = RedisSaver(sync_connection=sync_pool)
+    memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)
 
 def create_graph_companion(assistant, tools):
@@ -112,6 +110,5 @@ def create_graph_companion(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
-    # memory = SqliteSaver.from_conn_string(":memory:")
-    memory = RedisSaver(sync_connection=sync_pool)
+    memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)

@@ -26,7 +26,6 @@ model = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAI_API_KEY)
 class State(MessagesState):
     summary: str
 
-# Define the condition function for routing to the tools node
 def tools_condition(state: State) -> Union[str, None]:
     messages = state['messages']
     last_message = messages[-1]
@@ -85,7 +84,6 @@ def create_graph(assistant, tools):
 
     # Create a ToolNode for the tools
     tool_node = ToolNode(tools)
-
     builder.add_node("tools", tool_node)
     builder.add_node(summarize_conversation)
     builder.add_edge("summarize_conversation", "assistant")
@@ -93,6 +91,8 @@ def create_graph(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
+    builder.add_edge("summarize", "assistant")
+    
     memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)
 

@@ -88,13 +88,26 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<String> _fetchUserName() async {
+  // Future<String> _fetchUserName() async {
+  //   final User user = _auth.currentUser!;
+  //   DocumentSnapshot userDoc =
+  //       await _firestore.collection('users').doc(user.uid).get();
+
+  //   return userDoc['fullName'] ?? 'User';
+  // }
+   Future<String> _fetchUserName() async {
     final User user = _auth.currentUser!;
+    // Check if the user has a displayName (Google Sign-In)
+    if (user.displayName != null && user.displayName!.isNotEmpty) {
+      return user.displayName!;
+    }
+
+    // Fallback to Firestore data for email/password sign-in
     DocumentSnapshot userDoc =
         await _firestore.collection('users').doc(user.uid).get();
-
     return userDoc['fullName'] ?? 'User';
   }
+
 
   void _toggleTheme() {
     setState(() {

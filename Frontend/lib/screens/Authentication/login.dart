@@ -1,3 +1,5 @@
+// login_screen.dart
+
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/services/auth_service.dart';
@@ -231,14 +233,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
+                      FirebaseAuthHelper().signInWithGoogle(context);
                     },
                   ),
                   SizedBox(width: 20.0),
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

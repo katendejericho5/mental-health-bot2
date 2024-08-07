@@ -243,14 +243,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
+                      FirebaseAuthHelper().signInWithGoogle(context);
                     },
                   ),
                   SizedBox(width: 20.0),
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

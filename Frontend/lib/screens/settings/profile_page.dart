@@ -3,6 +3,7 @@ import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'settings.dart';
 import 'history.dart';
 import 'privacy_and_policy.dart';
@@ -24,11 +25,22 @@ class _ProfilePageState extends State<ProfilePage> {
     return userDoc.data() as Map<String, dynamic>;
   }
 
+  // void _logout() async {
+  //   await FirebaseAuthHelper.logout(context);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => LoginScreen()),
+  //   );
+  // }
   void _logout() async {
-    await FirebaseAuthHelper.logout();
-    Navigator.push(
+    await FirebaseAuthHelper.logout(context);
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen()),
+      (Route<dynamic> route) => false,
     );
   }
 

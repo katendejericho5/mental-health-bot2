@@ -185,3 +185,46 @@ def create_booking_tool(therapist_name: str, user_email: str, appointment_date: 
     booking_ref = db.collection('bookings').add(booking_data)[1]  # Extracting the DocumentReference from the tuple
     print(f"Booking created successfully. Booking ID: {booking_ref.id}")
     return f"Booking created successfully. Booking ID: {booking_ref.id}"
+
+@tool
+def get_user_by_email_tool(email: str) -> dict:
+    """
+    Retrieve user details from the database based on the provided email address.
+    
+    Args:
+        email: The email address of the user.
+    
+    Returns:
+        A dictionary containing the user details if the user is found, or None if the user is not found.
+    """
+    initialize_firebase()
+    user_id, user_data = get_user_by_email(email)
+    if user_id:
+        user_data['id'] = user_id
+        return user_data
+    return None
+
+
+@tool
+def get_all_therapists_tool() -> list:
+    """
+    Retrieve a list of all therapists from the database.
+    
+    Returns:
+        A list of dictionaries containing the details of all therapists.
+    """
+    return get_all_therapists()
+
+
+@tool
+def get_therapist_by_name_tool(therapist_name: str) -> dict:
+    """
+    Retrieve the details of a therapist based on the provided name.
+    
+    Args:
+        therapist_name: The full name of the therapist.
+    
+    Returns:
+        A dictionary containing the details of the therapist if found, or None if the therapist is not found.
+    """
+    return get_therapist_by_name(therapist_name)

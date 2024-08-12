@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

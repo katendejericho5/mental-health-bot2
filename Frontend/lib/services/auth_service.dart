@@ -282,9 +282,7 @@ class FirebaseAuthHelper {
           SnackBar(content: Text('Verification email sent! Check your inbox.')),
         );
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        print('An error occurred while sending email verification: $e');
       }
     }
   }

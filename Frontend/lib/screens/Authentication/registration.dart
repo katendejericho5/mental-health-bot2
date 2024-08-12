@@ -21,14 +21,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
 
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
       AppUser? user = await FirebaseAuthHelper.registerUsingEmailPassword(
         name: _name,
         email: _email,
         password: _password,
       );
 
+      // Hide loading indicator
+      Navigator.of(context).pop();
+
       if (user != null) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => CreateProfileScreen(),

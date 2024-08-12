@@ -1,5 +1,5 @@
-import 'package:WellCareBot/screens/modes.dart/companion_chatbot.dart';
-import 'package:WellCareBot/screens/modes.dart/therapist_chatbot.dart';
+import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
+import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
 import 'package:WellCareBot/screens/booking/booking.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';

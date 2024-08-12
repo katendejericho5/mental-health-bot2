@@ -91,9 +91,21 @@ class FirebaseAuthHelper {
   // Sign in with Google
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
       final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
 
       if (gUser == null) {
+        Navigator.of(context).pop(); // Close loading indicator
         throw PlatformException(
           code: 'sign_in_failed',
           message: 'The user cancelled the sign-in process',
@@ -115,29 +127,15 @@ class FirebaseAuthHelper {
         DocumentSnapshot userDoc =
             await _firestore.collection('users').doc(firebaseUser.uid).get();
 
+        Navigator.of(context).pop(); // Close loading indicator
+
         if (!userDoc.exists) {
-          // Create a new user document with all available Google info
           await _firestore.collection('users').doc(firebaseUser.uid).set({
             'uid': firebaseUser.uid,
             'fullName': firebaseUser.displayName,
             'email': firebaseUser.email,
             'profilePictureURL': firebaseUser.photoURL,
             'phoneNumber': firebaseUser.phoneNumber,
-            // 'emailVerified': firebaseUser.emailVerified,
-            // 'creationTime':
-            //     firebaseUser.metadata.creationTime?.toIso8601String(),
-            // 'lastSignInTime':
-            //     firebaseUser.metadata.lastSignInTime?.toIso8601String(),
-            // 'providerData': firebaseUser.providerData
-            //     .map((userInfo) => {
-            //           'providerId': userInfo.providerId,
-            //           'uid': userInfo.uid,
-            //           'fullName': userInfo.displayName,
-            //           'email': userInfo.email,
-            //           'phoneNumber': userInfo.phoneNumber,
-            //           'profilePictureURL': userInfo.photoURL,
-            //         })
-            //     .toList(),
           });
 
           Navigator.pushReplacement(
@@ -152,6 +150,7 @@ class FirebaseAuthHelper {
         }
       }
     } catch (e) {
+      Navigator.of(context).pop(); // Close loading indicator
       throw PlatformException(
         code: 'sign_in_failed',
         message: e.toString(),
@@ -165,6 +164,17 @@ class FirebaseAuthHelper {
         {"tenant": "39e1b070-39da-4546-bd43-fd0d9ed2cefc"});
 
     try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithProvider(provider);
       User? firebaseUser = userCredential.user;
@@ -173,29 +183,15 @@ class FirebaseAuthHelper {
         DocumentSnapshot userDoc =
             await _firestore.collection('users').doc(firebaseUser.uid).get();
 
+        Navigator.of(context).pop(); // Close loading indicator
+
         if (!userDoc.exists) {
-          // Create a new user document with all available Microsoft info
           await _firestore.collection('users').doc(firebaseUser.uid).set({
             'uid': firebaseUser.uid,
             'fullName': firebaseUser.displayName,
             'email': firebaseUser.email,
             'profilePictureURL': firebaseUser.photoURL,
             'phoneNumber': firebaseUser.phoneNumber,
-            // 'emailVerified': firebaseUser.emailVerified,
-            // 'creationTime':
-            //     firebaseUser.metadata.creationTime?.toIso8601String(),
-            // 'lastSignInTime':
-            //     firebaseUser.metadata.lastSignInTime?.toIso8601String(),
-            // 'providerData': firebaseUser.providerData
-            //     .map((userInfo) => {
-            //           'providerId': userInfo.providerId,
-            //           'uid': userInfo.uid,
-            //           'fullName': userInfo.displayName,
-            //           'email': userInfo.email,
-            //           'phoneNumber': userInfo.phoneNumber,
-            //           'profilePictureURL': userInfo.photoURL,
-            //         })
-            //     .toList(),
           });
 
           Navigator.pushReplacement(
@@ -210,6 +206,7 @@ class FirebaseAuthHelper {
         }
       }
     } catch (e) {
+      Navigator.of(context).pop(); // Close loading indicator
       print("Error signing in with Microsoft: $e");
     }
   }

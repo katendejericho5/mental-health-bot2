@@ -55,49 +55,80 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.white, Colors.white],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 35),
-              const SizedBox(height: 30),
-              const Center(
+              const SizedBox(height: 20.0),
+              Icon(
+                Icons.email,
+                size: 80.0,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 20.0),
+               ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [Colors.blue, Colors.green],
+                  tileMode: TileMode.mirror,
+                ).createShader(bounds),
                 child: Text(
-                  'Check your \n Email',
+                  'Check Your Email',
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // this will be replaced by gradient
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Center(
-                  child: Text(
-                    'We have sent an email to ${user?.email}',
-                    textAlign: TextAlign.center,
+              const SizedBox(height: 10.0),
+              Text(
+                'We have sent an email to ${user?.email}. Please check your inbox and follow the instructions to verify your email.',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.black,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30.0),
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+              ),
+              const SizedBox(height: 20.0),
+              Text(
+                'Verifying email...',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
+              const SizedBox(height: 40.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.blueAccent,
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              const Center(child: CircularProgressIndicator()),
-              const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: Center(
-                  child: Text(
-                    'Verifying email....',
-                    textAlign: TextAlign.center,
+                child: Text(
+                  '               Resend Email            ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 57),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: ElevatedButton(
-                  child: const Text('Resend'),
-                  onPressed: () {
-                    FirebaseAuthHelper.sendEmailVerification(context: context);
-                  },
-                ),
+                onPressed: () {
+                  FirebaseAuthHelper.sendEmailVerification(context: context);
+                },
               ),
             ],
           ),

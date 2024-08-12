@@ -91,7 +91,7 @@ def create_graph(assistant, tools):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
-    builder.add_edge("summarize", "assistant")
+    builder.add_edge("summarize_conversation", "assistant")
     
     memory = SqliteSaver.from_conn_string(":memory:")
     return builder.compile(checkpointer=memory)

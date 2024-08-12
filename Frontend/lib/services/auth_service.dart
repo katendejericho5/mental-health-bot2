@@ -3,7 +3,6 @@ import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/models/user_model.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,9 @@ class FirebaseAuthHelper {
       await firebaseUser!.updateProfile(displayName: name);
       await firebaseUser.reload();
       firebaseUser = auth.currentUser;
+
+      // Send email verification
+      await sendEmailVerification(context: context);
 
       return AppUser(
         uid: firebaseUser!.uid,
@@ -71,8 +73,18 @@ class FirebaseAuthHelper {
       );
       firebaseUser = userCredential.user;
 
+      // Check if email is verified
+      if (!firebaseUser!.emailVerified) {
+        await sendEmailVerification(context: context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Please verify your email before signing in.')),
+        );
+        return null;
+      }
+
       return AppUser(
-        uid: firebaseUser!.uid,
+        uid: firebaseUser.uid,
         name: firebaseUser.displayName ?? '',
         email: firebaseUser.email ?? '',
       );
@@ -237,6 +249,43 @@ class FirebaseAuthHelper {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error signing in with Microsoft: $e')),
       );
+    }
+  }
+
+  // Forgot Password Method
+  static Future<void> resetPassword({
+    required String email,
+    required BuildContext context,
+  }) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password reset email sent! Check your inbox.')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+  // Send Email Verification Method
+  static Future<void> sendEmailVerification({
+    required BuildContext context,
+  }) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null && !user.emailVerified) {
+      try {
+        await user.sendEmailVerification();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Verification email sent! Check your inbox.')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
     }
   }
 }

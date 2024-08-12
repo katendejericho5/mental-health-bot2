@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState?.save();
 
       AppUser? user = await FirebaseAuthHelper.signInUsingEmailPassword(
+        context: context,
         email: _email,
         password: _password,
       );

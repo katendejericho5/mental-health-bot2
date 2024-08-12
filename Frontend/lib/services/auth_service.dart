@@ -13,6 +13,7 @@ class FirebaseAuthHelper {
     required String name,
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? firebaseUser;
@@ -36,11 +37,20 @@ class FirebaseAuthHelper {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('The password provided is too weak.')),
+        );
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('The account already exists for that email.')),
+        );
       }
     } catch (e) {
-      print(e);
+      print('An error occurred: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Oops! An error occurred. Please try again.')),
+      );
     }
 
     return null;
@@ -49,6 +59,7 @@ class FirebaseAuthHelper {
   static Future<AppUser?> signInUsingEmailPassword({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? firebaseUser;
@@ -68,9 +79,20 @@ class FirebaseAuthHelper {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No user found for that email.')),
+        );
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Wrong password provided.')),
+        );
       }
+    } catch (e) {
+      print('An error occurred: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Oops! An error occurred. Please try again.')),
+      );
     }
 
     return null;
@@ -80,14 +102,20 @@ class FirebaseAuthHelper {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).popUntil((route) => route.isFirst);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Successfully logged out.')),
+      );
     } catch (e) {
-      print('Error during logout: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during logout: $e')),
+      );
     }
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   // Sign in with Google
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
@@ -106,10 +134,10 @@ class FirebaseAuthHelper {
 
       if (gUser == null) {
         Navigator.of(context).pop(); // Close loading indicator
-        throw PlatformException(
-          code: 'sign_in_failed',
-          message: 'The user cancelled the sign-in process',
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('The user cancelled the sign-in process.')),
         );
+        return;
       }
 
       final GoogleSignInAuthentication gAuth = await gUser.authentication;
@@ -151,9 +179,8 @@ class FirebaseAuthHelper {
       }
     } catch (e) {
       Navigator.of(context).pop(); // Close loading indicator
-      throw PlatformException(
-        code: 'sign_in_failed',
-        message: e.toString(),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign in failed: $e')),
       );
     }
   }
@@ -207,7 +234,9 @@ class FirebaseAuthHelper {
       }
     } catch (e) {
       Navigator.of(context).pop(); // Close loading indicator
-      print("Error signing in with Microsoft: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error signing in with Microsoft: $e')),
+      );
     }
   }
 }

@@ -33,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       AppUser? user = await FirebaseAuthHelper.registerUsingEmailPassword(
+        context: context,
         name: _name,
         email: _email,
         password: _password,

@@ -28,6 +28,15 @@ class FirestoreService {
             .toList());
   }
 
+  Future<void> deleteMessage(String threadId, String messageId) {
+    return _db
+        .collection('threads')
+        .doc(threadId)
+        .collection('messages')
+        .doc(messageId)
+        .delete();
+  }
+
   Future<Map<String, dynamic>> fetchUserData() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final User user = _auth.currentUser!;

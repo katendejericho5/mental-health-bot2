@@ -2,7 +2,7 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
   final String therapistThreadId;
@@ -20,7 +20,7 @@ class ChatHistoryPage extends StatefulWidget {
 class _ChatHistoryPageState extends State<ChatHistoryPage> {
   late Future<List<ChatMessage>> _therapistMessagesFuture;
   late Future<List<ChatMessage>> _companionshipMessagesFuture;
-  bool _isDescending = true; // Default sorting order
+  bool _isDescending = true;
 
   @override
   void initState() {
@@ -29,8 +29,10 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
   }
 
   void _loadMessages() {
-    _therapistMessagesFuture = _fetchMessages(widget.therapistThreadId);
-    _companionshipMessagesFuture = _fetchMessages(widget.companionshipThreadId);
+    setState(() {
+      _therapistMessagesFuture = _fetchMessages(widget.therapistThreadId);
+      _companionshipMessagesFuture = _fetchMessages(widget.companionshipThreadId);
+    });
   }
 
   Future<List<ChatMessage>> _fetchMessages(String threadId) async {
@@ -54,8 +56,24 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
   void _toggleSortOrder() {
     setState(() {
       _isDescending = !_isDescending;
-      _loadMessages(); // Reload messages with new sort order
+      _loadMessages();
     });
+  }
+
+  void _deleteMessage(String threadId, String messageId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('threads')
+          .doc(threadId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+      _loadMessages(); // Reload messages after deletion
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete message: $error')),
+      );
+    }
   }
 
   String _getSenderLabel(String author) {
@@ -98,107 +116,67 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
         ),
         body: TabBarView(
           children: [
-            FutureBuilder<List<ChatMessage>>(
-              future: _therapistMessagesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No messages found.'));
-                } else {
-                  final messages = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      return ListTile(
-                        title: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(message.text),
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getSenderLabel(message.author),
-                              style: TextStyle(
-                                color: Colors.blueAccent,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4.0,
-                            ), // Space between label and timestamp
-                            Text(
-                              _formatDate(message.createdAt),
-                              style: TextStyle(color: Colors.greenAccent),
-                            ),
-                          ],
-                        ),
-                        isThreeLine: true,
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-            FutureBuilder<List<ChatMessage>>(
-              future: _companionshipMessagesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No messages found.'));
-                } else {
-                  final messages = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      return ListTile(
-                        title: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(message.text),
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getSenderLabel(message.author),
-                              style: TextStyle(
-                                color: Colors.blueAccent,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                                height:
-                                    4.0), // Space between label and timestamp
-                            Text(
-                              _formatDate(message.createdAt),
-                              style: TextStyle(color: Colors.greenAccent),
-                            ),
-                          ],
-                        ),
-                        isThreeLine: true,
-                      );
-                    },
-                  );
-                }
-              },
-            ),
+            _buildMessageList(_therapistMessagesFuture, widget.therapistThreadId),
+            _buildMessageList(_companionshipMessagesFuture, widget.companionshipThreadId),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMessageList(Future<List<ChatMessage>> messagesFuture, String threadId) {
+    return FutureBuilder<List<ChatMessage>>(
+      future: messagesFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No messages found.'));
+        } else {
+          final messages = snapshot.data!;
+          return ListView.builder(
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              final message = messages[index];
+              return ListTile(
+                title: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(message.text),
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _getSenderLabel(message.author),
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      _formatDate(message.createdAt),
+                      style: TextStyle(color: Colors.greenAccent),
+                    ),
+                  ],
+                ),
+                isThreeLine: true,
+                trailing: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    _deleteMessage(threadId, message.id);
+                  },
+                ),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

@@ -58,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SizedBox(height: 20),
-                 _buildListTile(
+            _buildListTile(
               title: 'Profile',
               onTap: () {
                 // Navigate to Privacy Settings page
@@ -90,27 +90,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSwitchListTile({
-    required String title,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      elevation: 1,
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        title: Text(title,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
-        trailing: Switch(
-          value: value,
-          onChanged: onChanged,
         ),
       ),
     );

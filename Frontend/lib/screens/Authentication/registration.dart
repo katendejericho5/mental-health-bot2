@@ -1,6 +1,5 @@
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Authentication/login.dart';
-import 'package:WellCareBot/screens/Authentication/create_profile.dart';
 import 'package:WellCareBot/screens/Authentication/verification_screen.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';

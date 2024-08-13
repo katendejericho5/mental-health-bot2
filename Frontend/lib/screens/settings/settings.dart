@@ -21,75 +21,78 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // _buildSwitchListTile(
-            //   title: 'Enable Dark Mode',
-            //   value: _darkMode,
-            //   onChanged: (bool value) {
-            //     setState(() {
-            //       _darkMode = value;
-            //       Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-            //         _darkMode ? ThemeMode.dark : ThemeMode.light,
-            //       );
-            //     });
-            //   },
-            // ),
-            // _buildSwitchListTile(
-            //   title: 'Enable Notifications',
-            //   value: _notificationsEnabled,
-            //   onChanged: (bool value) {
-            //     setState(() {
-            //       _notificationsEnabled = value;
-            //       // Handle notifications settings
-            //     });
-            //   },
-            // ),
-            _buildListTile(
-              title: 'Feedback',
-              onTap: () {
-                // Navigate to Privacy Settings page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FeedbackPage()),
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            _buildListTile(
-              title: 'Profile',
-              onTap: () {
-                // Navigate to Privacy Settings page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            _buildListTile(
-              title: 'Privacy and Policy',
-              onTap: () {
-                // Navigate to Privacy Settings page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-                );
-              },
-            ),
-            _buildListTile(
-              title: 'About',
-              onTap: () {
-                // Navigate to About page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutPage()),
-                );
-              },
-            ),
-          ],
+      body:Hero(
+      tag: 'settings',
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // _buildSwitchListTile(
+              //   title: 'Enable Dark Mode',
+              //   value: _darkMode,
+              //   onChanged: (bool value) {
+              //     setState(() {
+              //       _darkMode = value;
+              //       Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+              //         _darkMode ? ThemeMode.dark : ThemeMode.light,
+              //       );
+              //     });
+              //   },
+              // ),
+              // _buildSwitchListTile(
+              //   title: 'Enable Notifications',
+              //   value: _notificationsEnabled,
+              //   onChanged: (bool value) {
+              //     setState(() {
+              //       _notificationsEnabled = value;
+              //       // Handle notifications settings
+              //     });
+              //   },
+              // ),
+              _buildListTile(
+                title: 'Feedback',
+                onTap: () {
+                  // Navigate to Privacy Settings page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              _buildListTile(
+                title: 'Profile',
+                onTap: () {
+                  // Navigate to Privacy Settings page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              _buildListTile(
+                title: 'Privacy and Policy',
+                onTap: () {
+                  // Navigate to Privacy Settings page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                  );
+                },
+              ),
+              _buildListTile(
+                title: 'About',
+                onTap: () {
+                  // Navigate to About page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutPage()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

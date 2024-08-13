@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //   return userDoc['fullName'] ?? 'User';
   // }
-   Future<String> _fetchUserName() async {
+  Future<String> _fetchUserName() async {
     final User user = _auth.currentUser!;
     // Check if the user has a displayName (Google Sign-In)
     if (user.displayName != null && user.displayName!.isNotEmpty) {
@@ -107,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
         await _firestore.collection('users').doc(user.uid).get();
     return userDoc['fullName'] ?? 'User';
   }
-
 
   void _toggleTheme() {
     setState(() {
@@ -143,14 +142,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: _toggleTheme,
           ),
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
+          Hero(
+            tag: 'settings',
+            child: IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -291,54 +293,60 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Companion Mode Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CompanionChatBot(
-                                threadId: 'companionship_thread_id',
-                              ),
+                    Hero(
+                      tag: 'companion',
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
                             ),
-                          );
-                        },
-                        child: const Text('Companion Mode'),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CompanionChatBot(
+                                  threadId: 'companionship_thread_id',
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Companion Mode'),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20), // Spacer between buttons
                     // Therapist Mode Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TherapistChatBot(
-                                threadId: 'therapist_thread_id',
-                              ),
+                   Hero(
+                      tag: 'therapist',
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
                             ),
-                          );
-                        },
-                        child: const Text('Therapist Mode'),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TherapistChatBot(
+                                  threadId: 'therapist_thread_id',
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Therapist Mode'),
+                        ),
                       ),
                     ),
                   ],

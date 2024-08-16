@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:WellCareBot/screens/Authentication/login.dart';
-import 'package:WellCareBot/screens/homepage2.dart';
-import 'package:WellCareBot/screens/settings.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
+import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class AuthCheck extends StatelessWidget {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasData) {
           // User is logged in
-          return HomePage2(); // Navigate to home page
+          return HomePage(); // Navigate to home page
         } else {
           // User is not logged in
           return LoginScreen(); // Navigate to login page

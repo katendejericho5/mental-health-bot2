@@ -243,6 +243,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
+                      FirebaseAuthHelper().signInWithGoogle(context);
                     },
                   ),
                   SizedBox(width: 20.0),

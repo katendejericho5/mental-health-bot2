@@ -1,5 +1,7 @@
+// login_screen.dart
+
 import 'package:WellCareBot/models/user_model.dart';
-import 'package:WellCareBot/screens/homepage2.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                HomePage2(), // Replace with your target screen
+            builder: (context) => HomePage(), // Replace with your target screen
           ),
         );
       } else {
@@ -232,6 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     iconSize: 50.0,
                     onPressed: () {
                       // Handle Google login
+                      FirebaseAuthHelper().signInWithGoogle(context);
                     },
                   ),
                   SizedBox(width: 20.0),

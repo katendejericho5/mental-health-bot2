@@ -6,12 +6,24 @@ import logging
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from twilio.rest import Client
+from twilio.twiml.messaging_response import MessagingResponse
+from datetime import datetime, timedelta
+from collections import defaultdict
 
 # Ensure logging is configured
 logging.basicConfig(level=logging.INFO)
 
 # Load environment variables
 load_dotenv()
+# Twilio configuration
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+
+# Initialize Twilio client
+twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -29,18 +41,8 @@ from graph import create_graph, create_graph_companion
 from tools import create_tools
 from functions import format_event, setup_environment
 from agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
-from dotenv import load_dotenv
-from flask import Flask, request, jsonify
-import uuid
-import os
-import logging
-from flask_cors import CORS
-from datetime import datetime, timedelta
-from collections import defaultdict
-
 
 setup_environment()
-# llm = create_groq()
 llm = create_llm()
 tools = create_tools()
 therapist_assistant = create_assistant_therapist(llm, tools)
@@ -178,6 +180,46 @@ def renew_rate_limit():
     except Exception as e:
         logging.error("Error in /renew-rate-limit endpoint: %s", str(e))
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/whatsapp', methods=['POST'])
+def whatsapp():
+    try:
+        incoming_message = request.values.get('Body', '').strip()
+        from_number = request.values.get('From', '').strip()
+
+        response = MessagingResponse()
+
+        if incoming_message:
+            response_message = process_whatsapp_message(incoming_message, from_number)
+            response.message(response_message)
+        else:
+            response.message("Sorry, I didn't understand that.")
+
+        return str(response)
+    except Exception as e:
+        logging.error("Error in /whatsapp endpoint: %s", str(e))
+        return jsonify({"error": str(e)}), 500
+
+def process_whatsapp_message(message, from_number):
+    thread_id = f"whatsapp_{from_number}"
+
+    try:
+        data = {
+            'message': message,
+            'thread_id': thread_id
+        }
+
+        with app.test_request_context(json=data):
+            response = chat_companion()
+        
+        if response.status_code == 200:
+            return response.get_json().get('response', "I'm sorry, I couldn't process your request at this time.")
+        else:
+            return "I'm sorry, I couldn't process your request at this time."
+    except Exception as e:
+        logging.error(f"Error processing WhatsApp message: {str(e)}")
+        return "I'm sorry, I encountered an error. Please try again later."
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

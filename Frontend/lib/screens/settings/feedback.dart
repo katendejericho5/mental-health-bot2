@@ -1,4 +1,4 @@
-import 'package:WellCareBot/screens/homepage2.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
@@ -21,7 +21,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
       final Email email = Email(
         body: _feedbackController.text,
         subject: 'User Feedback',
-        recipients: ['katendejericho5@gmail.com'],
+        recipients: [
+          'katendejericho5@gmail.com',
+          'ssekyanzijoel0@gmail.com',
+          'baketpaulo@gmail.com',
+          'marvinrusoke@gmail.com'
+        ],
         isHTML: false,
       );
 
@@ -33,11 +38,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
         _feedbackController.clear();
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage2(),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to send feedback')),
@@ -59,6 +64,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'We value your feedback!',
@@ -72,7 +78,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             Text(
               'Please let us know how we can improve or if you have any suggestions.',
               style: TextStyle(fontSize: 16, color: Colors.grey[800]),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
             ),
             SizedBox(height: 30),
             Expanded(
@@ -86,8 +92,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         maxLines: 5,
                         decoration: InputDecoration(
                           labelText: 'Your Feedback',
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
                           hintText: 'Enter your feedback here...',
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 16.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -101,13 +113,19 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ? CircularProgressIndicator()
                           : ElevatedButton(
                               onPressed: _submitFeedback,
-                              child: Text('   Submit Feedback '),
+                              child: Text('Submit Feedback'),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 15.0),
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blueGrey[800],
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 15.0,
+                                  horizontal: 40.0,
+                                ),
                                 textStyle: TextStyle(fontSize: 18),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
+                                elevation: 5,
                               ),
                             ),
                     ],

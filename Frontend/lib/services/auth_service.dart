@@ -1,5 +1,12 @@
+import 'package:WellCareBot/screens/Authentication/create_profile.dart';
+import 'package:WellCareBot/screens/Home/homepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/models/user_model.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseAuthHelper {
   static Future<AppUser?> registerUsingEmailPassword({
@@ -69,11 +76,86 @@ class FirebaseAuthHelper {
     return null;
   }
 
-  static Future<void> logout() async {
+  static Future<void> logout(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } catch (e) {
       print('Error during logout: $e');
+    }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // Sign in with Google
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? gUser = await _googleSignIn.signIn();
+
+      if (gUser == null) {
+        throw PlatformException(
+          code: 'sign_in_failed',
+          message: 'The user cancelled the sign-in process',
+        );
+      }
+
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      User? firebaseUser = userCredential.user;
+
+      if (firebaseUser != null) {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(firebaseUser.uid).get();
+
+        if (!userDoc.exists) {
+          // Create a new user document with all available Google info
+          await _firestore.collection('users').doc(firebaseUser.uid).set({
+            'uid': firebaseUser.uid,
+            'fullName': firebaseUser.displayName,
+            'email': firebaseUser.email,
+            'profilePictureURL': firebaseUser.photoURL,
+            'phoneNumber': firebaseUser.phoneNumber,
+            'emailVerified': firebaseUser.emailVerified,
+            'creationTime':
+                firebaseUser.metadata.creationTime?.toIso8601String(),
+            'lastSignInTime':
+                firebaseUser.metadata.lastSignInTime?.toIso8601String(),
+            'providerData': firebaseUser.providerData
+                .map((userInfo) => {
+                      'providerId': userInfo.providerId,
+                      'uid': userInfo.uid,
+                      'fullName': userInfo.displayName,
+                      'email': userInfo.email,
+                      'phoneNumber': userInfo.phoneNumber,
+                      'profilePictureURL': userInfo.photoURL,
+                    })
+                .toList(),
+          });
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => CreateProfileScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        }
+      }
+    } catch (e) {
+      throw PlatformException(
+        code: 'sign_in_failed',
+        message: e.toString(),
+      );
     }
   }
 }

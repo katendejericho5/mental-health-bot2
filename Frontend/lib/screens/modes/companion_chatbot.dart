@@ -79,7 +79,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
     if (userInput.isNotEmpty) {
-      final chatMessage = ChatMessage(
+      final chatMessage = ChatMessageHistory(
         id: DateTime.now().toString(),
         threadId: widget.threadId,
         userId: _userId,
@@ -103,7 +103,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         final response = await _apiService.getChatbotResponseCompanion(
           userInput,
         );
-        final botMessage = ChatMessage(
+        final botMessage = ChatMessageHistory(
           id: DateTime.now().toString(),
           threadId: widget.threadId,
           userId: _botId,

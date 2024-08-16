@@ -1,3 +1,4 @@
+import 'package:WellCareBot/screens/groups/group_list.dart';
 import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
 import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
 import 'package:WellCareBot/screens/booking/booking.dart';
@@ -23,34 +24,104 @@ class _HomePageState extends State<HomePage> {
         HomeScreen(),
         BookingsPage(),
         SettingsPage(),
+        GroupListScreen(),
       ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages()[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Bookings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages(),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: _onItemTapped,
+              items: [
+                _buildBottomNavigationBarItem(
+                  icon: FontAwesomeIcons.house,
+                  label: 'Home',
+                  index: 0,
+                ),
+                _buildBottomNavigationBarItem(
+                  icon: FontAwesomeIcons.book,
+                  label: 'Bookings',
+                  index: 1,
+                ),
+                _buildBottomNavigationBarItem(
+                  icon: FontAwesomeIcons.cog,
+                  label: 'Settings',
+                  index: 2,
+                ),
+                _buildBottomNavigationBarItem(
+                  icon: FontAwesomeIcons.peopleGroup,
+                  label: 'Groups',
+                  index: 3,
+                ),
+              ],
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: const ColorScheme.light().surface,
+              selectedItemColor: const Color(0xFF3498DB),
+              unselectedItemColor: Colors.grey[600],
+              selectedLabelStyle: const TextStyle(
+                fontSize: 12, // Reduced font size
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 10, // Reduced font size
+                fontWeight: FontWeight.normal,
+              ),
+              elevation: 0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem({
+    required IconData icon,
+    required String label,
+    required int index,
+  }) {
+    final bool isSelected = _currentIndex == index;
+
+    return BottomNavigationBarItem(
+      icon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isSelected
+              ? Colors.lightGreenAccent.withOpacity(0.3)
+              : Colors.transparent,
+        ),
+        child: FaIcon(
+          icon,
+          size: 20,
+          color: isSelected ? const Color(0xFF27AE60) : Colors.grey[600],
+        ),
+      ),
+      label: label,
     );
   }
 }
@@ -322,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 20), // Spacer between buttons
                     // Therapist Mode Button
-                   Hero(
+                    Hero(
                       tag: 'therapist',
                       child: SizedBox(
                         width: double.infinity,

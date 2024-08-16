@@ -18,8 +18,8 @@ class ChatHistoryPage extends StatefulWidget {
 }
 
 class _ChatHistoryPageState extends State<ChatHistoryPage> {
-  late Future<List<ChatMessage>> _therapistMessagesFuture;
-  late Future<List<ChatMessage>> _companionshipMessagesFuture;
+  late Future<List<ChatMessageHistory>> _therapistMessagesFuture;
+  late Future<List<ChatMessageHistory>> _companionshipMessagesFuture;
   bool _isDescending = true;
 
   @override
@@ -31,11 +31,12 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
   void _loadMessages() {
     setState(() {
       _therapistMessagesFuture = _fetchMessages(widget.therapistThreadId);
-      _companionshipMessagesFuture = _fetchMessages(widget.companionshipThreadId);
+      _companionshipMessagesFuture =
+          _fetchMessages(widget.companionshipThreadId);
     });
   }
 
-  Future<List<ChatMessage>> _fetchMessages(String threadId) async {
+  Future<List<ChatMessageHistory>> _fetchMessages(String threadId) async {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final messagesSnapshot = await FirebaseFirestore.instance
@@ -46,7 +47,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
           .get();
 
       return messagesSnapshot.docs
-          .map((doc) => ChatMessage.fromMap(doc.data()))
+          .map((doc) => ChatMessageHistory.fromMap(doc.data()))
           .toList();
     } else {
       throw Exception('User not logged in');
@@ -116,16 +117,19 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
         ),
         body: TabBarView(
           children: [
-            _buildMessageList(_therapistMessagesFuture, widget.therapistThreadId),
-            _buildMessageList(_companionshipMessagesFuture, widget.companionshipThreadId),
+            _buildMessageList(
+                _therapistMessagesFuture, widget.therapistThreadId),
+            _buildMessageList(
+                _companionshipMessagesFuture, widget.companionshipThreadId),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMessageList(Future<List<ChatMessage>> messagesFuture, String threadId) {
-    return FutureBuilder<List<ChatMessage>>(
+  Widget _buildMessageList(
+      Future<List<ChatMessageHistory>> messagesFuture, String threadId) {
+    return FutureBuilder<List<ChatMessageHistory>>(
       future: messagesFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

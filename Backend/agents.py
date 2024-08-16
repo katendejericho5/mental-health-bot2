@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, RemoveMessage
+import requests
 
 
 def filter_messages(messages: list):
@@ -43,6 +44,39 @@ class Assistant:
 def create_llm():
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     return ChatOpenAI(model="gpt-4o-mini", streaming=True, api_key=OPENAI_API_KEY)
+
+def create_llm2():
+    API_KEY = os.getenv('API_KEY')  # Store the API key in an environment variable
+    base_url = 'https://api.afro.fit/api_v2/api_wrapper/chat/completions'
+
+    def generate_content(model, messages, max_token=None, temperature=None, response_format='text/plain', function=None, user_id=None):
+        headers = {
+            'Content-Type': 'application/json',
+            'api_token': API_KEY  # Use the stored API key from the environment
+        }
+        payload = {
+            'model': model,
+            'messages': messages,
+            'response_format': response_format
+        }
+        if max_token is not None:
+            payload['max_token'] = max_token
+        if temperature is not None:
+            payload['temperature'] = temperature
+        if function is not None:
+            payload['function'] = function
+        if user_id is not None:
+            payload['user_id'] = user_id
+
+        try:
+            response = requests.post(base_url, json=payload, headers=headers)
+            response.raise_for_status()  # Raises an exception for HTTP errors
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            return None
+
+    return generate_content
 
 def create_groq():
     return ChatGroq(

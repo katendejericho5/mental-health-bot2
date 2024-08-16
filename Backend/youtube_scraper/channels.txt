@@ -14,18 +14,18 @@ https://www.youtube.com/c/TEDEducation
 https://www.youtube.com/user/who
 https://www.youtube.com/@NIMHgov
 https://www.youtube.com/c/MedCircle
-
-
-
 https://www.youtube.com/user/mentalhealthamerica
-https://www.youtube.com/user/mindwebteam
 https://www.youtube.com/c/TherapyinaNutshell
+
+
+/home/jericho/Documents/GitHub/deeplearning/projects/mental-health-bot/Backend/youtube_scraper/YT_TRANSCRIPTS/theschooloflifetv
+https://www.youtube.com/user/mindwebteam
 https://www.youtube.com/user/CDCStreamingHealth
 
+/home/jericho/Documents/GitHub/deeplearning/projects/mental-health-bot/Backend/youtube_scraper/YT_TRANSCRIPTS/jayshettypodcast
 
 
-
-
+/home/jericho/Documents/GitHub/deeplearning/projects/mental-health-bot/Backend/youtube_scraper/YT_TRANSCRIPTS/KatiMorton
 
 
 

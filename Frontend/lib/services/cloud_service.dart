@@ -116,4 +116,48 @@ class FirestoreService {
         .collection('messages')
         .add(message.toMap());
   }
+
+  Future<bool> deleteGroupMessage(String groupId, String messageId) async {
+    print("Attempting to delete message: $messageId from group: $groupId");
+    try {
+      // Delete the message document
+      await _db
+          .collection('groups')
+          .doc(groupId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+
+      // Update the lastMessage field if the deleted message was the last one
+      final querySnapshot = await _db
+          .collection('groups')
+          .doc(groupId)
+          .collection('messages')
+          .orderBy('createdAt', descending: true)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final lastMessage = querySnapshot.docs.first;
+        await _db.collection('groups').doc(groupId).update({
+          'lastMessage': {
+            'content': lastMessage['content'],
+            'senderId': lastMessage['senderId'],
+            'timestamp': lastMessage['createdAt'],
+          }
+        });
+      } else {
+        // If there are no messages left, clear the lastMessage field
+        await _db.collection('groups').doc(groupId).update({
+          'lastMessage': FieldValue.delete(),
+        });
+      }
+
+      print("Message deleted successfully");
+      return true;
+    } catch (e) {
+      print("Error deleting message: $e");
+      return false;
+    }
+  }
 }

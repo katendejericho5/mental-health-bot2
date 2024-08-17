@@ -13,41 +13,39 @@ class GroupListScreen extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('My Groups'),
+        title: Text('My Groups', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: StreamBuilder<List<Group>>(
-          stream: _firestoreService.getUserGroups(currentUser!.uid),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
+      body: StreamBuilder<List<Group>>(
+        stream: _firestoreService.getUserGroups(currentUser!.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return _buildEmptyState(context);
-            }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return _buildEmptyState(context);
+          }
 
-            final groups = snapshot.data!;
+          final groups = snapshot.data!;
 
-            return ListView.builder(
-              itemCount: groups.length,
-              itemBuilder: (context, index) {
-                final group = groups[index];
-                return _buildGroupCard(context, group);
-              },
-            );
-          },
-        ),
+          return ListView.builder(
+            padding: EdgeInsets.all(16),
+            itemCount: groups.length,
+            itemBuilder: (context, index) {
+              final group = groups[index];
+              return _buildGroupCard(context, group);
+            },
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        label: Text('Create Group'),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,
@@ -59,12 +57,26 @@ class GroupListScreen extends StatelessWidget {
     );
   }
 
-  // Builds the group card with group name only (no count and image)
   Widget _buildGroupCard(BuildContext context, Group group) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       margin: EdgeInsets.only(bottom: 16),
-      child: InkWell(
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        leading: CircleAvatar(
+          backgroundColor: Colors.blueAccent,
+          child: Text(
+            group.name[0].toUpperCase(),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        title: Text(
+          group.name,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        subtitle: Text('Tap to join the conversation'),
+        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
         onTap: () {
           Navigator.push(
             context,
@@ -73,55 +85,46 @@ class GroupListScreen extends StatelessWidget {
             ),
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  group.name,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              Icon(Icons.arrow_forward_ios, color: Colors.grey),
-            ],
-          ),
-        ),
       ),
     );
   }
 
-  // Builds the empty state when no groups are found
   Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.group, size: 100, color: Colors.grey[400]),
+          Icon(Icons.group_off, size: 100, color: Colors.grey[400]),
           SizedBox(height: 16),
           Text(
-            'No groups found',
-            style: Theme.of(context).textTheme.titleLarge,
+            'No groups yet',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
-          Text(
-            'Join or create a group to start chatting.',
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              'Create a group or join one to start connecting with others.',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              textAlign: TextAlign.center,
+            ),
           ),
-          SizedBox(height: 16),
-          ElevatedButton(
+          SizedBox(height: 24),
+          ElevatedButton.icon(
+            icon: Icon(Icons.add),
+            label: Text('Create New Group'),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => CreateGroupScreen()),
               );
             },
-            child: Text('Create Group'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(30),
               ),
             ),
           ),

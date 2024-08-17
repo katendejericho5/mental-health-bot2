@@ -59,17 +59,21 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   }
 
   void _loadMessages() {
-    _firestoreService.getGroupMessages(widget.group.id).listen((messages) {
-      setState(() {
-        _messages.clear();
-        _messages.addAll(messages.map((message) => types.TextMessage(
-              author: types.User(id: message.senderId),
-              createdAt: message.createdAt.millisecondsSinceEpoch,
-              id: message.id,
-              text: message.content,
-            )));
-      });
-    });
+    _firestoreService.getGroupMessages(widget.group.id).listen(
+      (messages) {
+        setState(
+          () {
+            _messages.clear();
+            _messages.addAll(messages.map((message) => types.TextMessage(
+                  author: types.User(id: message.senderId),
+                  createdAt: message.createdAt.millisecondsSinceEpoch,
+                  id: message.id,
+                  text: message.content,
+                )));
+          },
+        );
+      },
+    );
   }
 
   void _listenToTypingStatus() {
@@ -110,6 +114,41 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
         .set({'isTyping': isTyping}, SetOptions(merge: true));
   }
 
+  void _handleMessageLongPress(BuildContext context, types.Message message) {
+    if (message.author.id == _userId) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Delete Message'),
+          content: Text('Are you sure you want to delete this message?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context); // Close the dialog first
+                bool success = await _firestoreService.deleteGroupMessage(
+                    widget.group.id, message.id);
+                if (success) {
+                  print("Message deletion successful");
+                  // No need to manually update _messages, the stream will handle it
+                } else {
+                  print("Message deletion failed");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to delete message')),
+                  );
+                }
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -130,7 +169,6 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
         children: [
           SizedBox(height: 10),
           Expanded(
-
             child: Chat(
               messages: _messages,
               onSendPressed: _handleSendPressed,
@@ -142,6 +180,8 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
               // },
               scrollPhysics: const BouncingScrollPhysics(),
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              onMessageLongPress: _handleMessageLongPress,
+
               theme: DefaultChatTheme(
                 backgroundColor: backgroundColor,
                 inputTextCursorColor: theme.colorScheme.primary,

@@ -1,7 +1,7 @@
 import 'package:WellCareBot/screens/groups/group_list.dart';
 import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
 import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
-import 'package:WellCareBot/screens/booking/booking.dart';
+import 'package:WellCareBot/screens/booking/booking_chat.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _pages() => [
         HomeScreen(),
         BookingsPage(),
-        SettingsPage(),
         GroupListScreen(),
+        SettingsPage(),
       ];
   void _onItemTapped(int index) {
     setState(() {
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         children: _pages(),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+        padding: const EdgeInsets.only(bottom: 6, left: 10, right: 10),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -72,18 +72,17 @@ class _HomePageState extends State<HomePage> {
                   index: 1,
                 ),
                 _buildBottomNavigationBarItem(
-                  icon: FontAwesomeIcons.cog,
-                  label: 'Settings',
+                  icon: FontAwesomeIcons.peopleGroup,
+                  label: 'Groups',
                   index: 2,
                 ),
                 _buildBottomNavigationBarItem(
-                  icon: FontAwesomeIcons.peopleGroup,
-                  label: 'Groups',
+                  icon: FontAwesomeIcons.cog,
+                  label: 'Settings',
                   index: 3,
                 ),
               ],
               type: BottomNavigationBarType.fixed,
-              backgroundColor: const ColorScheme.light().surface,
               selectedItemColor: const Color(0xFF3498DB),
               unselectedItemColor: Colors.grey[600],
               selectedLabelStyle: const TextStyle(

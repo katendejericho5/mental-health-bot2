@@ -1,26 +1,51 @@
 {
   "project_info": {
-    "project_number": "665593628324",
-    "project_id": "mentalhealth-bf2be",
-    "storage_bucket": "mentalhealth-bf2be.appspot.com"
+    "project_number": "255154726162",
+    "project_id": "wellcarebot-71cca",
+    "storage_bucket": "wellcarebot-71cca.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:665593628324:android:db9bfbc88e970239e54831",
+        "mobilesdk_app_id": "1:255154726162:android:848e5bd49c06ba1245ffcb",
         "android_client_info": {
-          "package_name": "com.example.mentalheath"
+          "package_name": "com.example.mentalhealth"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "255154726162-15msensaf33nap91iel8g576ti5arb6v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentalhealth",
+            "certificate_hash": "e9b46eae1ac8f9a410be272025a12a9deef8cb63"
+          }
+        },
+        {
+          "client_id": "255154726162-721gtai277efoj273093vil2b8i5rmrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDIwXi7SkE9vqhETjy-tZqP9RvCr1WHXe8"
+          "current_key": "AIzaSyCI-RKncZnhXIzHKnOKbW54o0FZlI_2OKM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255154726162-721gtai277efoj273093vil2b8i5rmrt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "255154726162-qjdog45b7tkl5ar1s8tlkad300ohdq66.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mentalhealth"
+              }
+            }
+          ]
         }
       }
     }

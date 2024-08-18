@@ -106,7 +106,7 @@ def create_assistant_therapist(llm, tools):
             
             - Retrieve information from the `retrieve_db` tool for mental health information or therapeutic techniques. Integrate this information seamlessly into your responses without explicitly mentioning tool usage. Ensure the information is relevant and accurate.
             
-            - When presenting information, include the source reference at the end of your message in this format: (source: www.example.com).
+            - When presenting information, include the source reference at the end of your message  ( source: www.example.com or the  youtube link )
             
             - Remember not to disclose any internal details about the tools used unless the user requests such information explicitly.
             

@@ -19,7 +19,7 @@ typing-extensions
 langgraph
 
 # Logging
-logging
+# logging
 
 # Search tool
 langchain-community

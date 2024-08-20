@@ -43,7 +43,7 @@ class Assistant:
 
 def create_llm():
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-    return ChatOpenAI(model="gpt-4o-mini", streaming=True, api_key=OPENAI_API_KEY)
+    return ChatOpenAI(model="gpt-4o-2024-05-13", streaming=True, api_key=OPENAI_API_KEY)
 
 def create_llm2():
     API_KEY = os.getenv('API_KEY')  # Store the API key in an environment variable

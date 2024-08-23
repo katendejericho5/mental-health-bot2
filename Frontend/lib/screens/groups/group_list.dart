@@ -18,7 +18,8 @@ class GroupListScreen extends StatelessWidget {
         title: Text('My Groups', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.transparent,),
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           // Background SVG

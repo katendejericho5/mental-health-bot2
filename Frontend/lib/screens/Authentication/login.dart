@@ -2,7 +2,6 @@
 
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
-import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -193,8 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          // TODO need to reset this 
-                          builder: (context) => IntroductionPage(),
+                          builder: (context) => RegisterScreen(),
                         ),
                       );
                     },

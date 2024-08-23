@@ -1,5 +1,6 @@
 # WellCareBot: Mental Health Chatbot
-![Blue Grey Modern Phone Photo Collage (1)](https://github.com/user-attachments/assets/4c70b073-c1a5-4833-aa55-1840a3fe6ebb)
+
+![Blue Grey Modern Phone Photo Collage (2)](https://github.com/user-attachments/assets/9a2bc2db-3dc7-47bc-9ee5-820e985a6fb7)
 
 
 This project implements a mental health chatbot using advanced language models and various tools to provide empathetic, professional, and evidence-based support to users seeking help with their mental health and emotional well-being.

@@ -3,6 +3,7 @@ import 'package:WellCareBot/screens/settings/feedback.dart';
 import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
@@ -21,79 +22,108 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Settings'),
       ),
-      body:Hero(
-      tag: 'settings',
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // _buildSwitchListTile(
-              //   title: 'Enable Dark Mode',
-              //   value: _darkMode,
-              //   onChanged: (bool value) {
-              //     setState(() {
-              //       _darkMode = value;
-              //       Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
-              //         _darkMode ? ThemeMode.dark : ThemeMode.light,
-              //       );
-              //     });
-              //   },
-              // ),
-              // _buildSwitchListTile(
-              //   title: 'Enable Notifications',
-              //   value: _notificationsEnabled,
-              //   onChanged: (bool value) {
-              //     setState(() {
-              //       _notificationsEnabled = value;
-              //       // Handle notifications settings
-              //     });
-              //   },
-              // ),
-              _buildListTile(
-                title: 'Feedback',
-                onTap: () {
-                  // Navigate to Privacy Settings page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FeedbackPage()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              _buildListTile(
-                title: 'Profile',
-                onTap: () {
-                  // Navigate to Privacy Settings page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              _buildListTile(
-                title: 'Privacy and Policy',
-                onTap: () {
-                  // Navigate to Privacy Settings page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-                  );
-                },
-              ),
-              _buildListTile(
-                title: 'About',
-                onTap: () {
-                  // Navigate to About page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AboutPage()),
-                  );
-                },
-              ),
-            ],
+      body: Stack(
+        children: [
+          // First full-screen SVG Background
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_chat_re_re1u.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
           ),
-        ),
+          // Second SVG as a design element or additional background
+          Positioned(
+            top: 20,
+            left: 20,
+            width: 80,
+            height: 80,
+            child: SvgPicture.asset(
+              'assets/undraw_mindfulness_8gqa.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),
+          Hero(
+            tag: 'settings',
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // _buildSwitchListTile(
+                  //   title: 'Enable Dark Mode',
+                  //   value: _darkMode,
+                  //   onChanged: (bool value) {
+                  //     setState(() {
+                  //       _darkMode = value;
+                  //       Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(
+                  //         _darkMode ? ThemeMode.dark : ThemeMode.light,
+                  //       );
+                  //     });
+                  //   },
+                  // ),
+                  // _buildSwitchListTile(
+                  //   title: 'Enable Notifications',
+                  //   value: _notificationsEnabled,
+                  //   onChanged: (bool value) {
+                  //     setState(() {
+                  //       _notificationsEnabled = value;
+                  //       // Handle notifications settings
+                  //     });
+                  //   },
+                  // ),
+                  _buildListTile(
+                    title: 'Feedback',
+                    onTap: () {
+                      // Navigate to Privacy Settings page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FeedbackPage()),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  _buildListTile(
+                    title: 'Profile',
+                    onTap: () {
+                      // Navigate to Privacy Settings page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  _buildListTile(
+                    title: 'Privacy and Policy',
+                    onTap: () {
+                      // Navigate to Privacy Settings page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PrivacyPolicy()),
+                      );
+                    },
+                  ),
+                  _buildListTile(
+                    title: 'About',
+                    onTap: () {
+                      // Navigate to About page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AboutPage()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

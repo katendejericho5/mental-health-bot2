@@ -7,6 +7,7 @@ import 'package:WellCareBot/models/chat_model.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GroupChatScreen extends StatefulWidget {
   final Group group;
@@ -165,64 +166,89 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 10),
-          Expanded(
-            child: Chat(
-              messages: _messages,
-              onSendPressed: _handleSendPressed,
-              user: types.User(id: _userId),
-              showUserAvatars: true,
-              showUserNames: true,
-              // onMessageVisibilityChanged: (text) {
-              //   _updateTypingStatus(text.isNotEmpty);
-              // },
-              scrollPhysics: const BouncingScrollPhysics(),
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              onMessageLongPress: _handleMessageLongPress,
-
-              theme: DefaultChatTheme(
-                backgroundColor: backgroundColor,
-                inputTextCursorColor: theme.colorScheme.primary,
-                inputSurfaceTintColor: theme.colorScheme.surfaceTint,
-                inputBackgroundColor: theme.colorScheme.surface,
-                inputTextColor: theme.colorScheme.onSurface,
-                sendButtonIcon:
-                    Icon(Icons.send, color: theme.colorScheme.primary),
-                inputMargin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                inputTextStyle: TextStyle(
-                  color: theme.colorScheme.onSurface,
-                ),
-                inputBorderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(10),
-                  right: Radius.circular(10),
-                ),
-                inputContainerDecoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  border:
-                      Border.all(color: theme.colorScheme.outline, width: 1.0),
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(30),
-                    right: Radius.circular(30),
-                  ),
-                ),
-                primaryColor: theme.colorScheme.primary,
-              ),
+          // Background SVG
+          // Background SVG
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_chat_re_re1u.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
             ),
           ),
-          if (_typingUsers.values.any((isTyping) => isTyping))
-            Container(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                '${_typingUsers.entries.where((entry) => entry.value).map((entry) => entry.key).join(", ")} is typing...',
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+          // Second SVG as a design element or additional background
+          Positioned(
+            top: 20,
+            left: 20,
+            width: 80,
+            height: 80,
+            child: SvgPicture.asset(
+              'assets/undraw_mindfulness_8gqa.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),
+          Column(
+            children: [
+              SizedBox(height: 10),
+              Expanded(
+                child: Chat(
+                  messages: _messages,
+                  onSendPressed: _handleSendPressed,
+                  user: types.User(id: _userId),
+                  showUserAvatars: true,
+                  showUserNames: true,
+                  scrollPhysics: const BouncingScrollPhysics(),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  onMessageLongPress: _handleMessageLongPress,
+                  theme: DefaultChatTheme(
+                    backgroundColor: backgroundColor,
+                    inputTextCursorColor: theme.colorScheme.primary,
+                    inputSurfaceTintColor: theme.colorScheme.surfaceTint,
+                    inputBackgroundColor: theme.colorScheme.surface,
+                    inputTextColor: theme.colorScheme.onSurface,
+                    sendButtonIcon:
+                        Icon(Icons.send, color: theme.colorScheme.primary),
+                    inputMargin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    inputTextStyle:
+                        TextStyle(color: theme.colorScheme.onSurface),
+                    inputBorderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(10),
+                      right: Radius.circular(10),
+                    ),
+                    inputContainerDecoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      border: Border.all(
+                          color: theme.colorScheme.outline, width: 1.0),
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(30),
+                        right: Radius.circular(30),
+                      ),
+                    ),
+                    primaryColor: theme.colorScheme.primary,
+                  ),
                 ),
               ),
-            ),
+              if (_typingUsers.values.any((isTyping) => isTyping))
+                Container(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    '${_typingUsers.entries.where((entry) => entry.value).map((entry) => entry.key).join(", ")} is typing...',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ],
       ),
     );

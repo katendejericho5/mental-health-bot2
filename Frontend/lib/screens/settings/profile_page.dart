@@ -3,6 +3,7 @@ import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'settings.dart';
 import 'history.dart';
@@ -50,35 +51,62 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: _fetchUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Display a loading indicator and default profile data
-            return _buildProfileContent(
-              profilePictureURL: '',
-              fullName: 'Loading...',
-              email: 'Loading...',
-              isLoading: true,
-            );
-          } else if (snapshot.hasError || !snapshot.hasData) {
-            // Display error message and default profile data
-            return _buildProfileContent(
-              profilePictureURL: '',
-              fullName: 'Error loading data',
-              email: 'Please try again later',
-              isLoading: false,
-            );
-          } else {
-            final data = snapshot.data!;
-            return _buildProfileContent(
-              profilePictureURL: data['profilePictureURL'] ?? '',
-              fullName: data['fullName'] ?? 'No Name',
-              email: data['email'] ?? 'No Email',
-              isLoading: false,
-            );
-          }
-        },
+      body: Stack(
+        children: [
+          // First full-screen SVG Background
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_chat_re_re1u.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),
+          // Second SVG as a design element or additional background
+          Positioned(
+            top: 20,
+            left: 20,
+            width: 80,
+            height: 80,
+            child: SvgPicture.asset(
+              'assets/undraw_mindfulness_8gqa.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),          FutureBuilder<Map<String, dynamic>>(
+            future: _fetchUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Display a loading indicator and default profile data
+                return _buildProfileContent(
+                  profilePictureURL: '',
+                  fullName: 'Loading...',
+                  email: 'Loading...',
+                  isLoading: true,
+                );
+              } else if (snapshot.hasError || !snapshot.hasData) {
+                // Display error message and default profile data
+                return _buildProfileContent(
+                  profilePictureURL: '',
+                  fullName: 'Error loading data',
+                  email: 'Please try again later',
+                  isLoading: false,
+                );
+              } else {
+                final data = snapshot.data!;
+                return _buildProfileContent(
+                  profilePictureURL: data['profilePictureURL'] ?? '',
+                  fullName: data['fullName'] ?? 'No Name',
+                  email: data['email'] ?? 'No Email',
+                  isLoading: false,
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

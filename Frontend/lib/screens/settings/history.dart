@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
@@ -115,12 +116,40 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            _buildMessageList(
-                _therapistMessagesFuture, widget.therapistThreadId),
-            _buildMessageList(
-                _companionshipMessagesFuture, widget.companionshipThreadId),
+        body: Stack(
+        children: [
+          // First full-screen SVG Background
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_chat_re_re1u.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),
+          // Second SVG as a design element or additional background
+          Positioned(
+            top: 20,
+            left: 20,
+            width: 80,
+            height: 80,
+            child: SvgPicture.asset(
+              'assets/undraw_mindfulness_8gqa.svg',
+              fit: BoxFit.contain,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.2),
+            ),
+          ),
+            TabBarView(
+              children: [
+                _buildMessageList(
+                    _therapistMessagesFuture, widget.therapistThreadId),
+                _buildMessageList(
+                    _companionshipMessagesFuture, widget.companionshipThreadId),
+              ],
+            ),
           ],
         ),
       ),

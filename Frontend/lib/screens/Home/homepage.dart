@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,13 +35,43 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages(),
+      body: Stack(
+        children: [
+          // Full-screen SVG Background
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_connection_re_lcud.svg',
+              fit: BoxFit.cover,
+              color: isDarkMode
+                  ? Colors.white.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.1),
+            ),
+          ),
+          // Second SVG Background positioned at the bottom right
+          Positioned(
+            bottom: 20,
+            right: 20,
+            width: 100,
+            height: 100,
+            child: SvgPicture.asset(
+              'assets/undraw_connection_re_lcud.svg',
+              fit: BoxFit.contain,
+              // color: isDarkMode
+              //     ? Colors.white.withOpacity(0.2)
+              //     : Colors.black.withOpacity(0.2),
+            ),
+          ),
+          IndexedStack(
+            index: _currentIndex,
+            children: _pages(),
+          ),
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 6, left: 10, right: 10),
@@ -86,11 +117,11 @@ class _HomePageState extends State<HomePage> {
               selectedItemColor: const Color(0xFF3498DB),
               unselectedItemColor: Colors.grey[600],
               selectedLabelStyle: const TextStyle(
-                fontSize: 12, // Reduced font size
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               unselectedLabelStyle: const TextStyle(
-                fontSize: 10, // Reduced font size
+                fontSize: 10,
                 fontWeight: FontWeight.normal,
               ),
               elevation: 0,
@@ -161,21 +192,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Future<String> _fetchUserName() async {
-  //   final User user = _auth.currentUser!;
-  //   DocumentSnapshot userDoc =
-  //       await _firestore.collection('users').doc(user.uid).get();
-
-  //   return userDoc['fullName'] ?? 'User';
-  // }
   Future<String> _fetchUserName() async {
     final User user = _auth.currentUser!;
-    // Check if the user has a displayName (Google Sign-In)
     if (user.displayName != null && user.displayName!.isNotEmpty) {
       return user.displayName!;
     }
 
-    // Fallback to Firestore data for email/password sign-in
     DocumentSnapshot userDoc =
         await _firestore.collection('users').doc(user.uid).get();
     return userDoc['fullName'] ?? 'User';
@@ -192,6 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -229,156 +253,70 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FutureBuilder<String>(
-                future: _fetchUserName(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      children: [
-                        Text(
-                          'WellCareBot',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: Colors.blueGrey[800],
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.asset(
-                              'assets/relaxation-7282116_1280.jpg',
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: Text(
-                            'Hello there',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ); // Placeholder while loading
-                  } else if (snapshot.hasError) {
-                    return Column(
-                      children: [
-                        Text(
-                          'WellCareBot',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: Colors.blueGrey[800],
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.asset(
-                              'assets/relaxation-7282116_1280.jpg',
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: Text(
-                            'Hello there',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'WellCareBot',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 32,
-                              color: Colors.blueGrey[800],
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.asset(
-                                'assets/relaxation-7282116_1280.jpg',
-                                height: 150,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Center(
-                            child: Text(
-                              'Hello, ${snapshot.data}',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                },
+      body: Stack(
+        children: [
+          // Full-screen SVG Background
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/undraw_chat_re_re1u.svg',
+              fit: BoxFit.contain,
+              color: isDarkMode
+                  ? Colors.white.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.1),
+            ),
+          ),
+          // Second SVG Background positioned at the top left
+          Positioned(
+            top: 20,
+            left: 20,
+            width: 80,
+            height: 80,
+            child: SvgPicture.asset(
+              'assets/undraw_mindfulness_8gqa.svg',
+              fit: BoxFit.contain,
+              color: isDarkMode
+                  ? Colors.white.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.1),
               ),
-              Center(
-                child: Text(
-                  'Start a conversation with WellCareBot right now!',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[600],
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FutureBuilder<String>(
+                    future: _fetchUserName(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return _buildWelcomeSection('Hello there');
+                      } else if (snapshot.hasError) {
+                        return _buildWelcomeSection('Hello there');
+                      } else {
+                        return _buildWelcomeSection('Hello, ${snapshot.data}');
+                      }
+                    },
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Companion Mode Button
-                    Hero(
-                      tag: 'companion',
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                          ),
+                  Center(
+                    child: Text(
+                      'Start a conversation with WellCareBot right now!',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[600],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildModeButton(
+                          tag: 'companion',
+                          color: Colors.green,
+                          text: 'Companion Mode',
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -389,25 +327,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           },
-                          child: const Text('Companion Mode'),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 20), // Spacer between buttons
-                    // Therapist Mode Button
-                    Hero(
-                      tag: 'therapist',
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                          ),
+                        const SizedBox(height: 20),
+                        _buildModeButton(
+                          tag: 'therapist',
+                          color: Colors.blue,
+                          text: 'Therapist Mode',
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -418,15 +343,80 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           },
-                          child: const Text('Therapist Mode'),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWelcomeSection(String greeting) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        children: [
+          Text(
+            'WellCareBot',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32,
+              color: Colors.blueGrey[800],
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+            ),
+          ),
+          SizedBox(height: 20),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                'assets/relaxation-7282116_1280.jpg',
+                height: 150,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Center(
+            child: Text(
+              greeting,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildModeButton({
+    required String tag,
+    required Color color,
+    required String text,
+    required VoidCallback onPressed,
+  }) {
+    return Hero(
+      tag: tag,
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(text),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class IntroductionPage extends StatelessWidget {
   IntroductionPage({Key? key}) : super(key: key);
@@ -11,8 +12,7 @@ class IntroductionPage extends StatelessWidget {
       title: "Dual-Mode AI Interaction",
       body:
           "Seamlessly switch between companion and therapist modes. Our AI adapts to your emotional state and needs.",
-      image: _buildRoundedImage(
-          'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'),
+      image: _buildLottieAnimation('assets/conversation2.json'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.poppins(
             fontSize: 28.0,
@@ -34,8 +34,7 @@ class IntroductionPage extends StatelessWidget {
       title: "Cutting-Edge Conversations",
       body:
           "Experience mind-blowing chats powered by the latest AI tech. It's like texting the future!",
-      image: _buildRoundedImage(
-          'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'),
+      image: _buildLottieAnimation('assets/conversation.json'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.poppins(
             fontSize: 28.0,
@@ -57,8 +56,7 @@ class IntroductionPage extends StatelessWidget {
       title: "Evidence-Based Approach",
       body:
           "Access clinically-informed strategies based on up-to-date mental health research.",
-      image: _buildRoundedImage(
-          'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80'),
+      image: _buildLottieAnimation('assets/knowledge_based.json'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.poppins(
             fontSize: 28.0,
@@ -80,8 +78,7 @@ class IntroductionPage extends StatelessWidget {
       title: "Comprehensive Ecosystem",
       body:
           "Track your mood, and book physical therapist appointments all in one place.",
-      image: _buildRoundedImage(
-          'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'),
+      image: _buildLottieAnimation('assets/doctor.json'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.poppins(
             fontSize: 28.0,
@@ -103,8 +100,7 @@ class IntroductionPage extends StatelessWidget {
       title: "Accessible & Affordable",
       body:
           "Get 24/7 on-demand support with flexible pricing options, including a free tier.",
-      image: _buildRoundedImage(
-          'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'),
+      image: _buildLottieAnimation('assets/acessible.json'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.poppins(
             fontSize: 28.0,
@@ -123,28 +119,15 @@ class IntroductionPage extends StatelessWidget {
       ),
     ),
   ];
-  static Widget _buildRoundedImage(String imagePath) {
+
+  static Widget _buildLottieAnimation(String path) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: Image.network(
-          imagePath,
-          width: 350,
-          height: 350,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
-        ),
+      child: Lottie.asset(
+        path,
+        width: 350,
+        height: 350,
+        fit: BoxFit.cover,
       ),
     );
   }

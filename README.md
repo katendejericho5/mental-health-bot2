@@ -1,9 +1,6 @@
-#![Screenshot_20240824-020757-left](https://github.com/user-attachments/assets/28dc21ed-184c-4afb-8f32-55be4e7c661f)
-![Screenshot_20240824-020803-portrait](https://github.com/user-attachments/assets/f3ea7592-041b-49e3-8ed4-4ccebd375867)
-![Screenshot_20240824-020806-portrait](https://github.com/user-attachments/assets/e62644ad-d9c4-48e0-859b-2c567947271b)
-![Screenshot_20240824-020810-left](https://github.com/user-attachments/assets/4a38662d-71d9-4620-bf25-29bb5274a8b1)
+# WellCareBot: Mental Health Chatbot
+![Blue Grey Modern Phone Photo Collage (1)](https://github.com/user-attachments/assets/4c70b073-c1a5-4833-aa55-1840a3fe6ebb)
 
- WellCareBot: Mental Health Chatbot
 
 This project implements a mental health chatbot using advanced language models and various tools to provide empathetic, professional, and evidence-based support to users seeking help with their mental health and emotional well-being.
 

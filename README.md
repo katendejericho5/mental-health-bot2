@@ -16,7 +16,8 @@ This project implements a mental health chatbot using advanced language models a
 8. [Project Structure](#project-structure)
 9. [Configuration](#configuration)
 10. [API Endpoints](#api-endpoints)
-11. [Contributing](#contributing)
+11. [Technologies used](#Technologies-used)
+12. [Contributing](#contributing)
 
 ## Project Overview
 

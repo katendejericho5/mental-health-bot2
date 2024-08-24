@@ -1,8 +1,6 @@
 # WellCareBot: Mental Health Chatbot
 
-![IMG-20240721-WA0007](https://github.com/user-attachments/assets/15ea0048-5ceb-4a61-afff-3429a0a90e7f)
-![IMG-20240721-WA0008](https://github.com/user-attachments/assets/03798479-6347-4af5-a8e7-6964b423223a)
-
+![Blue Grey Modern Phone Photo Collage (2)](https://github.com/user-attachments/assets/9a2bc2db-3dc7-47bc-9ee5-820e985a6fb7)
 
 This project implements a mental health chatbot using advanced language models and various tools to provide empathetic, professional, and evidence-based support to users seeking help with their mental health and emotional well-being.
 
@@ -33,6 +31,7 @@ The WellCareBot is designed to act as a virtual psychotherapist, utilizing a com
 - Persistence of conversation threads
 - Streaming responses for a more dynamic user experience
 - Flutter-based mobile application for user interaction
+- Integration with Twilio for WhatsApp communication
 
 ## Prerequisites
 
@@ -42,6 +41,7 @@ The WellCareBot is designed to act as a virtual psychotherapist, utilizing a com
 - Tavily API key
 - Pinecone API key
 - Groq API key (if using Groq models)
+- Twilio Account SID, Auth Token, and Phone Number
 
 ### Frontend
 - Flutter SDK
@@ -69,6 +69,9 @@ The WellCareBot is designed to act as a virtual psychotherapist, utilizing a com
    TAVILY_API_KEY=your_tavily_api_key
    PINECONE_API_KEY=your_pinecone_api_key
    GROQ_API_KEY=your_groq_api_key
+   TWILIO_PHONE_NUMBER=your_twilio_phone_number
+   TWILIO_ACCOUNT_SID=your_twilio_account_sid
+   TWILIO_AUTH_TOKEN=your_twilio_auth_token
    ```
 
 4. To start the Flask server, run:
@@ -93,14 +96,13 @@ The server will start on `http://localhost:5000` by default.
    flutter pub get
    ```
 
-
-
 4. Run the application on an emulator or connected device:
    ```bash
    flutter run
    ```
-5. Link to the apk via google drive
- ```bash   
+
+5. Link to the APK via Google Drive:
+   ```bash
    https://drive.google.com/drive/folders/1M1rfdRwTkqWhKcJbs5asiiVXlEfZZZ3o?usp=sharing
    ```
 
@@ -124,7 +126,7 @@ flutter run
 ## Project Structure
 
 ### Backend
-- `backend/app.py`: Main Flask application
+- `backend/main.py`: Main Flask application with routes and logic
 - `backend/graph.py`: Defines the conversation flow graph
 - `backend/tools.py`: Implements specialized tools for information retrieval
 - `backend/functions.py`: Utility functions for environment setup and message formatting
@@ -146,6 +148,9 @@ Ensure you have set up the following in your `.env` file:
 - `TAVILY_API_KEY`: Your Tavily API key for web searches
 - `PINECONE_API_KEY`: Your Pinecone API key for vector storage
 - `GROQ_API_KEY`: Your Groq API key (if using Groq models)
+- `TWILIO_PHONE_NUMBER`: Your Twilio phone number
+- `TWILIO_ACCOUNT_SID`: Your Twilio Account SID
+- `TWILIO_AUTH_TOKEN`: Your Twilio Auth Token
 
 ### Frontend
 
@@ -154,13 +159,26 @@ Ensure you have set up the following in your `.env` file:
 
 ## API Endpoints
 
-### Create a new thread
+### Create a New Thread
 - **URL**: `/thread`
 - **Method**: `GET`
 - **Response**: JSON object with a `thread_id`
 
-### Send a message
-- **URL**: `/chat`
+### Send a Message (Therapist)
+- **URL**: `/chat/therapist`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "message": "User's message",
+    "thread_id": "UUID of the conversation thread",
+    "email": "User's email"
+  }
+  ```
+- **Response**: JSON object with the AI's response
+
+### Send a Message (Companion)
+- **URL**: `/chat/companion`
 - **Method**: `POST`
 - **Body**:
   ```json
@@ -170,6 +188,19 @@ Ensure you have set up the following in your `.env` file:
   }
   ```
 - **Response**: JSON object with the AI's response
+
+### Renew Rate Limit
+- **URL**: `/renew-rate-limit`
+- **Method**: `POST`
+- **Response**: JSON object with a success message
+
+### WhatsApp Integration
+- **URL**: `/whatsapp`
+- **Method**: `POST`
+- **Body**: Form data with `Body` and `From`
+- **Response**: Twilio MessagingResponse
+- ![Screenshot_20240814-194332_WhatsApp](https://github.com/user-attachments/assets/6d52df7d-dcc5-4f7b-a85f-572d435c2060)
+
 
 ## Contributing
 

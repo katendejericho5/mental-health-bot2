@@ -205,19 +205,22 @@ Ensure you have set up the following in your `.env` file:
 - ## Backend
   - # Flask
   ![image](https://github.com/user-attachments/assets/e5f79547-c003-4582-a79a-69127858e162)
-  - # OpenAI API key
+  - # OpenAI
   ![image](https://github.com/user-attachments/assets/3032d7e2-db17-40e5-889b-e7fb4f5927d6)
-  - # Tavily API key
+  - # Tavily
   ![image](https://github.com/user-attachments/assets/070ef5ae-4fcf-437d-aff9-066321ffcfa1)
-  - # Pinecone API key
+  - # Pinecone
   ![image](https://github.com/user-attachments/assets/d9ad614b-3edc-459f-9118-300c9cf1d005)
-  - # Groq API key (if using Groq models)
+  - # Groq
   ![image](https://github.com/user-attachments/assets/e027835b-5b45-41e9-abdb-0dfef4554c67)
   - # Twilio
    ![image](https://github.com/user-attachments/assets/b171aa35-5ba8-4bd2-b7ee-7272ef4f0ba0)
 
 
-- Frontend
+- ## Frontend
+  - # Flutter
+  ![image](https://github.com/user-attachments/assets/9f00676a-372c-4262-9b98-23fbe3761b75)
+
 
 
 ## Contributing

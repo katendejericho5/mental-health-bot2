@@ -226,6 +226,7 @@ Ensure you have set up the following in your `.env` file:
 - ## Frontend
   - # Flutter
   ![image](https://github.com/user-attachments/assets/9f00676a-372c-4262-9b98-23fbe3761b75)
+  Flutter is a UI toolkit by Google used for building natively compiled applications for mobile, web, and desktop, enabling the chatbot to have a seamless and consistent user interface across different platforms.
 
 
 

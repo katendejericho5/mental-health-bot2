@@ -91,8 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Username',
-                  // labelStyle: TextStyle(color: Colors.blue),
-                  // prefixIcon: Icon(Icons.person, color: Colors.blue),
+                  
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),

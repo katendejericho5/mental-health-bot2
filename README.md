@@ -205,17 +205,22 @@ Ensure you have set up the following in your `.env` file:
 - ## Backend
   - # Flask
   ![image](https://github.com/user-attachments/assets/e5f79547-c003-4582-a79a-69127858e162)
+  Flask is a lightweight web framework in Python, essential for building and deploying the backend of the chatbot, allowing it to manage API requests, integrate with databases, and serve the AI-driven responses efficiently.
   - # OpenAI
   ![image](https://github.com/user-attachments/assets/3032d7e2-db17-40e5-889b-e7fb4f5927d6)
+  OpenAI provides advanced language models, crucial for generating human-like text in the chatbot, enhancing its conversational abilities and providing personalized responses to users.
   - # Tavily
   ![image](https://github.com/user-attachments/assets/070ef5ae-4fcf-437d-aff9-066321ffcfa1)
+  Tavily enables web access for the chatbot, allowing it to utilize the internet to provide real-time feedback and information to users, enhancing the overall user experience.
   - # Pinecone
   ![image](https://github.com/user-attachments/assets/d9ad614b-3edc-459f-9118-300c9cf1d005)
+  Pinecone is a vector database that allows the chatbot to store and quickly retrieve relevant information, improving the relevance and speed of responses based on user history or context.
   - # Groq
   ![image](https://github.com/user-attachments/assets/e027835b-5b45-41e9-abdb-0dfef4554c67)
+  Groq offers high-performance AI accelerators, important for speeding up the processing of complex AI models, ensuring the chatbot can handle real-time interactions without latency
   - # Twilio
    ![image](https://github.com/user-attachments/assets/b171aa35-5ba8-4bd2-b7ee-7272ef4f0ba0)
-
+  Twilio provides communication APIs, enabling the chatbot to reach users through various channels like SMS, voice, or video, thereby expanding the accessibility and engagement of the mental health service(For our case it's used to enable embedding of our chatbot into WhatsApp).
 
 - ## Frontend
   - # Flutter

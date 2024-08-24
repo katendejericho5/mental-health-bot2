@@ -199,12 +199,20 @@ Ensure you have set up the following in your `.env` file:
 - **Method**: `POST`
 - **Body**: Form data with `Body` and `From`
 - **Response**: Twilio MessagingResponse
-- ![Screenshot_20240814-194332_WhatsApp](https://github.com/user-attachments/assets/6d52df7d-dcc5-4f7b-a85f-572d435c2060)
+![Screenshot_20240814-194332_WhatsApp](https://github.com/user-attachments/assets/6d52df7d-dcc5-4f7b-a85f-572d435c2060)
 
 ### Technologies used
 - ## Backend
   - # Flask
   ![pngegg](https://github.com/user-attachments/assets/d07518a9-5eb4-432d-9f8d-55bf621b0fb9)
+  - # OpenAI API key
+  ![image](https://github.com/user-attachments/assets/3032d7e2-db17-40e5-889b-e7fb4f5927d6)
+  - # Tavily API key
+  ![image](https://github.com/user-attachments/assets/070ef5ae-4fcf-437d-aff9-066321ffcfa1)
+  - # Pinecone API key
+  ![image](https://github.com/user-attachments/assets/d9ad614b-3edc-459f-9118-300c9cf1d005)
+  - # Groq API key (if using Groq models)
+  - # Twilio Account SID, Auth Token, and Phone Number
 
 - Frontend
 

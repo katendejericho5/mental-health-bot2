@@ -201,9 +201,9 @@ Ensure you have set up the following in your `.env` file:
 - **Response**: Twilio MessagingResponse
 - ![Screenshot_20240814-194332_WhatsApp](https://github.com/user-attachments/assets/6d52df7d-dcc5-4f7b-a85f-572d435c2060)
 
-## Technologies used
-- Backend
-  -Flask
+### Technologies used
+- ## Backend
+  - # Flask
   ![pngegg](https://github.com/user-attachments/assets/d07518a9-5eb4-432d-9f8d-55bf621b0fb9)
 
 - Frontend

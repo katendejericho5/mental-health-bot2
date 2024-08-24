@@ -204,7 +204,7 @@ Ensure you have set up the following in your `.env` file:
 ### Technologies used
 - ## Backend
   - # Flask
-  ![pngegg](https://github.com/user-attachments/assets/d07518a9-5eb4-432d-9f8d-55bf621b0fb9)
+  ![image](https://github.com/user-attachments/assets/c8e448ba-b0c0-46a5-8cca-2d0197e1c7d5)
   - # OpenAI API key
   ![image](https://github.com/user-attachments/assets/3032d7e2-db17-40e5-889b-e7fb4f5927d6)
   - # Tavily API key

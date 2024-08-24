@@ -204,7 +204,7 @@ Ensure you have set up the following in your `.env` file:
 ### Technologies used
 - ## Backend
   - # Flask
-  ![image](https://github.com/user-attachments/assets/c8e448ba-b0c0-46a5-8cca-2d0197e1c7d5)
+  ![image](https://github.com/user-attachments/assets/e5f79547-c003-4582-a79a-69127858e162)
   - # OpenAI API key
   ![image](https://github.com/user-attachments/assets/3032d7e2-db17-40e5-889b-e7fb4f5927d6)
   - # Tavily API key
@@ -212,7 +212,10 @@ Ensure you have set up the following in your `.env` file:
   - # Pinecone API key
   ![image](https://github.com/user-attachments/assets/d9ad614b-3edc-459f-9118-300c9cf1d005)
   - # Groq API key (if using Groq models)
-  - # Twilio Account SID, Auth Token, and Phone Number
+  ![image](https://github.com/user-attachments/assets/e027835b-5b45-41e9-abdb-0dfef4554c67)
+  - # Twilio
+   ![image](https://github.com/user-attachments/assets/b171aa35-5ba8-4bd2-b7ee-7272ef4f0ba0)
+
 
 - Frontend
 

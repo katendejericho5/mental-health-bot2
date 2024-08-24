@@ -1,6 +1,6 @@
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Authentication/login.dart';
-import 'package:WellCareBot/screens/Authentication/create_profile.dart';
+import 'package:WellCareBot/screens/Authentication/verification_screen.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -21,17 +21,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
 
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
       AppUser? user = await FirebaseAuthHelper.registerUsingEmailPassword(
+        context: context,
         name: _name,
         email: _email,
         password: _password,
       );
 
+      // Hide loading indicator
+      Navigator.of(context).pop();
+
       if (user != null) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => CreateProfileScreen(),
+            builder: (context) => EmailVerificationScreen(),
           ),
         );
       } else {
@@ -250,8 +265,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

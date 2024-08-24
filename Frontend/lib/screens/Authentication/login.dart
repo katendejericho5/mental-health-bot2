@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState?.save();
 
       AppUser? user = await FirebaseAuthHelper.signInUsingEmailPassword(
+        context: context,
         email: _email,
         password: _password,
       );
@@ -240,8 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   IconButton(
                     icon: Brand(Brands.microsoft),
                     iconSize: 50.0,
-                    onPressed: () {
+                    onPressed: () async {
                       // Handle Microsoft login
+                      FirebaseAuthHelper().signInWithMicrosoft(context);
                     },
                   ),
                   SizedBox(width: 20.0),

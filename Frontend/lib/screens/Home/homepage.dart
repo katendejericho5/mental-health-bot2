@@ -7,6 +7,7 @@ import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -277,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: isDarkMode
                   ? Colors.white.withOpacity(0.1)
                   : Colors.black.withOpacity(0.1),
-              ),
+            ),
           ),
           SingleChildScrollView(
             child: Padding(
@@ -300,9 +301,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Center(
                     child: Text(
                       'Start a conversation with WellCareBot right now!',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey[600],
+                      style: GoogleFonts.plusJakartaSans(
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey[600],
+                        ),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -364,11 +367,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             'WellCareBot',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 32,
-              color: Colors.blueGrey[800],
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontSize: 32,
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
           SizedBox(height: 20),
@@ -385,9 +390,11 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Text(
               greeting,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.plusJakartaSans(
+                textStyle: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -416,7 +423,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           onPressed: onPressed,
-          child: Text(text),
+          child: Text(
+            text,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );

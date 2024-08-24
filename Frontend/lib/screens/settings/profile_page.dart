@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'settings.dart';
 import 'history.dart';
@@ -49,7 +50,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
       ),
       body: Stack(
         children: [
@@ -76,7 +80,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? Colors.white.withOpacity(0.2)
                   : Colors.black.withOpacity(0.2),
             ),
-          ),          FutureBuilder<Map<String, dynamic>>(
+          ),
+          FutureBuilder<Map<String, dynamic>>(
             future: _fetchUserData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -133,61 +138,79 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 10),
               Text(
                 fullName,
-                style: TextStyle(
-                  fontSize: 22,
+                style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 email,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+                style: GoogleFonts.poppins(),
               ),
             ],
           ),
         ),
         SizedBox(height: 30),
-        ListTile(
-          leading: Icon(Icons.history, color: Colors.blue),
-          title: Text('History'),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatHistoryPage(
-                  therapistThreadId: 'therapist_thread_id',
-                  companionshipThreadId: 'companionship_thread_id',
+        Card(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          elevation: 1,
+          child: ListTile(
+            leading: Icon(Icons.history, color: Colors.blue),
+            title: Text(
+              'History',
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatHistoryPage(
+                    therapistThreadId: 'therapist_thread_id',
+                    companionshipThreadId: 'companionship_thread_id',
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
-        Divider(),
-        ListTile(
-          leading: Icon(Icons.settings, color: Colors.blue),
-          title: Text('Settings'),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SettingsPage()),
-            );
-          },
+        Card(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          elevation: 1,
+          child: ListTile(
+            leading: Icon(Icons.settings, color: Colors.blue),
+            title: Text(
+              'Settings',
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+          ),
         ),
-        Divider(),
-        ListTile(
-          leading: Icon(Icons.privacy_tip, color: Colors.blue),
-          title: Text('Privacy and Policy'),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-            );
-          },
+        Card(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          elevation: 1,
+          child: ListTile(
+            leading: Icon(Icons.privacy_tip, color: Colors.blue),
+            title: Text(
+              'Privacy and Policy',
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+              );
+            },
+          ),
         ),
         Divider(),
         SizedBox(height: 30),
@@ -195,9 +218,10 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: _logout,
           child: Text(
             'Logout',
-            style: TextStyle(
-              color: Colors.white,
-            ),
+            style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                textStyle: TextStyle(color: Colors.white)),
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,

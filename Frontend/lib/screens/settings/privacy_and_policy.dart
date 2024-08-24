@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class PrivacyPolicy extends StatelessWidget {
@@ -10,7 +11,10 @@ class PrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Privacy and Policy"),
+        title: Text(
+          "Privacy and Policy",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
       ),
       body: Container(
         child: FutureBuilder(
@@ -22,7 +26,7 @@ class PrivacyPolicy extends StatelessWidget {
                 data: snapshot.data!,
               );
             }
-      
+
             return const Center(child: CircularProgressIndicator());
           },
         ),

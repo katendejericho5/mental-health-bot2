@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts package
 
 class GroupListScreen extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -15,7 +16,10 @@ class GroupListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Groups', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'My Groups',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold), // Apply Poppins
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -98,14 +102,18 @@ class GroupListScreen extends StatelessWidget {
           backgroundColor: Colors.blueAccent,
           child: Text(
             group.name[0].toUpperCase(),
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
         title: Text(
           group.name,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        subtitle: Text('Tap to join the conversation'),
+        subtitle: Text(
+          'Tap to join the conversation',
+          style: GoogleFonts.poppins(),
+        ),
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
         onTap: () {
           Navigator.push(
@@ -134,14 +142,15 @@ class GroupListScreen extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             'No groups yet',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+                fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
               'Create a group or join one to start connecting with others.',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey[600]),
               textAlign: TextAlign.center,
             ),
           ),

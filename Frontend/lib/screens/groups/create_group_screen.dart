@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import GoogleFonts
 
 class CreateGroupScreen extends StatefulWidget {
   @override
@@ -32,7 +33,13 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Create New Group')),
+      appBar: AppBar(
+        title: Text(
+          'Create New Group',
+          style:
+              GoogleFonts.poppins(), // Apply Google Fonts to the AppBar title
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -41,7 +48,13 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Group Name'),
+                decoration: InputDecoration(
+                  labelText: 'Group Name',
+                  labelStyle:
+                      GoogleFonts.poppins(), // Apply Google Fonts to the label
+                ),
+                style: GoogleFonts
+                    .poppins(), // Apply Google Fonts to the text input
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a group name';
@@ -52,7 +65,11 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _createGroup,
-                child: Text('Create Group'),
+                child: Text(
+                  'Create Group',
+                  style: GoogleFonts
+                      .poppins(), // Apply Google Fonts to the button text
+                ),
               ),
             ],
           ),

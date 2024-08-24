@@ -4,6 +4,7 @@ import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
@@ -20,7 +21,10 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(
+          'Settings',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
       ),
       body: Stack(
         children: [
@@ -138,8 +142,10 @@ class _SettingsPageState extends State<SettingsPage> {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        title: Text(title,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
+        title: Text(
+          title,
+          style: GoogleFonts.poppins(fontSize: 18),
+        ),
         trailing: Icon(Icons.arrow_forward_ios),
         onTap: onTap,
       ),

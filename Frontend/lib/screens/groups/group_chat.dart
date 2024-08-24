@@ -8,6 +8,7 @@ import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import GoogleFonts
 
 class GroupChatScreen extends StatefulWidget {
   final Group group;
@@ -120,12 +121,21 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Delete Message'),
-          content: Text('Are you sure you want to delete this message?'),
+          title: Text(
+            'Delete Message',
+            style: GoogleFonts.poppins(), // Apply Google Fonts
+          ),
+          content: Text(
+            'Are you sure you want to delete this message?',
+            style: GoogleFonts.poppins(), // Apply Google Fonts
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.poppins(), // Apply Google Fonts
+              ),
             ),
             TextButton(
               onPressed: () async {
@@ -138,11 +148,19 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                 } else {
                   print("Message deletion failed");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to delete message')),
+                    SnackBar(
+                      content: Text(
+                        'Failed to delete message',
+                        style: GoogleFonts.poppins(), // Apply Google Fonts
+                      ),
+                    ),
                   );
                 }
               },
-              child: Text('Delete'),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.poppins(), // Apply Google Fonts
+              ),
             ),
           ],
         ),
@@ -158,7 +176,10 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.group.name),
+        title: Text(
+          widget.group.name,
+          style: GoogleFonts.poppins(), // Apply Google Fonts
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.group),
@@ -168,7 +189,6 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       ),
       body: Stack(
         children: [
-          // Background SVG
           // Background SVG
           Positioned.fill(
             child: SvgPicture.asset(
@@ -218,7 +238,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     inputMargin: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     inputTextStyle:
-                        TextStyle(color: theme.colorScheme.onSurface),
+                        GoogleFonts.poppins(), // Apply Google Fonts
                     inputBorderRadius: const BorderRadius.horizontal(
                       left: Radius.circular(10),
                       right: Radius.circular(10),
@@ -241,7 +261,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                   padding: EdgeInsets.all(8),
                   child: Text(
                     '${_typingUsers.entries.where((entry) => entry.value).map((entry) => entry.key).join(", ")} is typing...',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontStyle: FontStyle.italic,
                       color: theme.colorScheme.onSurface.withOpacity(0.6),
                     ),
@@ -269,41 +289,23 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return Center(child: Text('No members found'));
+            } else {
+              final members = snapshot.data!;
+              return ListView.builder(
+                itemCount: members.length,
+                itemBuilder: (context, index) {
+                  final memberData = members[index].data() as Map<String, dynamic>?;
+                  final memberName = memberData?['name'] ?? 'Unknown';
+                  final memberEmail = memberData?['email'] ?? 'Unknown';
+
+                  return ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text(memberName, style: GoogleFonts.poppins()), // Apply Google Fonts
+                    subtitle: Text(memberEmail, style: GoogleFonts.poppins()), // Apply Google Fonts
+                  );
+                },
+              );
             }
-            return Column(
-              children: [
-                ListTile(
-                  title: Text('Group Members',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  trailing: IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              AddMembersScreen(group: widget.group),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final user = snapshot.data![index];
-                      final userName = user['fullName'] ?? 'Unknown';
-                      return ListTile(
-                        title: Text(userName),
-                        subtitle: Text(user['email'] ?? ''),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
           },
         );
       },

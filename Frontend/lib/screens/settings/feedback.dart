@@ -2,6 +2,7 @@ import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FeedbackPage extends StatefulWidget {
   @override
@@ -60,7 +61,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback'),
+        title: Text(
+          'Feedback',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
       body: Stack(
         children: [
@@ -95,16 +99,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
               children: [
                 Text(
                   'We value your feedback!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey[800],
-                  ),
+                  style: GoogleFonts.poppins(fontSize: 24),
                 ),
                 SizedBox(height: 20),
                 Text(
                   'Please let us know how we can improve or if you have any suggestions.',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                  style: GoogleFonts.poppins(fontSize: 16),
                   textAlign: TextAlign.left,
                 ),
                 SizedBox(height: 30),
@@ -140,7 +140,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               ? CircularProgressIndicator()
                               : ElevatedButton(
                                   onPressed: _submitFeedback,
-                                  child: Text('Submit Feedback'),
+                                  child: Text(
+                                    'Submit Feedback',
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     backgroundColor: Colors.blueGrey[800],

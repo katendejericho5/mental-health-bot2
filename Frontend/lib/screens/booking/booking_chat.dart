@@ -4,6 +4,7 @@ import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts
 
 class BookingsPage extends StatelessWidget {
   @override
@@ -12,7 +13,13 @@ class BookingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Appointments'),
+        title: Text(
+          'My Appointments',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent, // Transparent background
@@ -59,11 +66,16 @@ class BookingsPage extends StatelessWidget {
                         SizedBox(height: 8),
                         Text(
                           'Error loading bookings.',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           'Please try again later.',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     ),
@@ -77,11 +89,18 @@ class BookingsPage extends StatelessWidget {
                         SizedBox(height: 8),
                         Text(
                           'No bookings found.',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           'You don’t have any appointments scheduled.',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            
+                          ),
                         ),
                       ],
                     ),
@@ -111,11 +130,16 @@ class BookingsPage extends StatelessWidget {
                         ),
                         title: Text(
                           booking.userName,
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         subtitle: Text(
                           '${booking.appointmentDate} at ${booking.time}',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                          ),
                         ),
                         trailing:
                             Icon(Icons.arrow_forward_ios, color: Colors.grey),

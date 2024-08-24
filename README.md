@@ -199,7 +199,8 @@ Ensure you have set up the following in your `.env` file:
 - **Method**: `POST`
 - **Body**: Form data with `Body` and `From`
 - **Response**: Twilio MessagingResponse
-![Screenshot_20240814-194332_WhatsApp](https://github.com/user-attachments/assets/6d52df7d-dcc5-4f7b-a85f-572d435c2060)
+![twilli (1)](https://github.com/user-attachments/assets/63e38599-a1d3-458a-a0ec-d88e3da4786a)
+
 
 ### Technologies used
 - ## Backend

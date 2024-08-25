@@ -122,7 +122,7 @@ class FirebaseAuthHelper {
         SnackBar(content: Text('Error during logout: $e')),
       );
     }
-  }
+  }  
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();

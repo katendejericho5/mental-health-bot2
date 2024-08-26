@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/screens/groups/create_group_screen.dart';
 import 'package:WellCareBot/screens/groups/group_chat.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 
 class GroupListScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class GroupListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -20,7 +22,7 @@ class GroupListScreen extends StatelessWidget {
         foregroundColor: Colors.black,
       ),
       body: StreamBuilder<List<Group>>(
-        stream: _firestoreService.getUserGroups(),
+        stream: _firestoreService.getUserGroups(currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

@@ -4,6 +4,12 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/models/therapist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';import 'package:WellCareBot/models/booking_model.dart';
+import 'package:WellCareBot/models/chat_model.dart';
+import 'package:WellCareBot/models/group_model.dart';
+import 'package:WellCareBot/models/history_model.dart';
+import 'package:WellCareBot/models/therapist_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
@@ -54,11 +60,10 @@ class FirestoreService {
     return userDoc.data() as Map<String, dynamic>;
   }
 
-  Stream<List<Booking>> getUserBookings() {
+  Stream<List<Booking>> getUserBookings(String userId) {
     return _db
-        .collection('users')
-        .doc(currentUserId)
         .collection('bookings')
+        .where('user_id', isEqualTo: userId)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Booking.fromFirestore(doc.data()))
@@ -79,10 +84,10 @@ class FirestoreService {
   }
 
   // Get all groups for a user
-  Stream<List<Group>> getUserGroups() {
+  Stream<List<Group>> getUserGroups(String userId) {
     return _db
         .collection('groups')
-        .where('member_ids', arrayContains: currentUserId)
+        .where('member_ids', arrayContains: userId)
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => Group.fromMap(doc.data())).toList());
@@ -166,29 +171,5 @@ class FirestoreService {
       print("Error deleting message: $e");
       return false;
     }
-  }
-
-  // Initialize a new thread for a user
-  Future<String> initializeUserThread() async {
-    DocumentReference threadRef = await _db
-        .collection('users')
-        .doc(currentUserId)
-        .collection('threads')
-        .add({
-      'createdAt': FieldValue.serverTimestamp(),
-      'lastMessage': null,
-    });
-    return threadRef.id;
-  }
-
-  // Get all threads for the current user
-  Stream<List<DocumentSnapshot>> getUserThreads() {
-    return _db
-        .collection('users')
-        .doc(currentUserId)
-        .collection('threads')
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((snapshot) => snapshot.docs);
   }
 }

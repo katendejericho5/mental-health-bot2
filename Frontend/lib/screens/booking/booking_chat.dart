@@ -1,11 +1,13 @@
 import 'package:WellCareBot/models/booking_model.dart';
 import 'package:WellCareBot/screens/booking/booking_details.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BookingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -15,7 +17,7 @@ class BookingsPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: StreamBuilder<List<Booking>>(
-          stream: FirestoreService().getUserBookings(),
+          stream: FirestoreService().getUserBookings(userId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());

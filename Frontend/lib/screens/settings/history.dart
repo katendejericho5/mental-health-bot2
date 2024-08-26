@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
   final String therapistThreadId;
-  final String companionshipThreadId;
+  final String companion_thread_id;
 
   ChatHistoryPage({
     required this.therapistThreadId,
-    required this.companionshipThreadId,
+    required this.companion_thread_id,
   });
 
   @override
@@ -19,8 +19,11 @@ class ChatHistoryPage extends StatefulWidget {
 
 class _ChatHistoryPageState extends State<ChatHistoryPage> {
   late Future<List<ChatMessageHistory>> _therapistMessagesFuture;
-  late Future<List<ChatMessageHistory>> _companionshipMessagesFuture;
+  late Future<List<ChatMessageHistory>> _companionMessagesFuture;
   bool _isDescending = true;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String get currentUserId => _auth.currentUser!.uid;
 
   @override
   void initState() {
@@ -31,8 +34,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
   void _loadMessages() {
     setState(() {
       _therapistMessagesFuture = _fetchMessages(widget.therapistThreadId);
-      _companionshipMessagesFuture =
-          _fetchMessages(widget.companionshipThreadId);
+      _companionMessagesFuture = _fetchMessages(widget.companion_thread_id);
     });
   }
 
@@ -40,6 +42,8 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final messagesSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
           .collection('threads')
           .doc(threadId)
           .collection('messages')
@@ -120,7 +124,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
             _buildMessageList(
                 _therapistMessagesFuture, widget.therapistThreadId),
             _buildMessageList(
-                _companionshipMessagesFuture, widget.companionshipThreadId),
+                _companionMessagesFuture, widget.companion_thread_id),
           ],
         ),
       ),

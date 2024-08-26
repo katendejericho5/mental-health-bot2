@@ -131,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
               MaterialPageRoute(
                 builder: (context) => ChatHistoryPage(
                   therapistThreadId: 'therapist_thread_id',
-                  companionshipThreadId: 'companionship_thread_id',
+                  companion_thread_id: 'companion_thread_id',
                 ),
               ),
             );

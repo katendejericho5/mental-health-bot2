@@ -215,17 +215,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: _toggleTheme,
           ),
-          Hero(
-            tag: 'settings',
-            child: IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-            ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
           ),
         ],
       ),
@@ -366,60 +363,54 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Companion Mode Button
-                    Hero(
-                      tag: 'companion',
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompanionChatBot(
-                                  threadId: 'companionship_thread_id',
-                                ),
-                              ),
-                            );
-                          },
-                          child: const Text('Companion Mode'),
                         ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CompanionChatBot(
+                                threadId: 'companion_thread_id',
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Companion Mode'),
                       ),
                     ),
                     const SizedBox(height: 20), // Spacer between buttons
                     // Therapist Mode Button
-                    Hero(
-                      tag: 'therapist',
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TherapistChatBot(
-                                  threadId: 'therapist_thread_id',
-                                ),
-                              ),
-                            );
-                          },
-                          child: const Text('Therapist Mode'),
                         ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TherapistChatBot(
+                                threadId: 'therapist_thread_id',
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Therapist Mode'),
                       ),
                     ),
                   ],

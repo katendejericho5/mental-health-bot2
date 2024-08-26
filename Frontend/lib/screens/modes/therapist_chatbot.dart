@@ -209,7 +209,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
                 MaterialPageRoute(
                   builder: (context) => ChatHistoryPage(
                     therapistThreadId: 'therapist_thread_id',
-                    companionshipThreadId: 'companionship_thread_id',
+                    companion_thread_id: 'companion_thread_id',
                   ),
                 ),
               );
@@ -228,44 +228,41 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
           ),
         ],
       ),
-      body: Hero(
-        tag: 'therapist',
-        child: Chat(
-          messages: _messages,
-          onSendPressed: (message) {
-            _sendMessage(message);
-          },
-          user: types.User(id: _userId),
-          showUserAvatars: true,
-          showUserNames: true,
-          scrollPhysics: const BouncingScrollPhysics(),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          theme: DefaultChatTheme(
-            backgroundColor: backgroundColor,
-            inputTextCursorColor: theme.colorScheme.primary,
-            inputSurfaceTintColor: theme.colorScheme.surfaceTint,
-            inputBackgroundColor: theme.colorScheme.surface,
-            inputTextColor: theme.colorScheme.onSurface,
-            sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
-            inputMargin:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            inputTextStyle: TextStyle(
-              color: theme.colorScheme.onSurface,
-            ),
-            inputBorderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(10),
-              right: Radius.circular(10),
-            ),
-            inputContainerDecoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              border: Border.all(color: theme.colorScheme.outline, width: 1.0),
-              borderRadius: const BorderRadius.horizontal(
-                left: Radius.circular(30),
-                right: Radius.circular(30),
-              ),
-            ),
-            primaryColor: theme.colorScheme.primary,
+      body: Chat(
+        messages: _messages,
+        onSendPressed: (message) {
+          _sendMessage(message);
+        },
+        user: types.User(id: _userId),
+        showUserAvatars: true,
+        showUserNames: true,
+        scrollPhysics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        theme: DefaultChatTheme(
+          backgroundColor: backgroundColor,
+          inputTextCursorColor: theme.colorScheme.primary,
+          inputSurfaceTintColor: theme.colorScheme.surfaceTint,
+          inputBackgroundColor: theme.colorScheme.surface,
+          inputTextColor: theme.colorScheme.onSurface,
+          sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
+          inputMargin:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          inputTextStyle: TextStyle(
+            color: theme.colorScheme.onSurface,
           ),
+          inputBorderRadius: const BorderRadius.horizontal(
+            left: Radius.circular(10),
+            right: Radius.circular(10),
+          ),
+          inputContainerDecoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            border: Border.all(color: theme.colorScheme.outline, width: 1.0),
+            borderRadius: const BorderRadius.horizontal(
+              left: Radius.circular(30),
+              right: Radius.circular(30),
+            ),
+          ),
+          primaryColor: theme.colorScheme.primary,
         ),
       ),
     );

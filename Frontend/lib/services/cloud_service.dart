@@ -8,9 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String get currentUserId => _auth.currentUser!.uid;
 
   Future<void> addMessage(ChatMessageHistory message) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(message.threadId)
         .collection('messages')
@@ -20,6 +25,8 @@ class FirestoreService {
 
   Stream<List<ChatMessageHistory>> getMessages(String threadId) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(threadId)
         .collection('messages')
@@ -32,6 +39,8 @@ class FirestoreService {
 
   Future<void> deleteMessage(String threadId, String messageId) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(threadId)
         .collection('messages')
@@ -40,18 +49,16 @@ class FirestoreService {
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final User user = _auth.currentUser!;
     DocumentSnapshot userDoc =
-        await _db.collection('users').doc(user.uid).get();
-
+        await _db.collection('users').doc(currentUserId).get();
     return userDoc.data() as Map<String, dynamic>;
   }
 
-  Stream<List<Booking>> getUserBookings(String userId) {
+  Stream<List<Booking>> getUserBookings() {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('bookings')
-        .where('user_id', isEqualTo: userId)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Booking.fromFirestore(doc.data()))
@@ -72,10 +79,10 @@ class FirestoreService {
   }
 
   // Get all groups for a user
-  Stream<List<Group>> getUserGroups(String userId) {
+  Stream<List<Group>> getUserGroups() {
     return _db
         .collection('groups')
-        .where('member_ids', arrayContains: userId)
+        .where('member_ids', arrayContains: currentUserId)
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => Group.fromMap(doc.data())).toList());
@@ -159,5 +166,29 @@ class FirestoreService {
       print("Error deleting message: $e");
       return false;
     }
+  }
+
+  // Initialize a new thread for a user
+  Future<String> initializeUserThread() async {
+    DocumentReference threadRef = await _db
+        .collection('users')
+        .doc(currentUserId)
+        .collection('threads')
+        .add({
+      'createdAt': FieldValue.serverTimestamp(),
+      'lastMessage': null,
+    });
+    return threadRef.id;
+  }
+
+  // Get all threads for the current user
+  Stream<List<DocumentSnapshot>> getUserThreads() {
+    return _db
+        .collection('users')
+        .doc(currentUserId)
+        .collection('threads')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs);
   }
 }

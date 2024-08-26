@@ -2,17 +2,15 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
   final String therapistThreadId;
-  final String companionshipThreadId;
+  final String companionThreadId;
 
   ChatHistoryPage({
     required this.therapistThreadId,
-    required this.companionshipThreadId,
+    required this.companionThreadId,
   });
 
   @override
@@ -33,8 +31,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
   void _loadMessages() {
     setState(() {
       _therapistMessagesFuture = _fetchMessages(widget.therapistThreadId);
-      _companionshipMessagesFuture =
-          _fetchMessages(widget.companionshipThreadId);
+      _companionshipMessagesFuture = _fetchMessages(widget.companionThreadId);
     });
   }
 
@@ -101,11 +98,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Chat History',
-            style:
-                GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
+          title: Text('Chat History'),
           actions: [
             IconButton(
               icon: Icon(
@@ -115,50 +108,18 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
             ),
           ],
           bottom: TabBar(
-            labelStyle:
-                GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 20),
             tabs: [
-              Tab(
-                text: 'Therapist',
-              ),
+              Tab(text: 'Therapist'),
               Tab(text: 'Companion'),
             ],
           ),
         ),
-        body: Stack(
+        body: TabBarView(
           children: [
-            // First full-screen SVG Background
-            Positioned.fill(
-              child: SvgPicture.asset(
-                'assets/undraw_chat_re_re1u.svg',
-                fit: BoxFit.contain,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withOpacity(0.2)
-                    : Colors.black.withOpacity(0.2),
-              ),
-            ),
-            // Second SVG as a design element or additional background
-            Positioned(
-              top: 20,
-              left: 20,
-              width: 80,
-              height: 80,
-              child: SvgPicture.asset(
-                'assets/undraw_mindfulness_8gqa.svg',
-                fit: BoxFit.contain,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withOpacity(0.2)
-                    : Colors.black.withOpacity(0.2),
-              ),
-            ),
-            TabBarView(
-              children: [
-                _buildMessageList(
-                    _therapistMessagesFuture, widget.therapistThreadId),
-                _buildMessageList(
-                    _companionshipMessagesFuture, widget.companionshipThreadId),
-              ],
-            ),
+            _buildMessageList(
+                _therapistMessagesFuture, widget.therapistThreadId),
+            _buildMessageList(
+                _companionshipMessagesFuture, widget.companionThreadId),
           ],
         ),
       ),
@@ -186,7 +147,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                 title: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(message.text, style: GoogleFonts.poppins()),
+                    child: Text(message.text),
                   ),
                 ),
                 subtitle: Column(
@@ -194,24 +155,16 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                   children: [
                     Text(
                       _getSenderLabel(message.author),
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          color: Colors.blueAccent,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(height: 4.0),
                     Text(
                       _formatDate(message.createdAt),
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          color: Colors.greenAccent,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      style: TextStyle(color: Colors.greenAccent),
                     ),
                   ],
                 ),

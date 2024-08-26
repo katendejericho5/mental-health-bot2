@@ -8,9 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String get currentUserId => _auth.currentUser!.uid;
 
   Future<void> addMessage(ChatMessageHistory message) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(message.threadId)
         .collection('messages')
@@ -20,6 +25,8 @@ class FirestoreService {
 
   Stream<List<ChatMessageHistory>> getMessages(String threadId) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(threadId)
         .collection('messages')
@@ -32,6 +39,8 @@ class FirestoreService {
 
   Future<void> deleteMessage(String threadId, String messageId) {
     return _db
+        .collection('users')
+        .doc(currentUserId)
         .collection('threads')
         .doc(threadId)
         .collection('messages')
@@ -40,11 +49,8 @@ class FirestoreService {
   }
 
   Future<Map<String, dynamic>> fetchUserData() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final User user = _auth.currentUser!;
     DocumentSnapshot userDoc =
-        await _db.collection('users').doc(user.uid).get();
-
+        await _db.collection('users').doc(currentUserId).get();
     return userDoc.data() as Map<String, dynamic>;
   }
 

@@ -49,71 +49,71 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
+        appBar: AppBar(
+          title: Text(
+            'Profile',
+            style:
+                GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
         ),
-      ),
-      body: Stack(
-        children: [
-          // First full-screen SVG Background
-          Positioned.fill(
-            child: SvgPicture.asset(
-              'assets/undraw_chat_re_re1u.svg',
-              fit: BoxFit.contain,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white.withOpacity(0.2)
-                  : Colors.black.withOpacity(0.2),
+        body: Stack(
+          children: [
+            // First full-screen SVG Background
+            Positioned.fill(
+              child: SvgPicture.asset(
+                'assets/undraw_chat_re_re1u.svg',
+                fit: BoxFit.contain,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withOpacity(0.2)
+                    : Colors.black.withOpacity(0.2),
+              ),
             ),
-          ),
-          // Second SVG as a design element or additional background
-          Positioned(
-            top: 20,
-            left: 20,
-            width: 80,
-            height: 80,
-            child: SvgPicture.asset(
-              'assets/undraw_mindfulness_8gqa.svg',
-              fit: BoxFit.contain,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white.withOpacity(0.2)
-                  : Colors.black.withOpacity(0.2),
+            // Second SVG as a design element or additional background
+            Positioned(
+              top: 20,
+              left: 20,
+              width: 80,
+              height: 80,
+              child: SvgPicture.asset(
+                'assets/undraw_mindfulness_8gqa.svg',
+                fit: BoxFit.contain,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withOpacity(0.2)
+                    : Colors.black.withOpacity(0.2),
+              ),
             ),
-          ),
-          FutureBuilder<Map<String, dynamic>>(
-            future: _fetchUserData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Display a loading indicator and default profile data
-                return _buildProfileContent(
-                  profilePictureURL: '',
-                  fullName: 'Loading...',
-                  email: 'Loading...',
-                  isLoading: true,
-                );
-              } else if (snapshot.hasError || !snapshot.hasData) {
-                // Display error message and default profile data
-                return _buildProfileContent(
-                  profilePictureURL: '',
-                  fullName: 'Error loading data',
-                  email: 'Please try again later',
-                  isLoading: false,
-                );
-              } else {
-                final data = snapshot.data!;
-                return _buildProfileContent(
-                  profilePictureURL: data['profilePictureURL'] ?? '',
-                  fullName: data['fullName'] ?? 'No Name',
-                  email: data['email'] ?? 'No Email',
-                  isLoading: false,
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );
+            FutureBuilder<Map<String, dynamic>>(
+              future: _fetchUserData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Display a loading indicator and default profile data
+                  return _buildProfileContent(
+                    profilePictureURL: '',
+                    fullName: 'Loading...',
+                    email: 'Loading...',
+                    isLoading: true,
+                  );
+                } else if (snapshot.hasError || !snapshot.hasData) {
+                  // Display error message and default profile data
+                  return _buildProfileContent(
+                    profilePictureURL: '',
+                    fullName: 'Error loading data',
+                    email: 'Please try again later',
+                    isLoading: false,
+                  );
+                } else {
+                  final data = snapshot.data!;
+                  return _buildProfileContent(
+                    profilePictureURL: data['profilePictureURL'] ?? '',
+                    fullName: data['fullName'] ?? 'No Name',
+                    email: data['email'] ?? 'No Email',
+                    isLoading: false,
+                  );
+                }
+              },
+            ),
+          ],
+        ));
   }
 
   Widget _buildProfileContent({
@@ -138,79 +138,61 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 10),
               Text(
                 fullName,
-                style: GoogleFonts.poppins(
+                style: TextStyle(
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 email,
-                style: GoogleFonts.poppins(),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
         ),
         SizedBox(height: 30),
-        Card(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          elevation: 1,
-          child: ListTile(
-            leading: Icon(Icons.history, color: Colors.blue),
-            title: Text(
-              'History',
-              style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatHistoryPage(
-                    therapistThreadId: 'therapist_thread_id',
-                    companionshipThreadId: 'companionship_thread_id',
-                  ),
+        ListTile(
+          leading: Icon(Icons.history, color: Colors.blue),
+          title: Text('History'),
+          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatHistoryPage(
+                  therapistThreadId: 'therapist_thread_id',
+                  companionThreadId: 'companion_thread_id',
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
-        Card(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          elevation: 1,
-          child: ListTile(
-            leading: Icon(Icons.settings, color: Colors.blue),
-            title: Text(
-              'Settings',
-              style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
-          ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.settings, color: Colors.blue),
+          title: Text('Settings'),
+          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsPage()),
+            );
+          },
         ),
-        Card(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          elevation: 1,
-          child: ListTile(
-            leading: Icon(Icons.privacy_tip, color: Colors.blue),
-            title: Text(
-              'Privacy and Policy',
-              style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-              );
-            },
-          ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.privacy_tip, color: Colors.blue),
+          title: Text('Privacy and Policy'),
+          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+            );
+          },
         ),
         Divider(),
         SizedBox(height: 30),
@@ -218,10 +200,9 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: _logout,
           child: Text(
             'Logout',
-            style: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                textStyle: TextStyle(color: Colors.white)),
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,

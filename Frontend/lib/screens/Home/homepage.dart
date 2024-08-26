@@ -240,195 +240,208 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: _toggleTheme,
           ),
-          Hero(
-            tag: 'settings',
-            child: IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-            ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          // Full-screen SVG Background
-          Positioned.fill(
-            child: SvgPicture.asset(
-              'assets/undraw_chat_re_re1u.svg',
-              fit: BoxFit.contain,
-              color: isDarkMode
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
-            ),
-          ),
-          // Second SVG Background positioned at the top left
-          Positioned(
-            top: 20,
-            left: 20,
-            width: 80,
-            height: 80,
-            child: SvgPicture.asset(
-              'assets/undraw_mindfulness_8gqa.svg',
-              fit: BoxFit.contain,
-              color: isDarkMode
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FutureBuilder<String>(
-                    future: _fetchUserName(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return _buildWelcomeSection('Hello there');
-                      } else if (snapshot.hasError) {
-                        return _buildWelcomeSection('Hello there');
-                      } else {
-                        return _buildWelcomeSection('Hello, ${snapshot.data}');
-                      }
-                    },
-                  ),
-                  Center(
-                    child: Text(
-                      'Start a conversation with WellCareBot right now!',
-                      style: GoogleFonts.plusJakartaSans(
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FutureBuilder<String>(
+                future: _fetchUserName(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
                       children: [
-                        _buildModeButton(
-                          tag: 'companion',
-                          color: Colors.green,
-                          text: 'Companion Mode',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompanionChatBot(
-                                  threadId: 'companionship_thread_id',
-                                ),
-                              ),
-                            );
-                          },
+                        Text(
+                          'WellCareBot',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.blueGrey[800],
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        _buildModeButton(
-                          tag: 'therapist',
-                          color: Colors.blue,
-                          text: 'Therapist Mode',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TherapistChatBot(
-                                  threadId: 'therapist_thread_id',
-                                ),
-                              ),
-                            );
-                          },
+                        SizedBox(height: 20),
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              'assets/relaxation-7282116_1280.jpg',
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            'Hello there',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
-                    ),
+                    ); // Placeholder while loading
+                  } else if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        Text(
+                          'WellCareBot',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.blueGrey[800],
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              'assets/relaxation-7282116_1280.jpg',
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            'Hello there',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'WellCareBot',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 32,
+                              color: Colors.blueGrey[800],
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image.asset(
+                                'assets/relaxation-7282116_1280.jpg',
+                                height: 150,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              'Hello, ${snapshot.data}',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
+              Center(
+                child: Text(
+                  'Start a conversation with WellCareBot right now!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey[600],
                   ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWelcomeSection(String greeting) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Column(
-        children: [
-          Text(
-            'WellCareBot',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 32,
-                color: Colors.blueGrey[800],
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.asset(
-                'assets/relaxation-7282116_1280.jpg',
-                height: 150,
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          Center(
-            child: Text(
-              greeting,
-              style: GoogleFonts.plusJakartaSans(
-                textStyle: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildModeButton({
-    required String tag,
-    required Color color,
-    required String text,
-    required VoidCallback onPressed,
-  }) {
-    return Hero(
-      tag: tag,
-      child: SizedBox(
-        width: double.infinity,
-        height: 50,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: color,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-          ),
-          onPressed: onPressed,
-          child: Text(
-            text,
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+              SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Companion Mode Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CompanionChatBot(
+                                threadId: 'companion_thread_id',
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Companion Mode'),
+                      ),
+                    ),
+                    const SizedBox(height: 20), // Spacer between buttons
+                    // Therapist Mode Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TherapistChatBot(
+                                threadId: 'therapist_thread_id',
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Therapist Mode'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

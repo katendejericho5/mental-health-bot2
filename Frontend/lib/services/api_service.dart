@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://192.168.43.219:5000'; // Update with your Flask server URL
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final String _threadId = 'your_predefined_thread_id'; // Set your predefined thread_id here
+  // static const String _baseUrl = 'http://192.168.43.219:5000'; // Update with your Flask server URL
+  static const String _baseUrl = 'https://54eb4eab-858c-4c1f-8835-a2ede0bc0de1-00-91p2lrp6g0ce.kirk.replit.dev';
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String _threadId = 'thread_id';
 
   Future<String> getChatbotResponseTherapist(String message) async {
     User? user = _auth.currentUser;

@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
@@ -103,7 +104,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Chat History'),
+          title: Text('Chat History',style: GoogleFonts.poppins()),
           actions: [
             IconButton(
               icon: Icon(
@@ -113,6 +114,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
             ),
           ],
           bottom: TabBar(
+            labelStyle: GoogleFonts.poppins(),
             tabs: [
               Tab(text: 'Therapist'),
               Tab(text: 'Companion'),
@@ -152,14 +154,14 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                 title: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(message.text),
+                    child: Text(message.text,style: GoogleFonts.poppins()),
                   ),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _getSenderLabel(message.author),
+                      _getSenderLabel(message.author,),
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontSize: 12.0,

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:google_fonts/google_fonts.dart';
 
 class TherapistChatBot extends StatefulWidget {
   final String threadId;
@@ -147,11 +148,12 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Rate Limit Exceeded'),
-          content:
-              Text('You have reached the rate limit. Would you like to renew?'),
+          content: Text(
+              'You have reached the rate limit. Would you like to renew?',
+              style: GoogleFonts.poppins()),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: Text('Cancel', style: GoogleFonts.poppins()),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -174,18 +176,24 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
       try {
         await _apiService.renewRateLimit();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Rate limit renewed successfully')),
+          SnackBar(
+              content: Text('Rate limit renewed successfully',
+                  style: GoogleFonts.poppins())),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to renew rate limit: $e')),
+          SnackBar(
+              content: Text('Failed to renew rate limit',
+                  style: GoogleFonts.poppins())),
         );
       }
     });
 
     if (!adShown) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to show ad. Please try again later.')),
+        SnackBar(
+            content: Text('Failed to show ad. Please try again later.',
+                style: GoogleFonts.poppins())),
       );
     }
   }
@@ -199,7 +207,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Therapist'),
+        title: Text('Therapist', style: GoogleFonts.poppins()),
         actions: [
           IconButton(
             icon: Icon(Icons.history_outlined),
@@ -245,10 +253,18 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
           inputBackgroundColor: theme.colorScheme.surface,
           inputTextColor: theme.colorScheme.onSurface,
           sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
-          inputMargin:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          inputTextStyle: TextStyle(
-            color: theme.colorScheme.onSurface,
+          inputMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          inputTextStyle: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          sentMessageBodyTextStyle: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           inputBorderRadius: const BorderRadius.horizontal(
             left: Radius.circular(10),

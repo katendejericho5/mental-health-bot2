@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:google_fonts/google_fonts.dart';
 
 class CompanionChatBot extends StatefulWidget {
   final String threadId;
@@ -146,18 +147,19 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Rate Limit Exceeded'),
-          content:
-              Text('You have reached the rate limit. Would you like to renew?'),
+          title: Text('Rate Limit Exceeded', style: GoogleFonts.poppins()),
+          content: Text(
+              'You have reached the rate limit. Would you like to renew?',
+              style: GoogleFonts.poppins()),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: Text('Cancel', style: GoogleFonts.poppins()),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Watch Ad'),
+              child: Text('Watch Ad', style: GoogleFonts.poppins()),
               onPressed: () async {
                 Navigator.of(context).pop();
                 _showAd();
@@ -174,18 +176,24 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
       try {
         await _apiService.renewRateLimit();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Rate limit renewed successfully')),
+          SnackBar(
+              content: Text('Rate limit renewed successfully',
+                  style: GoogleFonts.poppins())),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to renew rate limit: $e')),
+          SnackBar(
+              content: Text('Failed to renew rate limit',
+                  style: GoogleFonts.poppins())),
         );
       }
     });
 
     if (!adShown) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to show ad. Please try again later.')),
+        SnackBar(
+            content: Text('Failed to show ad. Please try again later.',
+                style: GoogleFonts.poppins())),
       );
     }
   }
@@ -199,7 +207,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Companion'),
+        title: Text('Companion', style: GoogleFonts.poppins()),
         actions: [
           IconButton(
             icon: Icon(Icons.history_outlined),
@@ -240,17 +248,25 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         theme: DefaultChatTheme(
           backgroundColor: backgroundColor,
-      
+
           // INPUT TEXTFIELD THEME
           inputTextCursorColor: theme.colorScheme.primary,
           inputSurfaceTintColor: theme.colorScheme.surfaceTint,
           inputBackgroundColor: theme.colorScheme.surface,
           inputTextColor: theme.colorScheme.onSurface,
           sendButtonIcon: Icon(Icons.send, color: theme.colorScheme.primary),
-          inputMargin:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          inputTextStyle: TextStyle(
-            color: theme.colorScheme.onSurface,
+          inputMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          inputTextStyle: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          sentMessageBodyTextStyle: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           inputBorderRadius: const BorderRadius.horizontal(
             left: Radius.circular(10),

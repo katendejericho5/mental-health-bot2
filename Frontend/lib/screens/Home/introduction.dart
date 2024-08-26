@@ -19,7 +19,7 @@ class IntroductionPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: Colors.teal[800]),
         bodyTextStyle:
-            GoogleFonts.roboto(fontSize: 18.0, color: Colors.blueGrey[700]),
+            GoogleFonts.poppins(fontSize: 18.0, color: Colors.blueGrey[700]),
         imagePadding: EdgeInsets.only(top: 40),
         boxDecoration: BoxDecoration(
           gradient: LinearGradient(
@@ -65,7 +65,7 @@ class IntroductionPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: Colors.green[800]),
         bodyTextStyle:
-            GoogleFonts.roboto(fontSize: 18.0, color: Colors.blueGrey[700]),
+            GoogleFonts.poppins(fontSize: 18.0, color: Colors.blueGrey[700]),
         imagePadding: EdgeInsets.only(top: 40),
         boxDecoration: BoxDecoration(
           gradient: LinearGradient(
@@ -111,7 +111,7 @@ class IntroductionPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: Colors.orange[800]),
         bodyTextStyle:
-            GoogleFonts.roboto(fontSize: 18.0, color: Colors.blueGrey[700]),
+            GoogleFonts.poppins(fontSize: 18.0, color: Colors.blueGrey[700]),
         imagePadding: EdgeInsets.only(top: 40),
         boxDecoration: BoxDecoration(
           gradient: LinearGradient(

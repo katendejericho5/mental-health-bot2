@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:WellCareBot/screens/Authentication/forgot_password.dart';
 import 'package:WellCareBot/screens/Authentication/registration.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,9 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         // Handle login failure (e.g., show an error message)
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed. Please try again.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login failed. Please try again.',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(),
+              )),
+        ));
       }
     }
   }
@@ -71,23 +75,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       colors: [Colors.blue, Colors.green],
                       tileMode: TileMode.mirror,
                     ).createShader(bounds),
-                    child: Text(
-                      'Welcome Back 👋',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            Colors.white, // this will be replaced by gradient
-                      ),
-                    ),
+                    child: Text('Welcome Back 👋',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        )),
                   ),
                   SizedBox(height: 10),
                   Container(
                     child: Text(
                       'Please enter your email and password to sign in',
-                      style: TextStyle(
-                        fontSize: 15,
-                        // fontWeight: FontWeight.w800,
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          // fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
                   ),
@@ -98,6 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        // fontSize: 15,
+                        // fontWeight: FontWeight.w800,
+                        ),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -123,6 +134,12 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  labelStyle: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        // fontSize: 15,
+                        // fontWeight: FontWeight.w800,
+                        ),
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
@@ -155,14 +172,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _submit,
                 child: Text(
                   'Login',
-                  style: TextStyle(
-                    color: Colors.white,
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  textStyle: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -180,13 +205,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: Text(
                   'Forgot Password?',
-                  style: TextStyle(color: Colors.blue),
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account?'),
+                  Text(
+                    'Don\'t have an account?',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          // fontSize: 15,
+                          // fontWeight: FontWeight.w800,
+                          ),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -198,9 +236,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -216,7 +256,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('or'),
+                    child: Text(
+                      'or',
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          // fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Divider(

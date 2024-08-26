@@ -3,6 +3,7 @@ import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Authentication/verification_screen.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -81,11 +82,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ).createShader(bounds),
                     child: Text(
                       'Wellcare Bot',
-                      style: TextStyle(
-                        fontSize: 35,
+                      style:GoogleFonts.poppins(
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color:
-                            Colors.white, // this will be replaced by gradient
                       ),
                     ),
                   ),
@@ -93,9 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                     child: Text(
                       'Create Your Account',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -106,6 +105,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  labelStyle: GoogleFonts.poppins(
+                  ),
                   // labelStyle: TextStyle(color: Colors.blue),
                   // prefixIcon: Icon(Icons.person, color: Colors.blue),
                   border: OutlineInputBorder(
@@ -130,6 +131,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: GoogleFonts.poppins(
+                  ),
                   // labelStyle: TextStyle(color: Colors.green),
                   // prefixIcon: Icon(Icons.email, color: Colors.green),
                   border: OutlineInputBorder(
@@ -157,6 +160,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  labelStyle: GoogleFonts.poppins(
+                  ),
                   // labelStyle: TextStyle(color: Colors.red),
                   // prefixIcon: Icon(Icons.lock, color: Colors.red),
                   suffixIcon: IconButton(
@@ -192,14 +197,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onPressed: _submit,
                 child: Text(
                   'Continue',
-                  style: TextStyle(
-                    color: Colors.white,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  textStyle: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -209,7 +218,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account?'),
+                  Text('Already have an account?', style: GoogleFonts.poppins()),
                   TextButton(
                     onPressed: () {
                       // Handle login navigation
@@ -222,7 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     child: Text(
                       'Login',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),
@@ -240,7 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('or'),
+                    child: Text('or', style: GoogleFonts.poppins()),
                   ),
                   Expanded(
                     child: Divider(

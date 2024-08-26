@@ -1,12 +1,13 @@
 import 'package:WellCareBot/screens/groups/group_list.dart';
 import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
 import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
-import 'package:WellCareBot/screens/booking/booking_chat.dart';
+import 'package:WellCareBot/screens/booking/booking_page.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 _buildBottomNavigationBarItem(
                   icon: FontAwesomeIcons.book,
-                  label: 'Bookings',
+                  label: 'Appointments',
                   index: 1,
                 ),
                 _buildBottomNavigationBarItem(
@@ -85,12 +86,12 @@ class _HomePageState extends State<HomePage> {
               type: BottomNavigationBarType.fixed,
               selectedItemColor: const Color(0xFF3498DB),
               unselectedItemColor: Colors.grey[600],
-              selectedLabelStyle: const TextStyle(
-                fontSize: 12, // Reduced font size
+              selectedLabelStyle: GoogleFonts.poppins(
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
-              unselectedLabelStyle: const TextStyle(
-                fontSize: 10, // Reduced font size
+              unselectedLabelStyle: GoogleFonts.poppins(
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
               ),
               elevation: 0,
@@ -241,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'WellCareBot',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 32,
                             color: Colors.blueGrey[800],
                             fontWeight: FontWeight.bold,
@@ -262,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Center(
                           child: Text(
                             'Hello there',
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
@@ -276,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'WellCareBot',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 32,
                             color: Colors.blueGrey[800],
                             fontWeight: FontWeight.bold,
@@ -297,23 +298,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         Center(
                           child: Text(
                             'Hello there',
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
                     );
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Column(
                         children: [
                           Text(
                             'WellCareBot',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 32,
                               color: Colors.blueGrey[800],
                               fontWeight: FontWeight.bold,
@@ -334,10 +336,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Center(
                             child: Text(
                               'Hello, ${snapshot.data}',
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
@@ -349,14 +352,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: Text(
                   'Start a conversation with WellCareBot right now!',
-                  style: TextStyle(
-                    fontSize: 18,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
                     color: Colors.grey[600],
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -384,10 +387,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
-                        child: const Text('Companion Mode'),
+                        child: Text(
+                          'Companion Mode',
+                          style: GoogleFonts.poppins(),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20), // Spacer between buttons
+                    const SizedBox(height: 10), // Spacer between buttons
                     // Therapist Mode Button
                     SizedBox(
                       width: double.infinity,

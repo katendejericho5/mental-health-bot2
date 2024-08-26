@@ -1,5 +1,6 @@
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -29,8 +30,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
@@ -44,10 +44,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ).createShader(bounds),
                 child: Text(
                   'Forgot Password?',
-                  style: TextStyle(
-                    fontSize: 35,
+                  style: GoogleFonts.poppins(
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // this will be replaced by gradient
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -55,8 +55,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(height: 20.0),
               Text(
                 'Please enter your email address to receive a password reset link.',
-                style: TextStyle(
-                  fontSize: 15,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -64,6 +64,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -90,14 +91,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: _submit,
                 child: Text(
                   'Reset Password',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
                     color: Colors.white,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
+                  textStyle: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),

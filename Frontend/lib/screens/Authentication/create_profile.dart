@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,8 +130,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       Text(
                         'Create Your Profile',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 32,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: 10),
@@ -138,7 +140,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         "Please enter your details to complete your profile, don't worry your details are private",
                         maxLines: 3,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 13,
                         ),
                       ),
@@ -170,6 +172,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Full Name',
+                  labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
@@ -193,6 +196,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 dropdownIconPosition: IconPosition.trailing,
                 decoration: InputDecoration(
                   labelText: 'Phone Number',
+                  labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
@@ -223,6 +227,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   labelText: 'Gender',
+                  labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(
@@ -258,12 +263,15 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       margin: EdgeInsets.only(right: 8.0),
                       child: ElevatedButton(
                         onPressed: _skip,
-                        child: Text('Skip'),
+                        child: Text(
+                          'Skip',
+                          style: GoogleFonts.poppins(),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: BorderSide(color: Colors.grey),
                           padding: EdgeInsets.symmetric(vertical: 15.0),
-                          textStyle: TextStyle(fontSize: 16),
+                          textStyle: GoogleFonts.poppins(),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           ),
@@ -278,10 +286,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         onPressed: _continue,
                         child: Text(
                           'Continue',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
+                          style: GoogleFonts.poppins(),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,

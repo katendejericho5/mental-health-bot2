@@ -7,6 +7,7 @@ import 'package:WellCareBot/models/chat_model.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:google_fonts/google_fonts.dart';
 
 class GroupChatScreen extends StatefulWidget {
   final Group group;
@@ -119,12 +120,19 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Delete Message'),
-          content: Text('Are you sure you want to delete this message?'),
+          title: Text(
+            'Delete Message',
+            style:
+                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'Are you sure you want to delete this message?',
+            style: GoogleFonts.poppins(fontSize: 16),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text('Cancel', style: GoogleFonts.poppins(fontSize: 16)),
             ),
             TextButton(
               onPressed: () async {
@@ -137,11 +145,17 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                 } else {
                   print("Message deletion failed");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to delete message')),
+                    SnackBar(
+                      content: Text('Failed to delete message',
+                          style: GoogleFonts.poppins(fontSize: 16)),
+                    ),
                   );
                 }
               },
-              child: Text('Delete'),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.poppins(fontSize: 16),
+              ),
             ),
           ],
         ),
@@ -157,7 +171,12 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.group.name),
+        title: Text(
+          widget.group.name,
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.group),
@@ -192,8 +211,17 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     Icon(Icons.send, color: theme.colorScheme.primary),
                 inputMargin:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                inputTextStyle: TextStyle(
-                  color: theme.colorScheme.onSurface,
+                inputTextStyle: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                sentMessageBodyTextStyle: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 inputBorderRadius: const BorderRadius.horizontal(
                   left: Radius.circular(10),
@@ -217,9 +245,11 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
               padding: EdgeInsets.all(8),
               child: Text(
                 '${_typingUsers.entries.where((entry) => entry.value).map((entry) => entry.key).join(", ")} is typing...',
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),
@@ -247,8 +277,13 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             return Column(
               children: [
                 ListTile(
-                  title: Text('Group Members',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(
+                    'Group Members',
+                    style: GoogleFonts.poppins(
+                      textStyle:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                  ),
                   trailing: IconButton(
                     icon: Icon(Icons.add),
                     onPressed: () {
@@ -270,7 +305,15 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                       final user = snapshot.data![index];
                       final userName = user['fullName'] ?? 'Unknown';
                       return ListTile(
-                        title: Text(userName),
+                        title: Text(
+                          userName,
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                         subtitle: Text(user['email'] ?? ''),
                       );
                     },

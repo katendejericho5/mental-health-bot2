@@ -3,6 +3,7 @@ import 'package:WellCareBot/screens/Authentication/create_profile.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({Key? key}) : super(key: key);
@@ -75,17 +76,17 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 color: Colors.blue,
               ),
               const SizedBox(height: 20.0),
-               ShaderMask(
+              ShaderMask(
                 shaderCallback: (bounds) => LinearGradient(
                   colors: [Colors.blue, Colors.green],
                   tileMode: TileMode.mirror,
                 ).createShader(bounds),
                 child: Text(
                   'Check Your Email',
-                  style: TextStyle(
-                    fontSize: 35,
+                  style: GoogleFonts.poppins(
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // this will be replaced by gradient
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -93,9 +94,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               const SizedBox(height: 10.0),
               Text(
                 'We have sent an email to ${user?.email}. Please check your inbox and follow the instructions to verify your email.',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.black,
-                    ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30.0),
@@ -105,9 +107,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               const SizedBox(height: 20.0),
               Text(
                 'Verifying email...',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.black,
-                    ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
               const SizedBox(height: 40.0),
               ElevatedButton(
@@ -121,7 +124,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
                 child: Text(
                   '               Resend Email            ',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

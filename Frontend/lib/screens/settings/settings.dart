@@ -1,8 +1,10 @@
 import 'package:WellCareBot/screens/settings/about.dart';
 import 'package:WellCareBot/screens/settings/feedback.dart';
+import 'package:WellCareBot/screens/settings/history.dart';
 import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:provider/provider.dart';
 // import 'package:mentalhealth/main.dart'; // Import ThemeNotifier
 
@@ -19,11 +21,13 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text('Settings', style: GoogleFonts.poppins()),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
             // _buildSwitchListTile(
             //   title: 'Enable Dark Mode',
@@ -57,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 8),
             _buildListTile(
               title: 'Profile',
               onTap: () {
@@ -68,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 8),
             _buildListTile(
               title: 'Privacy and Policy',
               onTap: () {
@@ -79,6 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
             ),
+            SizedBox(height: 8),
+
             _buildListTile(
               title: 'About',
               onTap: () {
@@ -89,6 +95,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
             ),
+            SizedBox(height: 8),
+
+            _buildListTile(
+                title: 'History',
+                onTap: () {
+                  // Navigate to Chat History page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatHistoryPage(
+                        therapistThreadId: 'therapist_thread_id',
+                        companion_thread_id: 'companion_thread_id',
+                      ),
+                    ),
+                  );
+                }),
           ],
         ),
       ),
@@ -100,13 +122,19 @@ class _SettingsPageState extends State<SettingsPage> {
     required VoidCallback onTap,
   }) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
       elevation: 1,
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        title: Text(title,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
+        title: Text(
+          title,
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         trailing: Icon(Icons.arrow_forward_ios),
         onTap: onTap,
       ),

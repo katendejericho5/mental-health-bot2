@@ -1,8 +1,7 @@
-import firebase_admin  # type: ignore
-from firebase_admin import credentials, firestore  # type: ignore
+import firebase_admin # type: ignore
+from firebase_admin import credentials, firestore # type: ignore
 from datetime import datetime
 from langchain_core.tools import tool
-import os
 
 # Global variable to track if Firebase is already initialized
 firebase_initialized = False
@@ -11,55 +10,15 @@ db = None
 def initialize_firebase():
     global firebase_initialized, db
     if not firebase_initialized:
-        # Try the first path first, then the second path
         try:
-            try:
-                cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
-                firebase_admin.initialize_app(cred)
-                db = firestore.client()
-                firebase_initialized = True
-                print("Firebase initialized successfully with the first path.")
-                return
-            except Exception as e:
-                print(f"Error initializing Firebase with the first path: {e}")
-            
-            try:
-                cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
-                firebase_admin.initialize_app(cred)
-                db = firestore.client()
-                firebase_initialized = True
-                print("Firebase initialized successfully with the second path.")
-                return
-            except Exception as e:
-                print(f"Error initializing Firebase with the second path: {e}")
-        except Exception as e:
-            print(f"Error initializing Firebase with the second path: {e}")
-
-        # If initialization fails, try the second path first, then the first path
-        try:
-            try:
-                cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
-                firebase_admin.initialize_app(cred)
-                db = firestore.client()
-                firebase_initialized = True
-                print("Firebase initialized successfully with the second path.")
-                return
-            except Exception as e:
-                print(f"Error initializing Firebase with the second path: {e}")
-            
-            try:
-                cred = credentials.Certificate('wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
-                firebase_admin.initialize_app(cred)
-                db = firestore.client()
-                firebase_initialized = True
-                print("Firebase initialized successfully with the first path.")
-                return
-            except Exception as e:
-                print(f"Error initializing Firebase with the first path: {e}")
-
+            # Initialize Firebase
+            cred = credentials.Certificate('Backend/wellcarebot-71cca-firebase-adminsdk-v1v74-74fce68f5b.json')
+            firebase_admin.initialize_app(cred)
+            db = firestore.client()
+            firebase_initialized = True
+            print("Firebase initialized successfully.")
         except Exception as e:
             print(f"Error initializing Firebase: {e}")
-
 
 def get_all_therapists(*args, **kwargs):
     try:
@@ -185,46 +144,3 @@ def create_booking_tool(therapist_name: str, user_email: str, appointment_date: 
     booking_ref = db.collection('bookings').add(booking_data)[1]  # Extracting the DocumentReference from the tuple
     print(f"Booking created successfully. Booking ID: {booking_ref.id}")
     return f"Booking created successfully. Booking ID: {booking_ref.id}"
-
-@tool
-def get_user_by_email_tool(email: str) -> dict:
-    """
-    Retrieve user details from the database based on the provided email address.
-    
-    Args:
-        email: The email address of the user.
-    
-    Returns:
-        A dictionary containing the user details if the user is found, or None if the user is not found.
-    """
-    initialize_firebase()
-    user_id, user_data = get_user_by_email(email)
-    if user_id:
-        user_data['id'] = user_id
-        return user_data
-    return None
-
-
-@tool
-def get_all_therapists_tool() -> list:
-    """
-    Retrieve a list of all therapists from the database.
-    
-    Returns:
-        A list of dictionaries containing the details of all therapists.
-    """
-    return get_all_therapists()
-
-
-@tool
-def get_therapist_by_name_tool(therapist_name: str) -> dict:
-    """
-    Retrieve the details of a therapist based on the provided name.
-    
-    Args:
-        therapist_name: The full name of the therapist.
-    
-    Returns:
-        A dictionary containing the details of the therapist if found, or None if the therapist is not found.
-    """
-    return get_therapist_by_name(therapist_name)

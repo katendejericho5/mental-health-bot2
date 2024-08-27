@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://192.168.43.219:5000'; // Update with your Flask server URL
+  static const String _baseUrl = 'https://backend-750j.onrender.com'; // Update with your Flask server URL
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String _threadId = 'your_predefined_thread_id'; // Set your predefined thread_id here
 

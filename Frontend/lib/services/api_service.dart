@@ -3,9 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://192.168.43.219:5000'; // Update with your Flask server URL
+  static const String _baseUrl =
+      'https://backend-750j.onrender.com'; // Update with your Flask server URL
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final String _threadId = 'your_predefined_thread_id'; // Set your predefined thread_id here
+  final String _threadId =
+      'your_predefined_thread_id'; // Set your predefined thread_id here
 
   Future<String> getChatbotResponseTherapist(String message) async {
     User? user = _auth.currentUser;
@@ -13,14 +15,17 @@ class ApiService {
       throw Exception('User not logged in');
     }
     String email = user.email!;
-    return _getChatbotResponse(message, _threadId, '/chat/therapist', email: email);
+    return _getChatbotResponse(message, _threadId, '/chat/therapist',
+        email: email);
   }
 
   Future<String> getChatbotResponseCompanion(String message) async {
     return _getChatbotResponse(message, _threadId, '/chat/companion');
   }
 
-  Future<String> _getChatbotResponse(String message, String threadId, String endpoint, {String? email}) async {
+  Future<String> _getChatbotResponse(
+      String message, String threadId, String endpoint,
+      {String? email}) async {
     final url = Uri.parse('$_baseUrl$endpoint');
     final body = {
       'message': message,

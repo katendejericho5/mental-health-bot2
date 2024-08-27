@@ -1,4 +1,4 @@
-import 'package:WellCareBot/screens/Authentication/registration.dart';
+import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -10,18 +10,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      // Handle forgot password logic here
-      print('Email: $_email');
-      // Implement password reset logic, e.g., sending a reset link to the email
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RegisterScreen(),
-        ),
+
+      // Call the resetPassword method from FirebaseAuthHelper
+      await FirebaseAuthHelper.resetPassword(
+        email: _email,
+        context: context,
       );
+
+      // Navigate back or show a message to the user
+      Navigator.pop(
+          context); // Go back to the previous screen or you can redirect to another screen
     }
   }
 

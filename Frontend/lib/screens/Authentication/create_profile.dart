@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:WellCareBot/screens/Home/homepage.dart';
+import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -94,7 +94,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(), // Replace with your target screen
+          builder: (context) =>
+              IntroductionPage(), // Replace with your target screen
         ),
       );
     }

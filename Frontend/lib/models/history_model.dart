@@ -1,4 +1,4 @@
-class ChatMessage {
+class ChatMessageHistory {
   final String id;
   final String threadId;
   final String userId;
@@ -6,7 +6,7 @@ class ChatMessage {
   final int createdAt;
   final String text;
 
-  ChatMessage({
+  ChatMessageHistory({
     required this.id,
     required this.threadId,
     required this.userId,
@@ -26,8 +26,8 @@ class ChatMessage {
     };
   }
 
-  static ChatMessage fromMap(Map<String, dynamic> map) {
-    return ChatMessage(
+  static ChatMessageHistory fromMap(Map<String, dynamic> map) {
+    return ChatMessageHistory(
       id: map['id'],
       threadId: map['thread_id'],
       userId: map['user_id'],

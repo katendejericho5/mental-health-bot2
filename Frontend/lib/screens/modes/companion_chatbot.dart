@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CompanionChatBot extends StatefulWidget {
   final String threadId;
@@ -28,7 +27,6 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   final String _botId = 'bot123';
-  String? _threadId; // Store the thread ID locally
 
   @override
   void initState() {
@@ -40,11 +38,9 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   Future<void> _initializeData() async {
     try {
       await _fetchUserData();
-      await _getOrSetThreadId();
       _loadMessages();
     } catch (e) {
       print('Error initializing data: $e');
-      // Optionally show a user-friendly error message
     }
   }
 
@@ -67,38 +63,26 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
     }
   }
 
-  Future<void> _getOrSetThreadId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _threadId = prefs.getString('companion_thread_id');
-
-    if (_threadId == null) {
-      _threadId = await _apiService.getThreadId(); // Fetch a new thread ID
-      await prefs.setString('companion_thread_id', _threadId!);
-    }
-  }
-
   void _loadMessages() {
-    if (_threadId != null) {
-      _firestoreService.getMessages(_threadId!).listen((messages) {
-        setState(() {
-          _messages.clear();
-          _messages.addAll(messages.map((message) => types.TextMessage(
-                author: types.User(id: message.author),
-                createdAt: message.createdAt,
-                id: message.id,
-                text: message.text,
-              )));
-        });
+    _firestoreService.getMessages(widget.threadId).listen((messages) {
+      setState(() {
+        _messages.clear();
+        _messages.addAll(messages.map((message) => types.TextMessage(
+              author: types.User(id: message.author),
+              createdAt: message.createdAt,
+              id: message.id,
+              text: message.text,
+            )));
       });
-    }
+    });
   }
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
-    if (userInput.isNotEmpty && _threadId != null) {
+    if (userInput.isNotEmpty) {
       final chatMessage = ChatMessageHistory(
         id: DateTime.now().toString(),
-        threadId: _threadId!,
+        threadId: widget.threadId,
         userId: _userId,
         author: _userId,
         createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -122,7 +106,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         );
         final botMessage = ChatMessageHistory(
           id: DateTime.now().toString(),
-          threadId: _threadId!,
+          threadId: widget.threadId,
           userId: _botId,
           author: _botId,
           createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -232,8 +216,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatHistoryPage(
-                    therapistThreadId: _threadId!,
-                    companion_thread_id: _threadId!,
+                    therapistThreadId: 'therapist_thread_id',
+                    companion_thread_id: 'companion_thread_id',
                   ),
                 ),
               );

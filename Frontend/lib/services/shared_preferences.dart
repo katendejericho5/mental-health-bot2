@@ -21,19 +21,8 @@ class ThemeNotifier with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? themeString = prefs.getString('themeMode');
     if (themeString != null) {
-      _themeMode = ThemeMode.values
-          .firstWhere((e) => e.toString().split('.').last == themeString);
+      _themeMode = ThemeMode.values.firstWhere((e) => e.toString().split('.').last == themeString);
       notifyListeners();
     }
   }
-}
-
-Future<String?> getThreadIdFromPreferences() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('thread_id');
-}
-
-Future<void> saveThreadIdToPreferences(String threadId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('thread_id', threadId);
 }

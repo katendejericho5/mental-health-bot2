@@ -1,11 +1,10 @@
 import 'package:WellCareBot/screens/groups/group_list.dart';
-import 'package:WellCareBot/screens/booking/booking_page.dart';
 import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
 import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
+import 'package:WellCareBot/screens/booking/booking_page.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
-import 'package:WellCareBot/services/api_service.dart';
-import 'package:WellCareBot/services/shared_preferences_helper.dart.dart';
+import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,15 +20,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  late ApiService _apiService;
-  @override
-  void initState() {
-    super.initState();
-    _apiService = ApiService();
-  }
 
   List<Widget> _pages() => [
-        HomeScreen(apiService: _apiService),
+        HomeScreen(),
         BookingsPage(),
         GroupListScreen(),
         SettingsPage(),
@@ -138,10 +130,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeScreen extends StatefulWidget {
-  final ApiService apiService;
-
-  HomeScreen({required this.apiService});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -151,14 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  String? _threadId; // Store the thread ID locally
-  final ApiService _apiService = ApiService();
 
   @override
   void initState() {
     super.initState();
-    _getOrSetThreadId();
-
     _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
         ThemeMode.dark;
   }
@@ -205,16 +189,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _darkMode ? ThemeMode.dark : ThemeMode.light,
       );
     });
-  }
-
-  Future<void> _getOrSetThreadId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _threadId = prefs.getString('companion_thread_id');
-
-    if (_threadId == null) {
-      _threadId = await _apiService.getThreadId(); // Fetch a new thread ID
-      await prefs.setString('companion_thread_id', _threadId!);
-    }
   }
 
   @override
@@ -408,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => CompanionChatBot(
-                                threadId: _threadId!,
+                                threadId: 'companion_thread_id',
                               ),
                             ),
                           );
@@ -437,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TherapistChatBot(
-                                threadId: _threadId!,
+                                threadId: 'therapist_thread_id',
                               ),
                             ),
                           );

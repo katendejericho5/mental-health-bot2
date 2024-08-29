@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
-import 'package:WellCareBot/services/shared_preferences_helper.dart.dart';
+import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

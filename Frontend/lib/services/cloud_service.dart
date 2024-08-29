@@ -4,14 +4,7 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/models/therapist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';import 'package:WellCareBot/models/booking_model.dart';
-import 'package:WellCareBot/models/chat_model.dart';
-import 'package:WellCareBot/models/group_model.dart';
-import 'package:WellCareBot/models/history_model.dart';
-import 'package:WellCareBot/models/therapist_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;

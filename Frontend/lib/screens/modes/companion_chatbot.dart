@@ -10,6 +10,75 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
+
+class DancingDots extends StatefulWidget {
+  @override
+  _DancingDotsState createState() => _DancingDotsState();
+}
+
+class _DancingDotsState extends State<DancingDots>
+    with TickerProviderStateMixin {
+  late List<AnimationController> _controllers;
+  late List<Animation<double>> _animations;
+
+  @override
+  void initState() {
+    super.initState();
+    _controllers = List.generate(3, (index) {
+      return AnimationController(
+        duration: Duration(milliseconds: 600),
+        vsync: this,
+      );
+    });
+
+    _animations = _controllers.map((controller) {
+      return Tween<double>(begin: 0, end: 6).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOut),
+      );
+    }).toList();
+
+    for (var i = 0; i < 3; i++) {
+      Future.delayed(Duration(milliseconds: i * 200), () {
+        _controllers[i].repeat(reverse: true);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(3, (index) {
+        return AnimatedBuilder(
+          animation: _animations[index],
+          builder: (context, child) {
+            return Container(
+              width: 8,
+              height: 8,
+              margin: EdgeInsets.symmetric(horizontal: 2),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              transform: Matrix4.translation(
+                Vector3(0, -_animations[index].value, 0),
+              ),
+            );
+          },
+        );
+      }),
+    );
+  }
+}
 
 class CompanionChatBot extends StatefulWidget {
   const CompanionChatBot({super.key});
@@ -27,6 +96,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   final String _botId = 'bot123';
   late String _threadId;
   late String therapistThreadId;
+  bool _isBotTyping = false;
 
   @override
   void initState() {
@@ -112,6 +182,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
           id: chatMessage.id,
           text: userInput,
         ));
+        _isBotTyping = true; // Show typing indicator
       });
 
       await _firestoreService.addMessage(chatMessage);
@@ -135,22 +206,20 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
             id: botMessage.id,
             text: response,
           ));
+          _isBotTyping = false; // Hide typing indicator
         });
 
         await _firestoreService.addMessage(botMessage);
       } catch (e) {
-        if (e.toString().contains('Rate limit exceeded')) {
-          _showRateLimitDialog();
-        } else {
-          setState(() {
-            _messages.add(types.TextMessage(
-              author: types.User(id: _botId),
-              createdAt: DateTime.now().millisecondsSinceEpoch,
-              id: DateTime.now().toString(),
-              text: "Oops!😟 Something went wrong. Please try again later.",
-            ));
-          });
-        }
+        setState(() {
+          _isBotTyping = false; // Hide typing indicator on error
+          _messages.add(types.TextMessage(
+            author: types.User(id: _botId),
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: DateTime.now().toString(),
+            text: "Oops!😟 Something went wrong. Please try again later.",
+          ));
+        });
       }
 
       _controller.clear();
@@ -216,9 +285,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color backgroundColor = theme.brightness == Brightness.light
-        ? Colors.white // Light theme background
-        : Colors.grey[900]!; // Dark theme background
+    final Color backgroundColor =
+        theme.brightness == Brightness.light ? Colors.white : Colors.grey[900]!;
 
     return Scaffold(
       appBar: AppBar(
@@ -261,6 +329,21 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         showUserNames: true,
         scrollPhysics: const BouncingScrollPhysics(),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        customBottomWidget: _isBotTyping
+            ? Container(
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: theme.colorScheme.primary,
+                      child: Icon(Icons.chat, color: Colors.white),
+                    ),
+                    SizedBox(width: 8),
+                    DancingDots(),
+                  ],
+                ),
+              )
+            : null,
         theme: DefaultChatTheme(
           backgroundColor: backgroundColor,
           inputTextCursorColor: theme.colorScheme.primary,

@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://backend-750j.onrender.com';
+  static const String _baseUrl =
+      'https://54eb4eab-858c-4c1f-8835-a2ede0bc0de1-00-91p2lrp6g0ce.kirk.replit.dev';
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> getChatbotResponseTherapist(String message) async {
@@ -13,13 +14,13 @@ class ApiService {
       throw Exception('User not logged in');
     }
     String email = user.email!;
-    String threadId = await _getOrCreateThreadId('therapist');
+    String threadId = await getOrCreateThreadId('therapist');
     return _getChatbotResponse(message, threadId, '/chat/therapist',
         email: email);
   }
 
   Future<String> getChatbotResponseCompanion(String message) async {
-    String threadId = await _getOrCreateThreadId('companion');
+    String threadId = await getOrCreateThreadId('companion');
     return _getChatbotResponse(message, threadId, '/chat/companion');
   }
 
@@ -59,7 +60,7 @@ class ApiService {
     }
   }
 
-  Future<String> _getOrCreateThreadId(String mode) async {
+  Future<String> getOrCreateThreadId(String mode) async {
     final prefs = await SharedPreferences.getInstance();
     String? threadId = prefs.getString('thread_id_$mode');
 

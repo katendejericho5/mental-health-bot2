@@ -381,9 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CompanionChatBot(
-                                threadId: 'companion_thread_id',
-                              ),
+                              builder: (context) => CompanionChatBot(),
                             ),
                           );
                         },
@@ -410,9 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TherapistChatBot(
-                                threadId: 'therapist_thread_id',
-                              ),
+                              builder: (context) => TherapistChatBot(),
                             ),
                           );
                         },

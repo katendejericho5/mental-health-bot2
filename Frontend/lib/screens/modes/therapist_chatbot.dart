@@ -12,9 +12,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
 
 class TherapistChatBot extends StatefulWidget {
-  final String threadId;
-
-  const TherapistChatBot({super.key, required this.threadId});
+  const TherapistChatBot({super.key});
 
   @override
   State<TherapistChatBot> createState() => _TherapistChatBotState();
@@ -27,18 +25,32 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   final String _botId = 'bot123';
+  late String _threadId;
+  late String companionThreadId;
 
   @override
   void initState() {
     super.initState();
     AdHelper.loadRewardedAd();
     _initializeData();
+    _initializeData2();
+  }
+
+  Future<void> _initializeData2() async {
+    try {
+      await _fetchUserData();
+      companionThreadId = await _apiService.getOrCreateThreadId('companion');
+      await _loadMessages();
+    } catch (e) {
+      print('Error initializing data: $e');
+    }
   }
 
   Future<void> _initializeData() async {
     try {
       await _fetchUserData();
-      _loadMessages();
+      _threadId = await _apiService.getOrCreateThreadId('therapist');
+      await _loadMessages();
     } catch (e) {
       print('Error initializing data: $e');
     }
@@ -54,17 +66,21 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
 
       if (userDoc.exists && userDoc.data() != null) {
         final userData = userDoc.data() as Map<String, dynamic>;
-        _userId = userData['uid'] ?? user.uid;
+        setState(() {
+          _userId = userData['uid'] ?? user.uid;
+        });
       } else {
-        _userId = user.uid;
+        setState(() {
+          _userId = user.uid;
+        });
       }
     } else {
       throw Exception('User not logged in');
     }
   }
 
-  void _loadMessages() {
-    _firestoreService.getMessages(widget.threadId).listen((messages) {
+  Future<void> _loadMessages() async {
+    _firestoreService.getMessages(_threadId).listen((messages) {
       setState(() {
         _messages.clear();
         _messages.addAll(messages.map((message) => types.TextMessage(
@@ -82,7 +98,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
     if (userInput.isNotEmpty) {
       final chatMessage = ChatMessageHistory(
         id: DateTime.now().toString(),
-        threadId: widget.threadId,
+        threadId: _threadId,
         userId: _userId,
         author: _userId,
         createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -101,12 +117,11 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
       await _firestoreService.addMessage(chatMessage);
 
       try {
-        final response = await _apiService.getChatbotResponseTherapist(
-          userInput,
-        );
+        final response =
+            await _apiService.getChatbotResponseTherapist(userInput);
         final botMessage = ChatMessageHistory(
           id: DateTime.now().toString(),
-          threadId: widget.threadId,
+          threadId: _threadId,
           userId: _botId,
           author: _botId,
           createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -216,8 +231,8 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatHistoryPage(
-                    therapistThreadId: 'therapist_thread_id',
-                    companion_thread_id: 'companion_thread_id',
+                    therapistThreadId: _threadId,
+                    companion_thread_id: companionThreadId,
                   ),
                 ),
               );

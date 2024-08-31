@@ -14,7 +14,7 @@ bcrypt
 beautifulsoup4
 blinker
 boto3
-#botocore
+botocore
 build
 CacheControl
 cachelib
@@ -52,7 +52,7 @@ Flask-Session
 Flask-SQLAlchemy
 flatbuffers
 fonttools
-#frozenlist
+frozenlist
 fsspec
 geojson
 google-api-core
@@ -111,7 +111,7 @@ langgraph
 langsmith
 limits
 logging
-# loguru
+loguru
 markdown-it-py
 MarkupSafe
 marshmallow

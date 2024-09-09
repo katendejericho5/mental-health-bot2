@@ -2,7 +2,7 @@
     <application
         android:label="WellCareBot"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
 
         <!-- Add this meta-data tag for AdMob -->
         <meta-data

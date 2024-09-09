@@ -108,6 +108,7 @@ flutter:
   assets:
     - assets/
     - assets/markdown/
+    - assets/images/onboarding/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

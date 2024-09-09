@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
+import 'package:WellCareBot/screens/welcome/welcome_screen.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'constant/size_config.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
 class AuthCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -61,7 +64,7 @@ class AuthCheck extends StatelessWidget {
           return HomePage(); // Navigate to home page
         } else {
           // User is not logged in
-          return LoginScreen(); // Navigate to login page
+          return WelcomeScreen(); // Navigate to welcome screen
         }
       },
     );

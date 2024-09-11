@@ -59,7 +59,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(38, 230, 248, 0.9),
+          backgroundColor: Color.fromRGBO(37, 14, 132, 1),
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -81,8 +81,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  Color.fromRGBO(1, 60, 63, 1),
-                  Color.fromRGBO(38, 230, 248, 1)
+                  Color.fromRGBO(17, 6, 60, 1),
+                  Color.fromRGBO(37, 14, 132, 1)
                 ]),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),

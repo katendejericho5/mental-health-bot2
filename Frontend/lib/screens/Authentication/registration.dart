@@ -1,8 +1,11 @@
+import 'package:WellCareBot/components/default_button.dart';
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Authentication/verification_screen.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -65,56 +68,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(1, 60, 63, 1),
+                Color.fromRGBO(38, 230, 248, 1)
+              ]),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: 20.0),
+              ListTile(
+                title: Text(
+                  "Sign Up",
+                  style: GoogleFonts.nunito(
+                      color: Colors.white,
+                      fontSize: getProportionateScreenWidth(28),
+                      fontWeight: FontWeight.w700),
+                ),
+                subtitle: Text(
+                  "Create an account to continue!",
+                  style: GoogleFonts.nunito(
+                      color: Colors.white,
+                      fontSize: getProportionateScreenWidth(15),
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+              Row(
                 children: [
-                  SizedBox(height: 20),
-                  ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: [Colors.blue, Colors.green],
-                      tileMode: TileMode.mirror,
-                    ).createShader(bounds),
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
                     child: Text(
-                      'Wellcare Bot',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            Colors.white, // this will be replaced by gradient
-                      ),
+                      "Username",
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w700),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Container(
-                    child: Text(
-                      'Create Your Account',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
+                  SizedBox(width: getProportionateScreenWidth(45))
                 ],
               ),
-              SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Username',
-                  // labelStyle: TextStyle(color: Colors.blue),
-                  // prefixIcon: Icon(Icons.person, color: Colors.blue),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                  hintText: "Username",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'krona',
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12.0),
+                  suffixIcon: Icon(
+                    Icons.person,
+                    color: Color.fromRGBO(3, 226, 246, 1),
+                    size: 20,
                   ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.all(8),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.white)),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -126,19 +143,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _name = value!;
                 },
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: getProportionateScreenHeight(15)),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Text(
+                      "Email",
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(45))
+                ],
+              ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  // labelStyle: TextStyle(color: Colors.green),
-                  // prefixIcon: Icon(Icons.email, color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                  hintText: "Email",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'krona',
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    // borderSide: BorderSide(color: Colors.green),
-                    borderRadius: BorderRadius.circular(12.0),
+                  suffixIcon: Icon(
+                    Icons.email,
+                    color: Color.fromRGBO(3, 226, 246, 1),
+                    size: 20,
                   ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.all(8),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.white)),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -153,26 +191,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _email = value!;
                 },
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: getProportionateScreenHeight(15)),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Password",
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(45))
+                ],
+              ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  // labelStyle: TextStyle(color: Colors.red),
-                  // prefixIcon: Icon(Icons.lock, color: Colors.red),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                      // color: Colors.red,
-                    ),
-                    onPressed: _togglePasswordVisibility,
+                  hintText: "Password",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'krona',
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                  suffixIcon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Color.fromRGBO(3, 226, 246, 1),
+                    size: 20,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    // borderSide: BorderSide(color: Colors.red),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.all(8),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.white)),
                 ),
                 obscureText: _obscureText,
                 validator: (value) {
@@ -187,31 +239,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _password = value!;
                 },
               ),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: _submit,
-                child: Text(
-                  'Continue',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              ),
+              SizedBox(height: getProportionateScreenHeight(20)),
+              DefaultButton(press: _submit, text: 'Continue'),
               SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account?'),
-                  TextButton(
-                    onPressed: () {
+                  Text('Already have an account?',
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(15),
+                          fontWeight: FontWeight.normal)),
+                  GestureDetector(
+                    onTap: () {
                       // Handle login navigation
                       Navigator.push(
                         context,
@@ -221,11 +261,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                     },
                     child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      '\tLogin',
+                      style: GoogleFonts.nunito(
+                          color: Colors.blueAccent,
+                          fontSize: getProportionateScreenWidth(15),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -234,17 +274,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   Expanded(
                     child: Divider(
-                      color: Colors.grey,
+                      color: Colors.white.withOpacity(0.8),
                       height: 36,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('or'),
+                    child: Text('or',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(15),
+                            fontWeight: FontWeight.normal)),
                   ),
                   Expanded(
                     child: Divider(
-                      color: Colors.grey,
+                      color: Colors.white.withOpacity(0.8),
                       height: 36,
                     ),
                   ),
@@ -253,30 +297,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    icon: Brand(Brands.google),
-                    iconSize: 50.0,
-                    onPressed: () {
-                      // Handle Google login
-                      FirebaseAuthHelper().signInWithGoogle(context);
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.google),
+                      iconSize: 50.0,
+                      onPressed: () {
+                        // Handle Google login
+                        FirebaseAuthHelper().signInWithGoogle(context);
+                      },
+                    ),
                   ),
                   SizedBox(width: 20.0),
-                  IconButton(
-                    icon: Brand(Brands.microsoft),
-                    iconSize: 50.0,
-                    onPressed: () async {
-                      // Handle Microsoft login
-                      FirebaseAuthHelper().signInWithMicrosoft(context);
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.microsoft),
+                      iconSize: 50.0,
+                      onPressed: () async {
+                        // Handle Microsoft login
+                        FirebaseAuthHelper().signInWithMicrosoft(context);
+                      },
+                    ),
                   ),
                   SizedBox(width: 20.0),
-                  IconButton(
-                    icon: Brand(Brands.apple_logo),
-                    iconSize: 50.0,
-                    onPressed: () {
-                      // Handle Apple login
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.apple_logo),
+                      iconSize: 50.0,
+                      onPressed: () {
+                        // Handle Apple login
+                      },
+                    ),
                   ),
                 ],
               ),

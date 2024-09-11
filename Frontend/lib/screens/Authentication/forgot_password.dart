@@ -1,5 +1,8 @@
+import 'package:WellCareBot/components/default_button.dart';
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -29,48 +32,75 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
       body: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(1, 60, 63, 1),
+                Color.fromRGBO(38, 230, 248, 1)
+              ]),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              ShaderMask(
-                shaderCallback: (bounds) => LinearGradient(
-                  colors: [Colors.blue, Colors.green],
-                  tileMode: TileMode.mirror,
-                ).createShader(bounds),
-                child: Text(
-                  'Forgot Password?',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // this will be replaced by gradient
-                  ),
-                  textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
                 ),
+              ),
+              Image(
+                image: AssetImage('assets/images/authentication/forgot.png'),
+                height: getProportionateScreenHeight(350),
+              ),
+              Text(
+                "Forgot Password?",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(32),
+                    fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 20.0),
               Text(
                 'Please enter your email address to receive a password reset link.',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 40.0),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                  hintText: "Email",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'krona',
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12.0),
+                  suffixIcon: Icon(
+                    Icons.email,
+                    color: Color.fromRGBO(3, 226, 246, 1),
+                    size: 20,
                   ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.all(8),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.white)),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -86,22 +116,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 },
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: _submit,
-                child: Text(
-                  'Reset Password',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+              DefaultButton(
+                press: _submit,
+                text: 'Reset Password',
               ),
             ],
           ),

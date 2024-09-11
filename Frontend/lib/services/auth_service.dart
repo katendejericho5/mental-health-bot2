@@ -1,9 +1,11 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/Authentication/create_profile.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 
@@ -137,7 +139,9 @@ class FirebaseAuthHelper {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(3, 226, 246, 1),
+            ),
           );
         },
       );
@@ -147,7 +151,14 @@ class FirebaseAuthHelper {
       if (gUser == null) {
         Navigator.of(context).pop(); // Close loading indicator
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('The user cancelled the sign-in process.')),
+          SnackBar(
+            content: Text('The user cancelled the sign-in process.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
         return;
       }

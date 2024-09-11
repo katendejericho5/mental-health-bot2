@@ -16,19 +16,22 @@ class IntroductionPage extends StatelessWidget {
       image: Image.asset('assets/images/onboarding/dual.png'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.nunito(
-            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
+            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white),
         bodyTextStyle: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(17),
             fontWeight: FontWeight.w400),
         imagePadding: EdgeInsets.only(top: 40),
-        // boxDecoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.teal[50]!, Colors.teal[100]!],
-        //   ),
-        // ),
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromRGBO(3, 104, 109, 1),
+              Color.fromRGBO(38, 230, 248, 1)
+            ],
+          ),
+        ),
       ),
     ),
     PageViewModel(
@@ -38,19 +41,22 @@ class IntroductionPage extends StatelessWidget {
       image: Image.asset('assets/images/onboarding/interaction.png'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.nunito(
-            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
+            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white),
         bodyTextStyle: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(17),
             fontWeight: FontWeight.w400),
         imagePadding: EdgeInsets.only(top: 40),
-        // boxDecoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.teal[50]!, Colors.teal[100]!],
-        //   ),
-        // ),
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromRGBO(3, 104, 109, 1),
+              Color.fromRGBO(38, 230, 248, 1)
+            ],
+          ),
+        ),
       ),
     ),
     PageViewModel(
@@ -60,19 +66,22 @@ class IntroductionPage extends StatelessWidget {
       image: Image.asset('assets/images/onboarding/evidence.png'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.nunito(
-            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
+            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white),
         bodyTextStyle: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(17),
             fontWeight: FontWeight.w400),
         imagePadding: EdgeInsets.only(top: 40),
-        // boxDecoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.teal[50]!, Colors.teal[100]!],
-        //   ),
-        // ),
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromRGBO(3, 104, 109, 1),
+              Color.fromRGBO(38, 230, 248, 1)
+            ],
+          ),
+        ),
       ),
     ),
     PageViewModel(
@@ -82,19 +91,22 @@ class IntroductionPage extends StatelessWidget {
       image: Image.asset('assets/images/onboarding/mood.png'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.nunito(
-            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
+            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white),
         bodyTextStyle: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(17),
             fontWeight: FontWeight.w400),
         imagePadding: EdgeInsets.only(top: 40),
-        // boxDecoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.teal[50]!, Colors.teal[100]!],
-        //   ),
-        // ),
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromRGBO(3, 104, 109, 1),
+              Color.fromRGBO(38, 230, 248, 1)
+            ],
+          ),
+        ),
       ),
     ),
     PageViewModel(
@@ -104,19 +116,22 @@ class IntroductionPage extends StatelessWidget {
       image: Image.asset('assets/images/onboarding/affordable.png'),
       decoration: PageDecoration(
         titleTextStyle: GoogleFonts.nunito(
-            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
+            fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white),
         bodyTextStyle: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(17),
             fontWeight: FontWeight.w400),
         imagePadding: EdgeInsets.only(top: 40),
-        // boxDecoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.teal[50]!, Colors.teal[100]!],
-        //   ),
-        // ),
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromRGBO(3, 104, 109, 1),
+              Color.fromRGBO(38, 230, 248, 1)
+            ],
+          ),
+        ),
       ),
     ),
   ];
@@ -166,14 +181,20 @@ class IntroductionPage extends StatelessWidget {
       skip: Text(
         "Skip",
         style: GoogleFonts.nunito(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: getProportionateScreenWidth(18),
             fontWeight: FontWeight.w400),
       ),
       next: Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(2, 106, 111, 1),
+                Color.fromRGBO(3, 226, 246, 1)
+              ]),
           shape: BoxShape.circle,
         ),
         child: Padding(
@@ -181,7 +202,7 @@ class IntroductionPage extends StatelessWidget {
           child: Center(
             child: Text('Next',
                 style: GoogleFonts.nunito(
-                    color: Color.fromRGBO(1, 66, 72, 1),
+                    color: Colors.white,
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.bold)),
           ),
@@ -212,7 +233,7 @@ class IntroductionPage extends StatelessWidget {
                     child: Text(
                       "Start",
                       style: GoogleFonts.nunito(
-                          color: Color.fromRGBO(1, 66, 72, 1),
+                          color: Colors.white,
                           fontSize: getProportionateScreenWidth(18),
                           fontWeight: FontWeight.bold),
                     ),
@@ -233,11 +254,11 @@ class IntroductionPage extends StatelessWidget {
         activeColor: Colors.blue,
         spacing: EdgeInsets.symmetric(horizontal: 3),
       ),
-      curve: Curves.fastLinearToSlowEaseIn,
+      curve: Curves.linear,
       controlsPadding: EdgeInsets.fromLTRB(8, 4, 8, 8),
       dotsContainerDecorator: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(24),
+        color: Color.fromRGBO(3, 104, 109, 1),
+        borderRadius: BorderRadius.zero,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),

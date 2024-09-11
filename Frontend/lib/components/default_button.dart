@@ -14,14 +14,14 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: getProportionateScreenHeight(56),
+      height: getProportionateScreenHeight(60),
       child: Container(
         decoration: BoxDecoration(
             gradient: const LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [Colors.blue, Color.fromRGBO(4, 190, 207, 1)]),
-            borderRadius: BorderRadius.circular(15.0)),
+            borderRadius: BorderRadius.circular(10.0)),
         child: TextButton(
           style: TextButton.styleFrom(
             shape:

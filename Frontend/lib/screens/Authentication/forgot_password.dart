@@ -32,14 +32,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(37, 14, 132, 1),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                Color.fromRGBO(1, 60, 63, 1),
-                Color.fromRGBO(38, 230, 248, 1)
+                Color.fromRGBO(17, 6, 60, 1),
+                Color.fromRGBO(37, 14, 132, 1)
               ]),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -47,20 +64,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              ),
               Image(
                 image: AssetImage('assets/images/authentication/forgot.png'),
                 height: getProportionateScreenHeight(350),

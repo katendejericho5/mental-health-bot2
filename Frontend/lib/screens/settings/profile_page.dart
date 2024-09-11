@@ -1,4 +1,5 @@
 import 'package:WellCareBot/screens/Authentication/login.dart';
+import 'package:WellCareBot/screens/welcome/welcome_screen.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => WelcomeScreen()),
       (Route<dynamic> route) => false,
     );
   }

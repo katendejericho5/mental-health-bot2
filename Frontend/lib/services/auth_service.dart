@@ -42,18 +42,39 @@ class FirebaseAuthHelper {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('The password provided is too weak.')),
+          SnackBar(
+            content: Text('The password provided is too weak.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('The account already exists for that email.')),
+          SnackBar(
+            content: Text('The account already exists for that email.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       }
     } catch (e) {
       print('An error occurred: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Oops! An error occurred. Please try again.')),
+        SnackBar(
+          content: Text('Oops! An error occurred. Please try again.',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
 
@@ -80,7 +101,13 @@ class FirebaseAuthHelper {
         await sendEmailVerification(context: context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Please verify your email before signing in.')),
+            content: Text('Please verify your email before signing in.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
         return null;
       }
@@ -94,18 +121,39 @@ class FirebaseAuthHelper {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No user found for that email.')),
+          SnackBar(
+            content: Text('No user found for that email.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Wrong password provided.')),
+          SnackBar(
+            content: Text('Wrong password provided.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       }
     } catch (e) {
       print('An error occurred: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Oops! An error occurred. Please try again.')),
+        SnackBar(
+          content: Text('Oops! An error occurred. Please try again.',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
 
@@ -117,11 +165,25 @@ class FirebaseAuthHelper {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).popUntil((route) => route.isFirst);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully logged out.')),
+        SnackBar(
+          content: Text('Successfully logged out.',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error during logout: $e')),
+        SnackBar(
+          content: Text('Error during logout: $e',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }
@@ -203,7 +265,14 @@ class FirebaseAuthHelper {
     } catch (e) {
       Navigator.of(context).pop(); // Close loading indicator
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sign in failed: $e')),
+        SnackBar(
+          content: Text('Sign in failed: $e',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }
@@ -220,7 +289,9 @@ class FirebaseAuthHelper {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(3, 226, 246, 1),
+            ),
           );
         },
       );
@@ -258,7 +329,14 @@ class FirebaseAuthHelper {
     } catch (e) {
       Navigator.of(context).pop(); // Close loading indicator
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error signing in with Microsoft: $e')),
+        SnackBar(
+          content: Text('Error signing in with Microsoft: $e',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }
@@ -271,11 +349,25 @@ class FirebaseAuthHelper {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password reset email sent! Check your inbox.')),
+        SnackBar(
+          content: Text('Password reset email sent! Check your inbox.',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(
+          content: Text('Error: $e',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.normal)),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }
@@ -290,7 +382,14 @@ class FirebaseAuthHelper {
       try {
         await user.sendEmailVerification();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Verification email sent! Check your inbox.')),
+          SnackBar(
+            content: Text('Verification email sent! Check your inbox.',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal)),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       } catch (e) {
         print('An error occurred while sending email verification: $e');

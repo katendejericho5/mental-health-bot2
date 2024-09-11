@@ -27,8 +27,8 @@ class IntroductionPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromRGBO(3, 104, 109, 1),
-              Color.fromRGBO(38, 230, 248, 1)
+              Color.fromRGBO(17, 6, 60, 1),
+              Color.fromRGBO(37, 14, 132, 1)
             ],
           ),
         ),
@@ -52,8 +52,8 @@ class IntroductionPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromRGBO(3, 104, 109, 1),
-              Color.fromRGBO(38, 230, 248, 1)
+              Color.fromRGBO(17, 6, 60, 1),
+              Color.fromRGBO(37, 14, 132, 1)
             ],
           ),
         ),
@@ -77,8 +77,8 @@ class IntroductionPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromRGBO(3, 104, 109, 1),
-              Color.fromRGBO(38, 230, 248, 1)
+              Color.fromRGBO(17, 6, 60, 1),
+              Color.fromRGBO(37, 14, 132, 1)
             ],
           ),
         ),
@@ -102,8 +102,8 @@ class IntroductionPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromRGBO(3, 104, 109, 1),
-              Color.fromRGBO(38, 230, 248, 1)
+              Color.fromRGBO(17, 6, 60, 1),
+              Color.fromRGBO(37, 14, 132, 1)
             ],
           ),
         ),
@@ -127,8 +127,8 @@ class IntroductionPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromRGBO(3, 104, 109, 1),
-              Color.fromRGBO(38, 230, 248, 1)
+              Color.fromRGBO(17, 6, 60, 1),
+              Color.fromRGBO(37, 14, 132, 1)
             ],
           ),
         ),
@@ -257,7 +257,7 @@ class IntroductionPage extends StatelessWidget {
       curve: Curves.linear,
       controlsPadding: EdgeInsets.fromLTRB(8, 4, 8, 8),
       dotsContainerDecorator: BoxDecoration(
-        color: Color.fromRGBO(3, 104, 109, 1),
+        color: Color.fromRGBO(17, 6, 60, 1),
         borderRadius: BorderRadius.zero,
         boxShadow: [
           BoxShadow(

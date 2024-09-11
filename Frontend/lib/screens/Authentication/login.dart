@@ -66,8 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                Color.fromRGBO(1, 60, 63, 1),
-                Color.fromRGBO(38, 230, 248, 1)
+                Color.fromRGBO(17, 6, 60, 1),
+                Color.fromRGBO(37, 14, 132, 1)
               ]),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16),

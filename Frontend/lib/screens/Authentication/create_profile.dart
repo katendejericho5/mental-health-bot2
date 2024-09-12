@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -152,21 +154,29 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   children: [
                     Column(
                       children: [
+                        // Text(
+                        //   'Create Your Profile',
+                        //   textAlign: TextAlign.start,
+                        //   style: TextStyle(
+                        //     fontSize: 32,
+                        //   ),
+                        // ),
                         Text(
-                          'Create Your Profile',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 32,
-                          ),
+                          "Congratulation 🎉",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(20),
+                              fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: getProportionateScreenHeight(15)),
                         Text(
-                          "Please enter your details to complete your profile, don't worry your details are private",
-                          maxLines: 3,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
+                          "Set up your profile to embark on this mindful journey!",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(15),
+                              fontWeight: FontWeight.w300),
                         ),
                       ],
                     ),
@@ -175,7 +185,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       child: GestureDetector(
                         onTap: _pickImage,
                         child: CircleAvatar(
-                          radius: 60,
+                          radius: 50,
                           backgroundColor: Colors.grey[200],
                           backgroundImage: _profileImage != null
                               ? FileImage(File(_profileImage!.path))
@@ -184,7 +194,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                               ? Icon(
                                   Icons.camera_alt,
                                   size: 40,
-                                  color: Colors.grey[600],
+                                  color: Color.fromRGBO(3, 226, 246, 1),
                                 )
                               : null,
                         ),
@@ -192,16 +202,25 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: getProportionateScreenHeight(35)),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Full Name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ), // Set black border
+                    hintText: "Full Name",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
                     ),
+                    suffixIcon: Icon(
+                      Icons.person,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -218,26 +237,21 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   flagsButtonPadding: const EdgeInsets.all(8),
                   dropdownIconPosition: IconPosition.trailing,
                   decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ), // Set black border
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                      // Set black border when focused
+                    suffixIcon: Icon(
+                      Icons.phone,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
                     ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
                   ),
                   onChanged: (phone) {
                     _phoneNumber = phone.completeNumber;

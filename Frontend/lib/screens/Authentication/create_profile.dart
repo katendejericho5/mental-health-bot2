@@ -222,6 +222,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.white)),
                   ),
+                  style: TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your full name';
@@ -253,6 +254,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.white)),
                   ),
+                  style: TextStyle(color: Colors.white),
                   onChanged: (phone) {
                     _phoneNumber = phone.completeNumber;
                     print(phone.completeNumber);

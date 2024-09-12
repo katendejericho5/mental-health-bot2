@@ -59,7 +59,23 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(37, 14, 132, 1),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
@@ -77,9 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Image(
                 image: AssetImage('assets/images/onboarding/welcome.png'),
-                height: getProportionateScreenHeight(180),
+                height: getProportionateScreenHeight(150),
               ),
-              SizedBox(height: getProportionateScreenHeight(6)),
+              SizedBox(height: getProportionateScreenHeight(2)),
               ListTile(
                 title: Text(
                   "Sign In",
@@ -113,23 +129,23 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'krona',
-                  ),
-                  suffixIcon: Icon(
-                    Icons.email,
-                    color: Color.fromRGBO(3, 226, 246, 1),
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white.withOpacity(0.2),
-                  contentPadding: const EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.white)),
-                ),
+                    hintText: "Email",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
+                    ),
+                    suffixIcon: Icon(
+                      Icons.email,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white))),
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -143,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   _email = value!;
                 },
               ),
-              SizedBox(height: getProportionateScreenHeight(6)),
+              SizedBox(height: getProportionateScreenHeight(2)),
               Row(
                 children: [
                   Padding(
@@ -178,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.white)),
                 ),
+                style: TextStyle(color: Colors.white),
                 obscureText: _obscureText,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -191,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   _password = value!;
                 },
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: getProportionateScreenHeight(10)),
               DefaultButton(
                 press: _submit,
                 text: 'Login',

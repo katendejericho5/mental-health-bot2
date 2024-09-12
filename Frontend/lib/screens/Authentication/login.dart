@@ -96,26 +96,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: getProportionateScreenHeight(150),
               ),
               SizedBox(height: getProportionateScreenHeight(2)),
-              ListTile(
-                title: Text(
-                  "Sign In",
-                  style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: getProportionateScreenWidth(28),
-                      fontWeight: FontWeight.w700),
-                ),
-                subtitle: Text(
-                  "Sign in to continue!",
-                  style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: getProportionateScreenWidth(15),
-                      fontWeight: FontWeight.w300),
-                ),
+              Text(
+                "Sign In",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(28),
+                    fontWeight: FontWeight.w700),
+              ),
+              Text(
+                "Sign in to continue!",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.w300),
               ),
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(6.0),
+                    padding: const EdgeInsets.only(
+                        right: 6.0, top: 6.0, bottom: 6.0),
                     child: Text(
                       "Email Address",
                       style: GoogleFonts.nunito(
@@ -163,7 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                        right: 6.0, top: 6.0, bottom: 6.0),
                     child: Text(
                       "Password",
                       style: GoogleFonts.nunito(
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   _password = value!;
                 },
               ),
-              SizedBox(height: getProportionateScreenHeight(10)),
+              SizedBox(height: getProportionateScreenHeight(20)),
               DefaultButton(
                 press: _submit,
                 text: 'Login',

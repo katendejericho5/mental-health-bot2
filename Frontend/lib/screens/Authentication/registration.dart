@@ -100,21 +100,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: ListView(
             children: [
               SizedBox(height: getProportionateScreenHeight(10)),
-              ListTile(
-                title: Text(
-                  "Sign Up",
-                  style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: getProportionateScreenWidth(28),
-                      fontWeight: FontWeight.w700),
-                ),
-                subtitle: Text(
-                  "Create an account to continue!",
-                  style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: getProportionateScreenWidth(15),
-                      fontWeight: FontWeight.w300),
-                ),
+              Text(
+                "Sign Up",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(28),
+                    fontWeight: FontWeight.w700),
+              ),
+              Text(
+                "Create an account to continue!",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.w300),
               ),
               Row(
                 children: [

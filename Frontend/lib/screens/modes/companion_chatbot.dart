@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/screens/settings/history.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
@@ -12,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CompanionChatBot extends StatefulWidget {
   final String threadId;
@@ -29,7 +28,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   final String _botId = 'bot123';
-  late StreamSubscription<List<ChatMessageHistory>>? _messageSubscription;
+  String? _therapistThreadId;
+  String? _companionThreadId;
 
   @override
   void initState() {
@@ -41,6 +41,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   Future<void> _initializeData() async {
     try {
       await _fetchUserData();
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
       _loadMessages();
     } catch (e) {
       print('Error initializing data: $e');
@@ -66,10 +68,31 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
     }
   }
 
+  Future<void> _getOrSetThreadIdTherapist() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _therapistThreadId = prefs.getString('therapist_thread_id');
+
+    if (_therapistThreadId == null) {
+      _therapistThreadId =
+          await _apiService.getThreadId('therapist'); // Fetch a new thread ID
+      await prefs.setString('therapist_thread_id', _therapistThreadId!);
+    }
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _companionThreadId = prefs.getString('companion_thread_id');
+
+    if (_companionThreadId == null) {
+      _companionThreadId =
+          await _apiService.getThreadId('companion'); // Fetch a new thread ID
+      await prefs.setString('companion_thread_id', _companionThreadId!);
+    }
+  }
+
   void _loadMessages() {
-    _messageSubscription =
-        _firestoreService.getMessages(widget.threadId).listen((messages) {
-      if (mounted) {
+    if (_companionThreadId != null) {
+      _firestoreService.getMessages(_companionThreadId!).listen((messages) {
         setState(() {
           _messages.clear();
           _messages.addAll(messages.map((message) => types.TextMessage(
@@ -79,32 +102,30 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
                 text: message.text,
               )));
         });
-      }
-    });
+      });
+    }
   }
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
-    if (userInput.isNotEmpty) {
+    if (userInput.isNotEmpty && _companionThreadId != null) {
       final chatMessage = ChatMessageHistory(
         id: DateTime.now().toString(),
-        threadId: widget.threadId,
+        threadId: _companionThreadId!,
         userId: _userId,
         author: _userId,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         text: userInput,
       );
 
-      if (mounted) {
-        setState(() {
-          _messages.add(types.TextMessage(
-            author: types.User(id: _userId),
-            createdAt: chatMessage.createdAt,
-            id: chatMessage.id,
-            text: userInput,
-          ));
-        });
-      }
+      setState(() {
+        _messages.add(types.TextMessage(
+          author: types.User(id: _userId),
+          createdAt: chatMessage.createdAt,
+          id: chatMessage.id,
+          text: userInput,
+        ));
+      });
 
       await _firestoreService.addMessage(chatMessage);
 
@@ -114,39 +135,35 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         );
         final botMessage = ChatMessageHistory(
           id: DateTime.now().toString(),
-          threadId: widget.threadId,
+          threadId: _companionThreadId!,
           userId: _botId,
           author: _botId,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           text: response,
         );
 
-        if (mounted) {
-          setState(() {
-            _messages.add(types.TextMessage(
-              author: types.User(id: _botId),
-              createdAt: botMessage.createdAt,
-              id: botMessage.id,
-              text: response,
-            ));
-          });
-        }
+        setState(() {
+          _messages.add(types.TextMessage(
+            author: types.User(id: _botId),
+            createdAt: botMessage.createdAt,
+            id: botMessage.id,
+            text: response,
+          ));
+        });
 
         await _firestoreService.addMessage(botMessage);
       } catch (e) {
         if (e.toString().contains('Rate limit exceeded')) {
           _showRateLimitDialog();
         } else {
-          if (mounted) {
-            setState(() {
-              _messages.add(types.TextMessage(
-                author: types.User(id: _botId),
-                createdAt: DateTime.now().millisecondsSinceEpoch,
-                id: DateTime.now().toString(),
-                text: "Oops!😟 Something went wrong. Please try again later.",
-              ));
-            });
-          }
+          setState(() {
+            _messages.add(types.TextMessage(
+              author: types.User(id: _botId),
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: DateTime.now().toString(),
+              text: "Oops!😟 Something went wrong. Please try again later.",
+            ));
+          });
         }
       }
 
@@ -211,13 +228,6 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    _messageSubscription?.cancel(); // Cancel the message subscription
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.brightness == Brightness.light
@@ -235,8 +245,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatHistoryPage(
-                    therapistThreadId: 'therapist_thread_id',
-                    companion_thread_id: 'companion_thread_id',
+                    therapistThreadId: _therapistThreadId!,
+                    companion_thread_id: _companionThreadId!,
                   ),
                 ),
               );

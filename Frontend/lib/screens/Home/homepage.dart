@@ -195,13 +195,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         'How do you feel today?',
                         style: GoogleFonts.nunito(
                             color: Colors.white,
-                            fontSize: getProportionateScreenWidth(20),
+                            fontSize: getProportionateScreenWidth(18),
                             fontWeight: FontWeight.w700),
                       ),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(6.0),
                           child: Icon(Icons.cancel, color: Colors.white),
                         ),
                       )
@@ -247,15 +247,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Image.asset(
                                         i,
                                         height:
-                                            getProportionateScreenHeight(200),
+                                            getProportionateScreenHeight(150),
                                       ),
                                       Text(
                                         i.split('/')[4].split('.')[0],
                                         style: GoogleFonts.nunito(
                                             color: Colors.white,
                                             fontSize:
-                                                getProportionateScreenWidth(20),
-                                            fontWeight: FontWeight.w500),
+                                                getProportionateScreenWidth(18),
+                                            fontWeight: FontWeight.bold),
                                       )
                                     ],
                                   ));
@@ -401,8 +401,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: getProportionateScreenHeight(270),
-                      width: getProportionateScreenWidth(350),
+                      height: getProportionateScreenHeight(220),
+                      width: getProportionateScreenWidth(340),
                       decoration: BoxDecoration(
                           image: DecorationImage(
                             image:
@@ -417,34 +417,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Color.fromRGBO(75, 117, 159, 1),
                                 Color.fromRGBO(138, 44, 230, 1)
                               ]),
-                          borderRadius: BorderRadius.circular(10.0)),
+                          borderRadius: BorderRadius.circular(12.0)),
                     ),
                   ),
                   Positioned(
-                      top: -60,
+                      top: getProportionateScreenHeight(-70),
                       right: -70,
-                      child: Image.asset(
-                        'assets/images/home/home/mental.png',
-                        height: 300,
+                      child: SizedBox(
+                        width: getProportionateScreenWidth(250),
+                        height: getProportionateScreenHeight(350),
+                        child: Image.asset(
+                          'assets/images/home/home/mental.png',
+                        ),
                       )),
                   Positioned(
                       left: getProportionateScreenWidth(20),
-                      bottom: getProportionateScreenHeight(120),
+                      bottom: getProportionateScreenHeight(85),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Take a moment\nto tell us how \nyou doing',
                           style: GoogleFonts.nunito(
                               color: Colors.white,
-                              fontSize: getProportionateScreenWidth(20),
+                              fontSize: getProportionateScreenWidth(18),
                               fontWeight: FontWeight.bold),
                         ),
                       )),
                   Positioned(
                       left: getProportionateScreenWidth(20),
-                      bottom: getProportionateScreenHeight(30),
+                      bottom: getProportionateScreenHeight(15),
                       child: SizedBox(
                         width: getProportionateScreenWidth(150),
+                        height: getProportionateScreenHeight(65),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: DefaultButton(
@@ -458,14 +462,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 12.0, bottom: 8.0),
+                    padding: const EdgeInsets.only(left: 14.0, bottom: 8.0),
                     child: Text(
-                      'Chose a mode to chat!',
+                      'Start your mindfulness\njourney',
                       textAlign: TextAlign.start,
                       style: GoogleFonts.nunito(
                           color: Colors.white,
-                          fontSize: getProportionateScreenWidth(18),
-                          fontWeight: FontWeight.w500),
+                          fontSize: getProportionateScreenWidth(22),
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -514,7 +518,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
-                                child: const Text('Companion'),
+                                child: Text(
+                                  'Companion',
+                                  style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenWidth(12)),
+                                ),
                               ),
                             ),
                           ),
@@ -562,7 +571,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
-                                child: const Text('Therapist Mode'),
+                                child: Text(
+                                  'Therapist',
+                                  style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenWidth(12)),
+                                ),
                               ),
                             ),
                           ),

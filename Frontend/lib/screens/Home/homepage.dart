@@ -147,6 +147,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ThemeMode.dark;
   }
 
+  Future<void> _initializeData() async {
+    try {
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
+    } catch (e) {
+      print('Error initializing data: $e');
+    }
+  }
+
+  Future<void> _getOrSetThreadIdTherapist() async {
+    _therapistThreadId = await _apiService.getThreadId('therapist');
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    _companionThreadId = await _apiService.getThreadId('companion');
+  }
+
   Future<String> _fetchProfilePictureURL() async {
     final User user = _auth.currentUser!;
     final storageRef = _storage

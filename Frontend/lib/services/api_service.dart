@@ -1,28 +1,40 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApiService {
   static const String _baseUrl = "http://wellcarebot.eastus2.cloudapp.azure.com:5000";
-  // 'wellcarebot.eastus2.cloudapp.azure.com:5000'; // Update with your Flask server URL
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Get thread ID from Shared Preferences or generate a new one for the specified mode
+  // Get thread ID from Firestore or generate a new one for the specified mode
   Future<String> getThreadId(String mode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? threadId =
-        prefs.getString('thread_id_$mode'); // Store with mode-based key
-
-    if (threadId == null) {
-      // Generate a new thread ID and store it in Shared Preferences
-      threadId = await _generateThreadId();
-      await prefs.setString(
-          'thread_id_$mode', threadId); // Save with mode-specific key
+    User? user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('User not logged in');
     }
 
-    return threadId;
+    DocumentSnapshot threadDoc = await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('threads')
+        .doc(mode)
+        .get();
+
+    if (threadDoc.exists) {
+      return threadDoc.get('thread_id') as String;
+    } else {
+      // Generate a new thread ID and store it in Firestore
+      String threadId = await _generateThreadId();
+      await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('threads')
+          .doc(mode)
+          .set({'thread_id': threadId});
+      return threadId;
+    }
   }
 
   // Generate a new thread ID by making a GET request to the backend
@@ -45,19 +57,22 @@ class ApiService {
       throw Exception('User not logged in');
     }
     String email = user.email!;
-    String threadId = await getThreadId(
-        'therapist'); // Get or generate thread ID for therapist
-    return _getChatbotResponse(message, threadId, '/chat/therapist',
-        email: email);
+    String threadId = await getThreadId('therapist');
+    return _getChatbotResponse(message, threadId, '/chat/therapist', email: email);
   }
 
   Future<String> getChatbotResponseCompanion(String message) async {
-    String threadId = await getThreadId(
-        'companion'); // Get or generate thread ID for companion
+    String threadId = await getThreadId('companion');
     return _getChatbotResponse(message, threadId, '/chat/companion');
   }
 
-  Future<String> _getChatbotResponse(String message, String threadId, String endpoint, {String? email}) async {
+  // Generic method to make a POST request for chatbot response
+  Future<String> _getChatbotResponse(
+    String message,
+    String threadId,
+    String endpoint, {
+    String? email,
+  }) async {
     final url = Uri.parse('$_baseUrl$endpoint');
     final body = {
       'message': message,
@@ -91,9 +106,18 @@ class ApiService {
     }
   }
 
-  // Clear thread ID from Shared Preferences (if needed, e.g., for testing)
+  // Clear thread ID from Firestore (if needed, e.g., for testing)
   Future<void> clearThreadId(String mode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('thread_id_$mode'); // Clear mode-specific thread ID
+    User? user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('User not logged in');
+    }
+
+    await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('threads')
+        .doc(mode)
+        .delete();
   }
 }

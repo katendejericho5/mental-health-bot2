@@ -1,6 +1,5 @@
 import 'package:WellCareBot/screens/settings/about.dart';
 import 'package:WellCareBot/screens/settings/feedback.dart';
-import 'package:WellCareBot/screens/settings/history.dart';
 import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -96,21 +95,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SizedBox(height: 8),
-
-            _buildListTile(
-                title: 'History',
-                onTap: () {
-                  // Navigate to Chat History page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatHistoryPage(
-                        therapistThreadId: 'therapist_thread_id',
-                        companion_thread_id: 'companion_thread_id',
-                      ),
-                    ),
-                  );
-                }),
           ],
         ),
       ),

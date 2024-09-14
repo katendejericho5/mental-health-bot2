@@ -30,7 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         barrierDismissible: false,
         builder: (context) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(3, 226, 246, 1)
+            ),
           );
         },
       );

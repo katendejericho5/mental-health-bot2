@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:WellCareBot/components/default_button.dart';
 import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
@@ -233,7 +234,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     _fullName = value!;
                   },
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: getProportionateScreenHeight(35)),
                 IntlPhoneField(
                   flagsButtonPadding: const EdgeInsets.all(8),
                   dropdownIconPosition: IconPosition.trailing,
@@ -264,13 +265,22 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 SizedBox(height: 16.0),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
-                    labelText: 'Gender',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ), // Set black border
+                    hintText: "Gender",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
                     ),
+                    suffixIcon: Icon(
+                      Icons.female,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
                   ),
                   value: _selectedGender,
                   onChanged: (String? newValue) {
@@ -314,26 +324,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 8.0),
-                        child: ElevatedButton(
-                          onPressed: _continue,
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.symmetric(vertical: 15.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: DefaultButton(press: _continue, text: 'Continue'),
                     ),
                   ],
                 )

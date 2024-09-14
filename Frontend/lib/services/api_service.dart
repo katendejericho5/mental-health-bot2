@@ -4,19 +4,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static const String _baseUrl =
-      'https://54eb4eab-858c-4c1f-8835-a2ede0bc0de1-00-91p2lrp6g0ce.kirk.replit.dev';
+  static const String _baseUrl = "http://192.168.43.219:5000";
+  // 'wellcarebot.eastus2.cloudapp.azure.com:5000'; // Update with your Flask server URL
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Get thread ID from Shared Preferences or generate a new one
-  Future<String> getThreadId() async {
+  // Get thread ID from Shared Preferences or generate a new one for the specified mode
+  Future<String> getThreadId(String mode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? threadId = prefs.getString('thread_id');
+    String? threadId =
+        prefs.getString('thread_id_$mode'); // Store with mode-based key
 
     if (threadId == null) {
       // Generate a new thread ID and store it in Shared Preferences
       threadId = await _generateThreadId();
-      await prefs.setString('thread_id', threadId);
+      await prefs.setString(
+          'thread_id_$mode', threadId); // Save with mode-specific key
     }
 
     return threadId;
@@ -42,14 +45,16 @@ class ApiService {
       throw Exception('User not logged in');
     }
     String email = user.email!;
-    String threadId = await getThreadId(); // Get or generate thread ID
+    String threadId = await getThreadId(
+        'therapist'); // Get or generate thread ID for therapist
     return _getChatbotResponse(message, threadId, '/chat/therapist',
         email: email);
   }
 
   // Get chatbot response for Companion mode
   Future<String> getChatbotResponseCompanion(String message) async {
-    String threadId = await getThreadId(); // Get or generate thread ID
+    String threadId = await getThreadId(
+        'companion'); // Get or generate thread ID for companion
     return _getChatbotResponse(message, threadId, '/chat/companion');
   }
 
@@ -92,8 +97,8 @@ class ApiService {
   }
 
   // Clear thread ID from Shared Preferences (if needed, e.g., for testing)
-  Future<void> clearThreadId() async {
+  Future<void> clearThreadId(String mode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('thread_id');
+    await prefs.remove('thread_id_$mode'); // Clear mode-specific thread ID
   }
 }

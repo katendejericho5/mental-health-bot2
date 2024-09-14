@@ -96,21 +96,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SizedBox(height: 8),
-
-            _buildListTile(
-                title: 'History',
-                onTap: () {
-                  // Navigate to Chat History page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatHistoryPage(
-                        therapistThreadId: 'therapist_thread_id',
-                        companion_thread_id: 'companion_thread_id',
-                      ),
-                    ),
-                  );
-                }),
           ],
         ),
       ),

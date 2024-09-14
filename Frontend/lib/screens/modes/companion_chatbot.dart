@@ -28,7 +28,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   final String _botId = 'bot123';
-  String? _threadId; // Store the thread ID locally
+  String? _therapistThreadId;
+  String? _companionThreadId;
 
   @override
   void initState() {
@@ -40,11 +41,11 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
   Future<void> _initializeData() async {
     try {
       await _fetchUserData();
-      await _getOrSetThreadId();
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
       _loadMessages();
     } catch (e) {
       print('Error initializing data: $e');
-      // Optionally show a user-friendly error message
     }
   }
 
@@ -67,19 +68,31 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
     }
   }
 
-  Future<void> _getOrSetThreadId() async {
+  Future<void> _getOrSetThreadIdTherapist() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _threadId = prefs.getString('companion_thread_id');
+    _therapistThreadId = prefs.getString('therapist_thread_id');
 
-    if (_threadId == null) {
-      _threadId = await _apiService.getThreadId(); // Fetch a new thread ID
-      await prefs.setString('companion_thread_id', _threadId!);
+    if (_therapistThreadId == null) {
+      _therapistThreadId =
+          await _apiService.getThreadId('therapist'); // Fetch a new thread ID
+      await prefs.setString('therapist_thread_id', _therapistThreadId!);
+    }
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _companionThreadId = prefs.getString('companion_thread_id');
+
+    if (_companionThreadId == null) {
+      _companionThreadId =
+          await _apiService.getThreadId('companion'); // Fetch a new thread ID
+      await prefs.setString('companion_thread_id', _companionThreadId!);
     }
   }
 
   void _loadMessages() {
-    if (_threadId != null) {
-      _firestoreService.getMessages(_threadId!).listen((messages) {
+    if (_companionThreadId != null) {
+      _firestoreService.getMessages(_companionThreadId!).listen((messages) {
         setState(() {
           _messages.clear();
           _messages.addAll(messages.map((message) => types.TextMessage(
@@ -95,10 +108,10 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
 
   void _sendMessage(types.PartialText message) async {
     final userInput = message.text;
-    if (userInput.isNotEmpty && _threadId != null) {
+    if (userInput.isNotEmpty && _companionThreadId != null) {
       final chatMessage = ChatMessageHistory(
         id: DateTime.now().toString(),
-        threadId: _threadId!,
+        threadId: _companionThreadId!,
         userId: _userId,
         author: _userId,
         createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -122,7 +135,7 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         );
         final botMessage = ChatMessageHistory(
           id: DateTime.now().toString(),
-          threadId: _threadId!,
+          threadId: _companionThreadId!,
           userId: _botId,
           author: _botId,
           createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -232,8 +245,8 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatHistoryPage(
-                    therapistThreadId: _threadId!,
-                    companion_thread_id: _threadId!,
+                    therapistThreadId: _therapistThreadId!,
+                    companion_thread_id: _companionThreadId!,
                   ),
                 ),
               );

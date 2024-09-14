@@ -151,16 +151,47 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  String? _threadId; // Store the thread ID locally
+  String? _therapistThreadId;
+  String? _companionThreadId;
   final ApiService _apiService = ApiService();
 
   @override
   void initState() {
     super.initState();
-    _getOrSetThreadId();
-
+    _initializeData();
     _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
         ThemeMode.dark;
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
+    } catch (e) {
+      print('Error initializing data: $e');
+    }
+  }
+
+  Future<void> _getOrSetThreadIdTherapist() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _therapistThreadId = prefs.getString('therapist_thread_id');
+
+    if (_therapistThreadId == null) {
+      _therapistThreadId =
+          await _apiService.getThreadId('therapist'); // Fetch a new thread ID
+      await prefs.setString('therapist_thread_id', _therapistThreadId!);
+    }
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _companionThreadId = prefs.getString('companion_thread_id');
+
+    if (_companionThreadId == null) {
+      _companionThreadId =
+          await _apiService.getThreadId('companion'); // Fetch a new thread ID
+      await prefs.setString('companion_thread_id', _companionThreadId!);
+    }
   }
 
   Future<String> _fetchProfilePictureURL() async {
@@ -205,16 +236,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _darkMode ? ThemeMode.dark : ThemeMode.light,
       );
     });
-  }
-
-  Future<void> _getOrSetThreadId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _threadId = prefs.getString('companion_thread_id');
-
-    if (_threadId == null) {
-      _threadId = await _apiService.getThreadId(); // Fetch a new thread ID
-      await prefs.setString('companion_thread_id', _threadId!);
-    }
   }
 
   @override
@@ -408,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => CompanionChatBot(
-                                threadId: _threadId!,
+                                threadId: _companionThreadId!,
                               ),
                             ),
                           );
@@ -437,7 +458,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TherapistChatBot(
-                                threadId: _threadId!,
+                                threadId: _therapistThreadId!,
                               ),
                             ),
                           );

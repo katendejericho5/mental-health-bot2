@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TherapistChatBot extends StatefulWidget {
   final String threadId;
@@ -69,25 +68,11 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   }
 
   Future<void> _getOrSetThreadIdTherapist() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _therapistThreadId = prefs.getString('therapist_thread_id');
-
-    if (_therapistThreadId == null) {
-      _therapistThreadId =
-          await _apiService.getThreadId('therapist'); // Fetch a new thread ID
-      await prefs.setString('therapist_thread_id', _therapistThreadId!);
-    }
+    _therapistThreadId = await _apiService.getThreadId('therapist');
   }
 
   Future<void> _getOrSetThreadIdCompanion() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _companionThreadId = prefs.getString('companion_thread_id');
-
-    if (_companionThreadId == null) {
-      _companionThreadId =
-          await _apiService.getThreadId('companion'); // Fetch a new thread ID
-      await prefs.setString('companion_thread_id', _companionThreadId!);
-    }
+    _companionThreadId = await _apiService.getThreadId('companion');
   }
 
   void _loadMessages() {

@@ -1,6 +1,5 @@
 import 'package:WellCareBot/screens/settings/about.dart';
 import 'package:WellCareBot/screens/settings/feedback.dart';
-import 'package:WellCareBot/screens/settings/history.dart';
 import 'package:WellCareBot/screens/settings/privacy_and_policy.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:flutter/material.dart';

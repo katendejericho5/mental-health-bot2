@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static const String _baseUrl = "http://192.168.43.219:5000";
+  static const String _baseUrl = "http://wellcarebot.eastus2.cloudapp.azure.com:5000";
   // 'wellcarebot.eastus2.cloudapp.azure.com:5000'; // Update with your Flask server URL
 
   final FirebaseAuth _auth = FirebaseAuth.instance;

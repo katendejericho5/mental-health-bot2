@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:WellCareBot/screens/settings/history.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
@@ -27,6 +29,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   final String _botId = 'bot123';
+  late StreamSubscription<List<ChatMessageHistory>>? _messageSubscription;
 
   @override
   void initState() {
@@ -64,16 +67,19 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
   }
 
   void _loadMessages() {
-    _firestoreService.getMessages(widget.threadId).listen((messages) {
-      setState(() {
-        _messages.clear();
-        _messages.addAll(messages.map((message) => types.TextMessage(
-              author: types.User(id: message.author),
-              createdAt: message.createdAt,
-              id: message.id,
-              text: message.text,
-            )));
-      });
+    _messageSubscription =
+        _firestoreService.getMessages(widget.threadId).listen((messages) {
+      if (mounted) {
+        setState(() {
+          _messages.clear();
+          _messages.addAll(messages.map((message) => types.TextMessage(
+                author: types.User(id: message.author),
+                createdAt: message.createdAt,
+                id: message.id,
+                text: message.text,
+              )));
+        });
+      }
     });
   }
 
@@ -89,14 +95,16 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
         text: userInput,
       );
 
-      setState(() {
-        _messages.add(types.TextMessage(
-          author: types.User(id: _userId),
-          createdAt: chatMessage.createdAt,
-          id: chatMessage.id,
-          text: userInput,
-        ));
-      });
+      if (mounted) {
+        setState(() {
+          _messages.add(types.TextMessage(
+            author: types.User(id: _userId),
+            createdAt: chatMessage.createdAt,
+            id: chatMessage.id,
+            text: userInput,
+          ));
+        });
+      }
 
       await _firestoreService.addMessage(chatMessage);
 
@@ -113,31 +121,34 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
           text: response,
         );
 
-        setState(() {
-          _messages.add(types.TextMessage(
-            author: types.User(id: _botId),
-            createdAt: botMessage.createdAt,
-            id: botMessage.id,
-            text: response,
-          ));
-        });
+        if (mounted) {
+          setState(() {
+            _messages.add(types.TextMessage(
+              author: types.User(id: _botId),
+              createdAt: botMessage.createdAt,
+              id: botMessage.id,
+              text: response,
+            ));
+          });
+        }
 
         await _firestoreService.addMessage(botMessage);
       } catch (e) {
         if (e.toString().contains('Rate limit exceeded')) {
           _showRateLimitDialog();
         } else {
-          setState(() {
-            _messages.add(types.TextMessage(
-              author: types.User(id: _botId),
-              createdAt: DateTime.now().millisecondsSinceEpoch,
-              id: DateTime.now().toString(),
-              text: "Oops!😟 Something went wrong. Please try again later.",
-            ));
-          });
+          if (mounted) {
+            setState(() {
+              _messages.add(types.TextMessage(
+                author: types.User(id: _botId),
+                createdAt: DateTime.now().millisecondsSinceEpoch,
+                id: DateTime.now().toString(),
+                text: "Oops!😟 Something went wrong. Please try again later.",
+              ));
+            });
+          }
         }
       }
-
       _controller.clear();
     }
   }
@@ -196,6 +207,13 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
                 style: GoogleFonts.poppins())),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _messageSubscription?.cancel(); // Cancel the message subscription
+    super.dispose();
   }
 
   @override

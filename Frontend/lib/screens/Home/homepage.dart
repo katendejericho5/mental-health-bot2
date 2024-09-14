@@ -4,6 +4,7 @@ import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
 import 'package:WellCareBot/screens/booking/booking_page.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
+import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -139,10 +140,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ApiService _apiService = ApiService();
+  String? therapistThreadId;
+  String? companionThreadId;
 
   @override
   void initState() {
     super.initState();
+    _initializeData();
     _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
         ThemeMode.dark;
   }
@@ -157,11 +162,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _getOrSetThreadIdTherapist() async {
-    _therapistThreadId = await _apiService.getThreadId('therapist');
+    therapistThreadId = await _apiService.getThreadId('therapist');
   }
 
   Future<void> _getOrSetThreadIdCompanion() async {
-    _companionThreadId = await _apiService.getThreadId('companion');
+    companionThreadId = await _apiService.getThreadId('companion');
   }
 
   Future<String> _fetchProfilePictureURL() async {

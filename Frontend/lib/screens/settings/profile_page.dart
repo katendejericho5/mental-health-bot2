@@ -1,11 +1,12 @@
 import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/welcome/welcome_screen.dart';
+import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'settings.dart';
 import 'history.dart';
 import 'privacy_and_policy.dart';
 
@@ -17,6 +18,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ApiService _apiService = ApiService();
+
+  String? _therapistThreadId;
+  String? _companionThreadId;
 
   Future<Map<String, dynamic>> _fetchUserData() async {
     final User user = _auth.currentUser!;
@@ -26,13 +31,22 @@ class _ProfilePageState extends State<ProfilePage> {
     return userDoc.data() as Map<String, dynamic>;
   }
 
-  // void _logout() async {
-  //   await FirebaseAuthHelper.logout(context);
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => LoginScreen()),
-  //   );
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await _fetchUserData();
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
+    } catch (e) {
+      print('Error initializing data: $e');
+    }
+  }
+
   void _logout() async {
     await FirebaseAuthHelper.logout(context);
     GoogleSignIn googleSignIn = GoogleSignIn();
@@ -45,11 +59,22 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<void> _getOrSetThreadIdTherapist() async {
+    _therapistThreadId = await _apiService.getThreadId('therapist');
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    _companionThreadId = await _apiService.getThreadId('companion');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: GoogleFonts.poppins(),
+        ),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _fetchUserData(),
@@ -106,16 +131,20 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 10),
               Text(
                 fullName,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Text(
                 email,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
@@ -124,36 +153,36 @@ class _ProfilePageState extends State<ProfilePage> {
         SizedBox(height: 30),
         ListTile(
           leading: Icon(Icons.history, color: Colors.blue),
-          title: Text('History'),
+          title: Text('History', style: GoogleFonts.poppins()),
           trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ChatHistoryPage(
-                  therapistThreadId: 'therapist_thread_id',
-                  companion_thread_id: 'companion_thread_id',
+                  therapistThreadId: _therapistThreadId!,
+                  companion_thread_id: _companionThreadId!,
                 ),
               ),
             );
           },
         ),
         Divider(),
-        ListTile(
-          leading: Icon(Icons.settings, color: Colors.blue),
-          title: Text('Settings'),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SettingsPage()),
-            );
-          },
-        ),
-        Divider(),
+        // ListTile(
+        //   leading: Icon(Icons.settings, color: Colors.blue),
+        //   title: Text('Settings', style: GoogleFonts.poppins()),
+        //   trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => SettingsPage()),
+        //     );
+        //   },
+        // ),
+        // Divider(),
         ListTile(
           leading: Icon(Icons.privacy_tip, color: Colors.blue),
-          title: Text('Privacy and Policy'),
+          title: Text('Privacy and Policy', style: GoogleFonts.poppins()),
           trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
           onTap: () {
             Navigator.push(
@@ -168,14 +197,22 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: _logout,
           child: Text(
             'Logout',
-            style: TextStyle(
-              color: Colors.white,
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 80.0),
-            textStyle: TextStyle(fontSize: 18),
+            textStyle: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),

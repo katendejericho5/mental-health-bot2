@@ -3,9 +3,10 @@ import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/groups/group_list.dart';
 import 'package:WellCareBot/screens/modes/companion_chatbot.dart';
 import 'package:WellCareBot/screens/modes/therapist_chatbot.dart';
-import 'package:WellCareBot/screens/booking/booking_chat.dart';
+import 'package:WellCareBot/screens/booking/booking_page.dart';
 import 'package:WellCareBot/screens/settings/profile_page.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
+import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -154,12 +155,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ApiService _apiService = ApiService();
+  String? therapistThreadId;
+  String? companionThreadId;
 
   @override
   void initState() {
     super.initState();
+    _initializeData();
     _darkMode = Provider.of<ThemeNotifier>(context, listen: false).themeMode ==
         ThemeMode.dark;
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await _getOrSetThreadIdTherapist();
+      await _getOrSetThreadIdCompanion();
+    } catch (e) {
+      print('Error initializing data: $e');
+    }
+  }
+
+  Future<void> _getOrSetThreadIdTherapist() async {
+    therapistThreadId = await _apiService.getThreadId('therapist');
+  }
+
+  Future<void> _getOrSetThreadIdCompanion() async {
+    companionThreadId = await _apiService.getThreadId('companion');
   }
 
   Future<String> _fetchProfilePictureURL() async {
@@ -225,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: getProportionateScreenWidth(270),
                     child: Expanded(
                       child: CarouselSlider(
-                        options: CarouselOptions(height: 200.0),
+                        options: CarouselOptions(
+                            height: getProportionateScreenHeight(170.0)),
                         items: [
                           'assets/images/home/emotions/happy.png',
                           'assets/images/home/emotions/bored.png',
@@ -247,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Image.asset(
                                         i,
                                         height:
-                                            getProportionateScreenHeight(150),
+                                            getProportionateScreenHeight(130),
                                       ),
                                       Text(
                                         i.split('/')[4].split('.')[0],
@@ -520,6 +543,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 child: Text(
                                   'Companion',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize:
                                           getProportionateScreenWidth(12)),

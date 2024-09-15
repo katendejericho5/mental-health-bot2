@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CreateGroupScreen extends StatefulWidget {
   @override
@@ -52,7 +53,13 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _createGroup,
-                child: Text('Create Group'),
+                child: Text('Create Group',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )),
               ),
             ],
           ),

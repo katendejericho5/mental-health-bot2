@@ -43,9 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         // Handle login failure (e.g., show an error message)
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed. Please try again.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login failed. Please try again.',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(),
+              )),
+        ));
       }
     }
   }

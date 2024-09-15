@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddMembersScreen extends StatefulWidget {
   final Group group;
@@ -20,7 +21,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Members'),
+        title: Text('Add Members', style: GoogleFonts.poppins(),),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -35,7 +36,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             return Center(child: CircularProgressIndicator());
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No users found'));
+            return Center(child: Text('No users found',style:GoogleFonts.poppins()));
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
@@ -51,7 +52,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               }
 
               return CheckboxListTile(
-                title: Text(userName),
+                title: Text(userName, style: GoogleFonts.poppins()),
                 value: isSelected,
                 onChanged: (bool? value) {
                   setState(() {

@@ -1,10 +1,9 @@
 import 'dart:async';
-
-import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/screens/settings/settings.dart';
 import 'package:WellCareBot/screens/welcome/welcome_screen.dart';
 import 'package:WellCareBot/services/shared_preferences.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -32,18 +31,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          themeMode: themeNotifier.themeMode,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+        return CalendarControllerProvider(
+          controller: EventController(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeMode: themeNotifier.themeMode,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            darkTheme: ThemeData.dark(),
+            home: AuthCheck(),
+            routes: {
+              '/settings': (context) => SettingsPage(),
+            },
           ),
-          darkTheme: ThemeData.dark(),
-          home: AuthCheck(),
-          routes: {
-            '/settings': (context) => SettingsPage(),
-          },
         );
       },
     );

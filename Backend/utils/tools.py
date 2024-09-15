@@ -2,7 +2,7 @@ import os
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.tools import Tool
 from booking import  create_booking_tool, get_all_therapists, get_all_therapists_tool, get_therapist_by_name, get_user_by_email_tool, is_slot_available
-from retrieval import retrieve_db, retrieve_db_tool
+from utils.retrieval import retrieve_db, retrieve_db_tool
 from langchain_core.messages import HumanMessage, ToolMessage
 
 

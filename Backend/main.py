@@ -37,10 +37,10 @@ limiter = Limiter(
 )
 
 # Initialize chatbot components
-from graph import create_graph, create_graph_companion
-from tools import create_tools
-from functions import format_event, setup_environment
-from agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
+from agents.graph import create_graph, create_graph_companion
+from utils.tools import create_tools
+from agents.functions import format_event, setup_environment
+from agents.agents import create_assistant_therapist, create_assistant_companion, create_groq, create_llm
 
 setup_environment()
 llm = create_llm()

@@ -31,8 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context) {
           return Center(
             child: CircularProgressIndicator(
-              color: Color.fromRGBO(3, 226, 246, 1)
-            ),
+                color: Color.fromRGBO(3, 226, 246, 1)),
           );
         },
       );

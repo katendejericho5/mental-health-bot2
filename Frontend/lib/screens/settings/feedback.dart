@@ -1,6 +1,7 @@
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FeedbackPage extends StatefulWidget {
   @override
@@ -33,7 +34,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
       try {
         await FlutterEmailSender.send(email);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Feedback sent successfully!')),
+          SnackBar(
+            content: Text('Feedback sent successfully!',
+                style: GoogleFonts.poppins()),
+          ),
         );
 
         _feedbackController.clear();
@@ -45,7 +49,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
         );
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send feedback')),
+          SnackBar(
+            content:
+                Text('Failed to send feedback', style: GoogleFonts.poppins()),
+          ),
         );
       } finally {
         setState(() {
@@ -59,7 +66,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback'),
+        title: Text('Feedback', style: GoogleFonts.poppins()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,16 +75,21 @@ class _FeedbackPageState extends State<FeedbackPage> {
           children: [
             Text(
               'We value your feedback!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey[800],
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SizedBox(height: 20),
             Text(
               'Please let us know how we can improve or if you have any suggestions.',
-              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 30),
@@ -92,12 +104,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         maxLines: 5,
                         decoration: InputDecoration(
                           labelText: 'Your Feedback',
+                          labelStyle: GoogleFonts.poppins(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           hintText: 'Enter your feedback here...',
+                          hintStyle: GoogleFonts.poppins(),
                           filled: true,
-                          fillColor: Colors.grey[200],
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 20.0, horizontal: 16.0),
                         ),
@@ -113,7 +126,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ? CircularProgressIndicator()
                           : ElevatedButton(
                               onPressed: _submitFeedback,
-                              child: Text('Submit Feedback'),
+                              child: Text('Submit Feedback',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: Colors.blueGrey[800],

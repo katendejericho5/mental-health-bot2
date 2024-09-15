@@ -4,6 +4,7 @@ import 'package:WellCareBot/screens/groups/group_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GroupListScreen extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -13,13 +14,16 @@ class GroupListScreen extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('My Groups', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'My Groups',
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+        ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<List<Group>>(
         stream: _firestoreService.getUserGroups(currentUser!.uid),
@@ -68,14 +72,29 @@ class GroupListScreen extends StatelessWidget {
           backgroundColor: Colors.blueAccent,
           child: Text(
             group.name[0].toUpperCase(),
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         title: Text(
           group.name,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
-        subtitle: Text('Tap to join the conversation'),
+        subtitle: Text('Tap to join the conversation',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
+            )),
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
         onTap: () {
           Navigator.push(
@@ -98,21 +117,37 @@ class GroupListScreen extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             'No groups yet',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           SizedBox(height: 8),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
               'Create a group or join one to start connecting with others.',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
               textAlign: TextAlign.center,
             ),
           ),
           SizedBox(height: 24),
           ElevatedButton.icon(
             icon: Icon(Icons.add),
-            label: Text('Create New Group'),
+            label: Text('Create New Group',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )),
             onPressed: () {
               Navigator.push(
                 context,

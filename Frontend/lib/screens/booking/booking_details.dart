@@ -2,6 +2,7 @@ import 'package:WellCareBot/models/booking_model.dart';
 import 'package:WellCareBot/models/therapist_model.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   final Booking booking;
@@ -16,9 +17,12 @@ class BookingDetailsPage extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 16),
           child: Text(
             'Booking Details',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ),
       ),
@@ -51,18 +55,21 @@ class BookingDetailsPage extends StatelessWidget {
                         children: [
                           Text(
                             booking.userName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                           SizedBox(height: 8),
                           Text(
                             booking.userEmail,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(color: Colors.grey[700]),
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -86,10 +93,9 @@ class BookingDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       'Appointment Details',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
                     ),
                     Divider(height: 24),
                     _buildDetailRow(context, Icons.calendar_today_outlined,
@@ -164,12 +170,12 @@ class BookingDetailsPage extends StatelessWidget {
                         SizedBox(height: 16),
                         Text(
                           'Availability',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 8),
                         Column(
@@ -181,10 +187,9 @@ class BookingDetailsPage extends StatelessWidget {
                                       const EdgeInsets.symmetric(vertical: 4),
                                   child: Text(
                                     '- $slot',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: Colors.grey[700]),
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(fontSize: 16),
+                                    ),
                                   ),
                                 ),
                               )
@@ -213,9 +218,9 @@ class BookingDetailsPage extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.grey[800],
-                  ),
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(fontSize: 16),
+              ),
             ),
           ),
         ],

@@ -14,15 +14,6 @@ from langgraph.graph import MessagesState, StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 
 
-
-# sync_pool = initialize_sync_pool(host="redis-18753.c57.us-east-1-4.ec2.redns.redis-cloud.com", port=18753,password='ILRF8edC01Rul1kisv3hmsvxWsDos4vc',db=0)
-
-
-# r = redis.Redis(
-#   host='redis-18753.c57.us-east-1-4.ec2.redns.redis-cloud.com',
-#   port=18753,
-#   password='ILRF8edC01Rul1kisv3hmsvxWsDos4vc')
-
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 model = ChatOpenAI(model="gpt-4o-mini", api_key=OPENAI_API_KEY)
 class State(MessagesState):
@@ -33,7 +24,7 @@ def tools_condition(state: State) -> Union[str, None]:
     last_message = messages[-1]
     # If the last message includes tool calls, route to the "tools" node
     # todo: change the number of messages to check as needed
-    if len(messages) > 20:
+    if len(messages) > 30:
         return "summarize_conversation"
     if last_message.tool_calls:
         return "tools"

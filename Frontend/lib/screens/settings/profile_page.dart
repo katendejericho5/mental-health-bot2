@@ -1,4 +1,7 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/Authentication/login.dart';
+import 'package:WellCareBot/screens/settings/about.dart';
+import 'package:WellCareBot/screens/settings/feedback.dart';
 import 'package:WellCareBot/screens/welcome/welcome_screen.dart';
 import 'package:WellCareBot/services/api_service.dart';
 import 'package:WellCareBot/services/auth_service.dart';
@@ -70,152 +73,339 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+        elevation: 0,
         title: Text(
           'Profile',
-          style: GoogleFonts.poppins(),
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(22),
+              fontWeight: FontWeight.w700),
         ),
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: _fetchUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Display a loading indicator and default profile data
-            return _buildProfileContent(
-              profilePictureURL: '',
-              fullName: 'Loading...',
-              email: 'Loading...',
-              isLoading: true,
-            );
-          } else if (snapshot.hasError || !snapshot.hasData) {
-            // Display error message and default profile data
-            return _buildProfileContent(
-              profilePictureURL: '',
-              fullName: 'Error loading data',
-              email: 'Please try again later',
-              isLoading: false,
-            );
-          } else {
-            final data = snapshot.data!;
-            return _buildProfileContent(
-              profilePictureURL: data['profilePictureURL'] ?? '',
-              fullName: data['fullName'] ?? 'No Name',
-              email: data['email'] ?? 'No Email',
-              isLoading: false,
-            );
-          }
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder<Map<String, dynamic>>(
+              future: _fetchUserData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Display a loading indicator and default profile data
+                  return _buildProfileContent(
+                      profilePictureURL: '',
+                      fullName: 'Loading...',
+                      email: 'Loading...',
+                      isLoading: true,
+                      number: 'Loading...');
+                } else if (snapshot.hasError || !snapshot.hasData) {
+                  // Display error message and default profile data
+                  return _buildProfileContent(
+                      profilePictureURL: '',
+                      fullName: 'Error loading data',
+                      email: 'Please try again later',
+                      isLoading: false,
+                      number: 'Loading...');
+                } else {
+                  final data = snapshot.data!;
+                  return _buildProfileContent(
+                      profilePictureURL: data['profilePictureURL'] ?? '',
+                      fullName: data['fullName'] ?? 'No Name',
+                      email: data['email'] ?? 'No Email',
+                      isLoading: false,
+                      number: data['phoneNumber'] ?? 'No Number');
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Color.fromRGBO(62, 82, 213, 0.8),
+                child: ListTile(
+                  onTap: () {},
+                  leading: const Icon(
+                    Icons.account_circle,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Edit Profile",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: getProportionateScreenWidth(16),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios,
+                      color: Colors.white, size: 20),
+                  subtitle: Text(
+                    "Name, Phone Number, Adress",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  color: Color.fromRGBO(62, 82, 213, 0.8),
+                  child: ListTile(
+                    onTap: () {
+                      // Navigate to Privacy Settings page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FeedbackPage()),
+                      );
+                    },
+                    leading: const Icon(Icons.feedback,
+                        color: Colors.white, size: 35),
+                    trailing: const Icon(Icons.arrow_forward_ios,
+                        color: Colors.white, size: 20),
+                    title: Text(
+                      "Feedback",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(17),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Help us improve!",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(12),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Color.fromRGBO(62, 82, 213, 0.8),
+                child: ListTile(
+                  onTap: () {
+                    // Navigate to Privacy Settings page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                    );
+                  },
+                  leading: const Icon(
+                    Icons.shield_moon,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text("Privacy policy",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(17),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                  trailing: const Icon(Icons.arrow_forward_ios,
+                      color: Colors.white, size: 20),
+                  subtitle: Text(
+                    "Get to know about out privacy policy",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Color.fromRGBO(62, 82, 213, 0.8),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AboutPage()),
+                    );
+                  },
+                  leading: const Icon(Icons.map, color: Colors.white, size: 35),
+                  title: Text("About Us",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(17),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                  trailing: const Icon(Icons.arrow_forward_ios,
+                      color: Colors.white, size: 20),
+                  subtitle: Text(
+                    "know more about us, terms and conditions",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildProfileContent({
-    required String profilePictureURL,
-    required String fullName,
-    required String email,
-    required bool isLoading,
-  }) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+  Widget _buildProfileContent(
+      {required String profilePictureURL,
+      required String fullName,
+      required String email,
+      required bool isLoading,
+      required String number}) {
+    return Column(
       children: [
-        Center(
-          child: Column(
+        Stack(
+          children: [
+            Positioned(
+                child: Column(
+              children: [
+                Container(
+                    height: getProportionateScreenHeight(270),
+                    width: getProportionateScreenWidth(450),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(profilePictureURL),
+                        fit: BoxFit.cover,
+                        colorFilter:
+                            ColorFilter.mode(Colors.blue, BlendMode.darken),
+                      ),
+                    )),
+                SizedBox(
+                  height: getProportionateScreenHeight(50),
+                ),
+              ],
+            )),
+            Positioned(
+                bottom: getProportionateScreenHeight(10),
+                left: getProportionateScreenWidth(140),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 4,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(profilePictureURL),
+                  ),
+                )),
+            Positioned(
+                top: getProportionateScreenHeight(10),
+                right: getProportionateScreenWidth(10),
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(fullName,
+                              style: GoogleFonts.nunitoSans(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          content: Text("Are you sure you want to logout?",
+                              style: GoogleFonts.nunitoSans(
+                                fontSize: getProportionateScreenWidth(13),
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                              )),
+                          actions: [
+                            TextButton(
+                              onPressed: () {},
+                              // onPressed: () => Navigator.pushNamed(
+                              //     context, SignInScreen.routeName),
+                              child: const Text("OK"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: getProportionateScreenWidth(25),
+                    weight: getProportionateScreenWidth(15),
+                  ),
+                ))
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: profilePictureURL.isNotEmpty
-                    ? NetworkImage(profilePictureURL)
-                    : AssetImage('assets/relaxation-7282116_1280.jpg'),
-                backgroundColor: Colors.grey[200],
-              ),
-              SizedBox(height: 10),
-              Text(
-                fullName,
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    fontSize: 20,
+              Text(fullName,
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(18),
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                email,
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+                  )),
             ],
           ),
         ),
-        SizedBox(height: 30),
-        ListTile(
-          leading: Icon(Icons.history, color: Colors.blue),
-          title: Text('History', style: GoogleFonts.poppins()),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatHistoryPage(
-                  therapistThreadId: _therapistThreadId!,
-                  companion_thread_id: _companionThreadId!,
-                ),
-              ),
-            );
-          },
-        ),
-        Divider(),
-        // ListTile(
-        //   leading: Icon(Icons.settings, color: Colors.blue),
-        //   title: Text('Settings', style: GoogleFonts.poppins()),
-        //   trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-        //   onTap: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => SettingsPage()),
-        //     );
-        //   },
-        // ),
-        // Divider(),
-        ListTile(
-          leading: Icon(Icons.privacy_tip, color: Colors.blue),
-          title: Text('Privacy and Policy', style: GoogleFonts.poppins()),
-          trailing: Icon(Icons.arrow_forward_ios, color: Colors.blue),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-            );
-          },
-        ),
-        Divider(),
-        SizedBox(height: 30),
-        ElevatedButton(
-          onPressed: _logout,
-          child: Text(
-            'Logout',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+        Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(email,
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(14),
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+            ],
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 80.0),
-            textStyle: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(number,
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(14),
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+            ],
           ),
         ),
       ],

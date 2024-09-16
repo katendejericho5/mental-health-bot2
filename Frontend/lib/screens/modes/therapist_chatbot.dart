@@ -256,6 +256,7 @@ class _TherapistChatBotState extends State<TherapistChatBot> {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(17, 6, 60, 1),
         elevation: 0,

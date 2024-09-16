@@ -46,63 +46,6 @@ class BookingDetailsPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: ListView(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: ClipRRect(
-            //       borderRadius: BorderRadius.all(Radius.circular(12)),
-            //       child: Image.network(
-            //         therapist.image,
-            //         fit: BoxFit.cover,
-            //         height: getProportionateScreenHeight(140),
-            //         width: getProportionateScreenWidth(100),
-            //       )),
-            // ),
-            // Card(
-            //   elevation: 3,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(16),
-            //   ),
-            //   margin: EdgeInsets.only(bottom: 16),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(16),
-            //     child: Row(
-            //       children: [
-            //         CircleAvatar(
-            //           backgroundImage:
-            //               NetworkImage(booking.userProfilePictureUrl),
-            //           radius: 40,
-            //         ),
-            //         SizedBox(width: 16),
-            //         Expanded(
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               Text(
-            //                 booking.userName,
-            //                 style: GoogleFonts.poppins(
-            //                   textStyle: TextStyle(
-            //                     fontSize: 18,
-            //                     fontWeight: FontWeight.w600,
-            //                   ),
-            //                 ),
-            //               ),
-            //               SizedBox(height: 8),
-            //               Text(
-            //                 booking.userEmail,
-            //                 style: GoogleFonts.poppins(
-            //                   textStyle: TextStyle(
-            //                     color: Colors.grey,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
             // Therapist Details StreamBuilder
             StreamBuilder<Therapist>(
               stream:

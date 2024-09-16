@@ -1,9 +1,11 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/screens/groups/create_group_screen.dart';
 import 'package:WellCareBot/screens/groups/group_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GroupListScreen extends StatelessWidget {
@@ -14,16 +16,17 @@ class GroupListScreen extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+        elevation: 0,
         title: Text(
           'My Groups',
-          style: GoogleFonts.poppins(
-            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(22),
+              fontWeight: FontWeight.w700),
         ),
-        centerTitle: true,
-        elevation: 0,
-        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<List<Group>>(
         stream: _firestoreService.getUserGroups(currentUser!.uid),
@@ -49,53 +52,77 @@ class GroupListScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Center(
+            child: Icon(FontAwesomeIcons.peopleGroup, color: Colors.white)),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateGroupScreen()),
-          );
+          _createNewGroupDilague(context);
         },
         backgroundColor: Colors.blueAccent,
       ),
     );
   }
 
+  Future<void> _createNewGroupDilague(context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 200.0, top: 100),
+            child: AlertDialog(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Create New Group',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(22),
+                            fontWeight: FontWeight.w700)),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(Icons.cancel, color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+                content: CreateGroupScreen(),
+                backgroundColor: Color.fromRGBO(17, 6, 60, 1)),
+          );
+        });
+  }
+
   Widget _buildGroupCard(BuildContext context, Group group) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      color: Color.fromRGBO(62, 82, 213, 0.8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
       margin: EdgeInsets.only(bottom: 16),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: CircleAvatar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.orangeAccent,
           child: Text(
             group.name[0].toUpperCase(),
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
         title: Text(
           group.name,
-          style: GoogleFonts.poppins(
-            textStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.bold),
         ),
         subtitle: Text('Tap to join the conversation',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
-            )),
-        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
+            style: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(18),
+                fontWeight: FontWeight.normal)),
+        trailing: Icon(Icons.arrow_forward_ios,
+            color: Colors.white, size: getProportionateScreenWidth(15)),
         onTap: () {
           Navigator.push(
             context,

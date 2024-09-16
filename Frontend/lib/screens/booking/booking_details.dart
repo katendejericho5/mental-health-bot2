@@ -1,3 +1,4 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/booking_model.dart';
 import 'package:WellCareBot/models/therapist_model.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
@@ -12,17 +13,32 @@ class BookingDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
-        title: Container(
-          padding: EdgeInsets.only(bottom: 16),
-          child: Text(
-            'Booking Details',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+        elevation: 0,
+        title: Text(
+          'Booking Details',
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(22),
+              fontWeight: FontWeight.w700),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -30,86 +46,62 @@ class BookingDetailsPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: ListView(
           children: [
-            // Section Title: Bookings
-
-            // User Details Card
-            Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              margin: EdgeInsets.only(bottom: 16),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(booking.userProfilePictureUrl),
-                      radius: 40,
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            booking.userName,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            booking.userEmail,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Appointment Details Card
-            Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              margin: EdgeInsets.only(bottom: 16),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Appointment Details',
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    Divider(height: 24),
-                    _buildDetailRow(context, Icons.calendar_today_outlined,
-                        'Date: ${booking.appointmentDate}'),
-                    _buildDetailRow(context, Icons.access_time_outlined,
-                        'Time: ${booking.time}'),
-                    _buildDetailRow(context, Icons.info_outline,
-                        'Status: ${booking.status}'),
-                    _buildDetailRow(context, Icons.notes_outlined,
-                        'Notes: ${booking.notes}'),
-                  ],
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: ClipRRect(
+            //       borderRadius: BorderRadius.all(Radius.circular(12)),
+            //       child: Image.network(
+            //         therapist.image,
+            //         fit: BoxFit.cover,
+            //         height: getProportionateScreenHeight(140),
+            //         width: getProportionateScreenWidth(100),
+            //       )),
+            // ),
+            // Card(
+            //   elevation: 3,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(16),
+            //   ),
+            //   margin: EdgeInsets.only(bottom: 16),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(16),
+            //     child: Row(
+            //       children: [
+            //         CircleAvatar(
+            //           backgroundImage:
+            //               NetworkImage(booking.userProfilePictureUrl),
+            //           radius: 40,
+            //         ),
+            //         SizedBox(width: 16),
+            //         Expanded(
+            //           child: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 booking.userName,
+            //                 style: GoogleFonts.poppins(
+            //                   textStyle: TextStyle(
+            //                     fontSize: 18,
+            //                     fontWeight: FontWeight.w600,
+            //                   ),
+            //                 ),
+            //               ),
+            //               SizedBox(height: 8),
+            //               Text(
+            //                 booking.userEmail,
+            //                 style: GoogleFonts.poppins(
+            //                   textStyle: TextStyle(
+            //                     color: Colors.grey,
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             // Therapist Details StreamBuilder
             StreamBuilder<Therapist>(
@@ -140,64 +132,103 @@ class BookingDetailsPage extends StatelessWidget {
 
                 final therapist = snapshot.data!;
 
-                return Card(
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  margin: EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Therapist Details',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                        Divider(height: 24),
-                        _buildDetailRow(context, Icons.person_outline,
-                            'Name: ${therapist.name}'),
-                        _buildDetailRow(context, Icons.local_hospital_outlined,
-                            'Hospital: ${therapist.hospital}'),
-                        _buildDetailRow(context, Icons.location_city_outlined,
-                            'City: ${therapist.city}'),
-                        SizedBox(height: 16),
-                        Text(
-                          'Availability',
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: therapist.availability
-                              .map(
-                                (slot) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: Text(
-                                    '- $slot',
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          child: Image.network(
+                            therapist.image,
+                            fit: BoxFit.cover,
+                            height: getProportionateScreenHeight(230),
+                            width: getProportionateScreenWidth(340),
+                          )),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                      child: Text(therapist.name,
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(22),
+                              fontWeight: FontWeight.w700)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                      child: Text('${therapist.hospital} - ${therapist.city}',
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(18),
+                              fontWeight: FontWeight.w700)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Divider(
+                        color: Colors.white,
+                      ),
+                    ),
+                    // Appointment Details Card
+                    Card(
+                      elevation: 3,
+                      color: Colors.blueAccent.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      margin: EdgeInsets.only(bottom: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Appointment Details',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(18),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            Divider(height: 24),
+                            _buildDetailRow(context, Icons.calendar_today,
+                                'Date: ${booking.appointmentDate}'),
+                            _buildDetailRow(context, Icons.access_time_outlined,
+                                'Time: ${booking.time}'),
+                            _buildDetailRow(context, Icons.info_outline,
+                                'Status: ${booking.status}'),
+                            _buildDetailRow(context, Icons.notes_outlined,
+                                'Notes: ${booking.notes}'),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Availability',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(18),
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: therapist.availability
+                          .map(
+                            (slot) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Text(
+                                '- $slot',
+                                style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: getProportionateScreenWidth(15),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    )
+                  ],
                 );
               },
             ),
@@ -213,14 +244,15 @@ class BookingDetailsPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Icon(icon, color: Theme.of(context).colorScheme.primary),
+          Icon(icon, color: Color.fromRGBO(108, 104, 250, 1), size: 20),
           SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(fontSize: 16),
-              ),
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w600),
             ),
           ),
         ],

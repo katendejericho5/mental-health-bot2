@@ -395,6 +395,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   void _showMembersList(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Color.fromRGBO(62, 82, 213, 1),
       builder: (BuildContext context) {
         return FutureBuilder<List<DocumentSnapshot>>(
           future: Future.wait(
@@ -413,13 +414,15 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                 ListTile(
                   title: Text(
                     'Group Members',
-                    style: GoogleFonts.poppins(
-                      textStyle:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                    ),
+                    style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: getProportionateScreenWidth(20),
+                        fontWeight: FontWeight.bold),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.add),
+                    icon: Icon(Icons.add,
+                        color: Colors.white,
+                        size: getProportionateScreenWidth(25)),
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -438,17 +441,30 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     itemBuilder: (context, index) {
                       final user = snapshot.data![index];
                       final userName = user['fullName'] ?? 'Unknown';
-                      return ListTile(
-                        title: Text(
-                          userName,
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                      final imageUrl = user['profilePictureURL'] ?? '';
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          color: Color.fromRGBO(17, 6, 60, 1),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundImage: NetworkImage(imageUrl)),
+                            title: Text(
+                              userName,
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(18),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            subtitle: Text(
+                              user['email'] ?? '',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(16),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
-                        subtitle: Text(user['email'] ?? ''),
                       );
                     },
                   ),

@@ -8,6 +8,7 @@ import 'package:WellCareBot/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'history.dart';
@@ -322,48 +323,70 @@ class _ProfilePageState extends State<ProfilePage> {
                 top: getProportionateScreenHeight(10),
                 right: getProportionateScreenWidth(10),
                 child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(fullName,
-                              style: GoogleFonts.nunitoSans(
-                                fontSize: getProportionateScreenWidth(18),
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          content: Text("Are you sure you want to logout?",
-                              style: GoogleFonts.nunitoSans(
-                                fontSize: getProportionateScreenWidth(13),
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                              )),
-                          actions: [
-                            TextButton(
-                              onPressed: () {},
-                              // onPressed: () => Navigator.pushNamed(
-                              //     context, SignInScreen.routeName),
-                              child: const Text("OK"),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+                            title: Text(fullName,
+                                style: GoogleFonts.nunitoSans(
+                                  fontSize: getProportionateScreenWidth(18),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            content: Text("Are you sure you want to logout?",
+                                style: GoogleFonts.nunitoSans(
+                                  fontSize: getProportionateScreenWidth(13),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                )),
+                            actions: [
+                              TextButton(
+                                onPressed: _logout,
+                                child: const Text("OK"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color.fromRGBO(2, 106, 111, 1),
+                                  Color.fromRGBO(3, 226, 246, 1)
+                                ]),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Center(
+                              child: Icon(Icons.logout,
+                                  color: Colors.white,
+                                  size: getProportionateScreenWidth(15)),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                    size: getProportionateScreenWidth(25),
-                    weight: getProportionateScreenWidth(15),
-                  ),
-                ))
+                          ),
+                        ),
+                      ),
+                    )))
           ],
         ),
         Padding(

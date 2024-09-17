@@ -1,3 +1,4 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,36 +34,83 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Create New Group')),
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(labelText: 'Group Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a group name';
-                  }
-                  return null;
-                },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: "New Group Name",
+                hintStyle: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.w600),
+                prefixIcon: Icon(
+                  Icons.group_add,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                filled: true,
+                fillColor: Colors.blueAccent.withOpacity(0.5),
+                contentPadding: const EdgeInsets.all(8),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(62, 82, 213, 1), width: 2)),
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _createGroup,
-                child: Text('Create Group',
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a group name';
+                }
+                return null;
+              },
+            ),
+            // TextFormField(
+            //   controller: _nameController,
+            //   decoration: InputDecoration(labelText: 'Group Name'),
+            //   validator: (value) {
+            //     if (value == null || value.isEmpty) {
+            //       return 'Please enter a group name';
+            //     }
+            //     return null;
+            //   },
+            // ),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: getProportionateScreenWidth(250),
+                height: getProportionateScreenHeight(50),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onPressed: _createGroup,
+                  child: Text(
+                    'Add Group',
+                    style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+            // ElevatedButton(
+            //   onPressed: _createGroup,
+            //   child: Text('Create Group',
+            //       style: GoogleFonts.poppins(
+            //         textStyle: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       )),
+            // ),
+          ],
         ),
       ),
     );

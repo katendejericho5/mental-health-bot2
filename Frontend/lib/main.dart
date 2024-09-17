@@ -31,21 +31,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, child) {
-        return CalendarControllerProvider(
-          controller: EventController(),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            themeMode: themeNotifier.themeMode,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            darkTheme: ThemeData.dark(),
-            home: AuthCheck(),
-            routes: {
-              '/settings': (context) => SettingsPage(),
-            },
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          themeMode: themeNotifier.themeMode,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
+          darkTheme: ThemeData.dark(),
+          home: AuthCheck(),
+          routes: {
+            '/settings': (context) => SettingsPage(),
+          },
         );
       },
     );

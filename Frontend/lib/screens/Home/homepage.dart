@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         HomeScreen(),
         BookingsPage(),
         GroupListScreen(),
-        SettingsPage(),
+        ProfilePage(),
       ];
   void _onItemTapped(int index) {
     setState(() {

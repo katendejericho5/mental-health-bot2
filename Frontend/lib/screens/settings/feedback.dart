@@ -39,6 +39,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           SnackBar(
             content: Text('Feedback sent successfully!',
                 style: GoogleFonts.poppins()),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
           ),
         );
 
@@ -52,8 +53,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content:
-                Text('Failed to send feedback', style: GoogleFonts.poppins()),
+            content: Text(
+              'Failed to send feedback',
+              style: GoogleFonts.poppins(),
+            ),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
           ),
         );
       } finally {

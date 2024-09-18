@@ -197,14 +197,18 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
         await _apiService.renewRateLimit();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Rate limit renewed successfully',
-                  style: GoogleFonts.poppins())),
+            content: Text('Rate limit renewed successfully',
+                style: GoogleFonts.poppins()),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Failed to renew rate limit',
-                  style: GoogleFonts.poppins())),
+            content: Text('Failed to renew rate limit',
+                style: GoogleFonts.poppins()),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       }
     });
@@ -212,8 +216,10 @@ class _CompanionChatBotState extends State<CompanionChatBot> {
     if (!adShown) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Failed to show ad. Please try again later.',
-                style: GoogleFonts.poppins())),
+          content: Text('Failed to show ad. Please try again later.',
+              style: GoogleFonts.poppins()),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }

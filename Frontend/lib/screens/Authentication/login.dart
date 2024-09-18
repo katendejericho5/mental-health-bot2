@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: GoogleFonts.poppins(
                 textStyle: TextStyle(),
               )),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
         ));
       }
     }

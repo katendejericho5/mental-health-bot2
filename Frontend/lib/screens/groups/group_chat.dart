@@ -174,6 +174,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     SnackBar(
                       content: Text('Failed to delete message',
                           style: GoogleFonts.poppins(fontSize: 16)),
+                      backgroundColor: Color.fromRGBO(3, 226, 246, 1),
                     ),
                   );
                 }

@@ -57,7 +57,10 @@ class AuthCheck extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(
+                      color: Color.fromRGBO(3, 226, 246, 1))));
         } else if (snapshot.hasData) {
           // User is logged in
           return HomePage(); // Navigate to home page

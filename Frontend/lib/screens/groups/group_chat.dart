@@ -404,7 +404,9 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(
+                      color: Color.fromRGBO(3, 226, 246, 1)));
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return Center(child: Text('No members found'));

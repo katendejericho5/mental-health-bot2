@@ -118,6 +118,7 @@ flutter:
     - assets/images/home/emotions/
     - assets/images/home/modes/
     - assets/images/bots/
+    - assets/images/group/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

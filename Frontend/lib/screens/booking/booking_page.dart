@@ -61,6 +61,7 @@ class BookingsPage extends StatelessWidget {
                       borderSide: BorderSide(
                           color: Color.fromRGBO(62, 82, 213, 1), width: 2)),
                 ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             Expanded(
@@ -97,32 +98,30 @@ class BookingsPage extends StatelessWidget {
                     );
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
+                        child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.event_busy, color: Colors.grey, size: 64),
-                          SizedBox(height: 8),
-                          Text(
-                            'No appointments found.',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
+                          SizedBox(height: getProportionateScreenHeight(85)),
+                          Image.asset(
+                            'assets/images/group/shrug.png',
+                            height: getProportionateScreenHeight(300),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'No appointment found\nchat with bot to schedule one',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(20),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Text(
-                            'You don’t have any appointments scheduled.',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
+                          SizedBox(height: getProportionateScreenHeight(55))
                         ],
                       ),
-                    );
+                    ));
                   }
 
                   final bookings = snapshot.data!;

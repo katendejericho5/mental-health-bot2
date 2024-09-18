@@ -139,61 +139,28 @@ class GroupListScreen extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(
+        child: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.group_off, size: 100, color: Colors.grey[400]),
-          SizedBox(height: 16),
-          Text(
-            'No groups yet',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          SizedBox(height: getProportionateScreenHeight(85)),
+          Image.asset(
+            'assets/images/group/group.png',
+            height: getProportionateScreenHeight(300),
           ),
-          SizedBox(height: 8),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Create a group or join one to start connecting with others.',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              ),
-              textAlign: TextAlign.center,
+              'Create a group or join one to\nstart connecting with others\non similar mental health issues.\nTap the button to get started!',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w500),
             ),
           ),
-          SizedBox(height: 24),
-          ElevatedButton.icon(
-            icon: Icon(Icons.add),
-            label: Text('Create New Group',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                )),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateGroupScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
+          SizedBox(height: getProportionateScreenHeight(55))
         ],
       ),
-    );
+    ));
   }
 }

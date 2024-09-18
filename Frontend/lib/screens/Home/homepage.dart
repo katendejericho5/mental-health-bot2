@@ -424,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: getProportionateScreenHeight(220),
+                      height: getProportionateScreenHeight(200),
                       width: getProportionateScreenWidth(340),
                       decoration: BoxDecoration(
                           image: DecorationImage(
@@ -455,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                   Positioned(
                     left: getProportionateScreenWidth(10),
-                    bottom: getProportionateScreenHeight(50),
+                    bottom: getProportionateScreenHeight(18),
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: getProportionateScreenHeight(20),
@@ -467,28 +467,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: GoogleFonts.nunito(
                               color: Colors.white,
                               fontSize: getProportionateScreenWidth(18),
-                              fontWeight: FontWeight.w400),
+                              fontWeight: FontWeight.w600),
                           children: <TextSpan>[
                             TextSpan(
                               text: 'with\n',
                               style: GoogleFonts.nunito(
                                   color: Colors.white,
                                   fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.w400),
+                                  fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
                               text: 'WellCarebot\n',
                               style: GoogleFonts.nunito(
                                   color: Colors.white,
                                   fontSize: getProportionateScreenWidth(22),
-                                  fontWeight: FontWeight.w700),
+                                  fontWeight: FontWeight.w800),
                             ),
                             TextSpan(
-                              text: 'right now\n',
+                              text: 'right now!\n',
                               style: GoogleFonts.nunito(
                                   color: Colors.white,
                                   fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.w400),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
@@ -521,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       textAlign: TextAlign.start,
                       style: GoogleFonts.nunito(
                           color: Colors.white,
-                          fontSize: getProportionateScreenWidth(22),
+                          fontSize: getProportionateScreenWidth(23),
                           fontWeight: FontWeight.bold),
                     ),
                   ),

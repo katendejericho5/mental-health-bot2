@@ -61,6 +61,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                     borderSide: BorderSide(
                         color: Color.fromRGBO(62, 82, 213, 1), width: 2)),
               ),
+              style: TextStyle(color: Colors.white),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a group name';

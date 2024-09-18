@@ -199,104 +199,104 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _selectFeelingsDialogue() async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: getProportionateScreenHeight(170)),
-            child: AlertDialog(
-              backgroundColor: Color.fromRGBO(37, 14, 132, 1),
-              clipBehavior: Clip.hardEdge,
-              title: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'How do you feel today?',
-                        style: GoogleFonts.nunito(
-                            color: Colors.white,
-                            fontSize: getProportionateScreenWidth(18),
-                            fontWeight: FontWeight.w700),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(Icons.cancel, color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'If you are feeling unsure, don\'t worry, our AI can still learn what you feel as you are talking to it ☺️.',
-                      style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontSize: getProportionateScreenWidth(15),
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
-              ),
-              content: Column(
-                children: [
-                  SizedBox(
-                    width: getProportionateScreenWidth(270),
-                    child: Expanded(
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                            height: getProportionateScreenHeight(170.0)),
-                        items: [
-                          'assets/images/home/emotions/happy.png',
-                          'assets/images/home/emotions/bored.png',
-                          'assets/images/home/emotions/cool.png',
-                          'assets/images/home/emotions/expressionless.png',
-                          'assets/images/home/emotions/funny.png',
-                          'assets/images/home/emotions/irritated.png',
-                          'assets/images/home/emotions/sad.png',
-                          'assets/images/home/emotions/sleepy.png',
-                          'assets/images/home/emotions/special.png'
-                        ].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        i,
-                                        height:
-                                            getProportionateScreenHeight(130),
-                                      ),
-                                      Text(
-                                        i.split('/')[4].split('.')[0],
-                                        style: GoogleFonts.nunito(
-                                            color: Colors.white,
-                                            fontSize:
-                                                getProportionateScreenWidth(18),
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ));
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              actions: [
-                DefaultButton(text: 'Continue'),
-              ],
-            ),
-          );
-        });
-  }
+  // Future<void> _selectFeelingsDialogue() async {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return Padding(
+  //           padding: EdgeInsets.only(bottom: getProportionateScreenHeight(170)),
+  //           child: AlertDialog(
+  //             backgroundColor: Color.fromRGBO(37, 14, 132, 1),
+  //             clipBehavior: Clip.hardEdge,
+  //             title: Column(
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'How do you feel today?',
+  //                       style: GoogleFonts.nunito(
+  //                           color: Colors.white,
+  //                           fontSize: getProportionateScreenWidth(18),
+  //                           fontWeight: FontWeight.w700),
+  //                     ),
+  //                     GestureDetector(
+  //                       onTap: () => Navigator.pop(context),
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.all(6.0),
+  //                         child: Icon(Icons.cancel, color: Colors.white),
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //                 Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: Text(
+  //                     'If you are feeling unsure, don\'t worry, our AI can still learn what you feel as you are talking to it ☺️.',
+  //                     style: GoogleFonts.nunito(
+  //                         color: Colors.white,
+  //                         fontSize: getProportionateScreenWidth(15),
+  //                         fontWeight: FontWeight.normal),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             content: Column(
+  //               children: [
+  //                 SizedBox(
+  //                   width: getProportionateScreenWidth(270),
+  //                   child: Expanded(
+  //                     child: CarouselSlider(
+  //                       options: CarouselOptions(
+  //                           height: getProportionateScreenHeight(170.0)),
+  //                       items: [
+  //                         'assets/images/home/emotions/happy.png',
+  //                         'assets/images/home/emotions/bored.png',
+  //                         'assets/images/home/emotions/cool.png',
+  //                         'assets/images/home/emotions/expressionless.png',
+  //                         'assets/images/home/emotions/funny.png',
+  //                         'assets/images/home/emotions/irritated.png',
+  //                         'assets/images/home/emotions/sad.png',
+  //                         'assets/images/home/emotions/sleepy.png',
+  //                         'assets/images/home/emotions/special.png'
+  //                       ].map((i) {
+  //                         return Builder(
+  //                           builder: (BuildContext context) {
+  //                             return Container(
+  //                                 width: MediaQuery.of(context).size.width,
+  //                                 margin: EdgeInsets.symmetric(horizontal: 5.0),
+  //                                 child: Column(
+  //                                   children: [
+  //                                     Image.asset(
+  //                                       i,
+  //                                       height:
+  //                                           getProportionateScreenHeight(130),
+  //                                     ),
+  //                                     Text(
+  //                                       i.split('/')[4].split('.')[0],
+  //                                       style: GoogleFonts.nunito(
+  //                                           color: Colors.white,
+  //                                           fontSize:
+  //                                               getProportionateScreenWidth(18),
+  //                                           fontWeight: FontWeight.bold),
+  //                                     )
+  //                                   ],
+  //                                 ));
+  //                           },
+  //                         );
+  //                       }).toList(),
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             actions: [
+  //               DefaultButton(text: 'Continue'),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   Future<String> _fetchUserName() async {
     final User user = _auth.currentUser!;
@@ -454,32 +454,62 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )),
                   Positioned(
-                      left: getProportionateScreenWidth(20),
-                      bottom: getProportionateScreenHeight(85),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Take a moment\nto tell us how \nyou doing',
+                    left: getProportionateScreenWidth(10),
+                    bottom: getProportionateScreenHeight(50),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getProportionateScreenHeight(20),
+                        vertical: getProportionateScreenWidth(10),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Start a conversation\n',
                           style: GoogleFonts.nunito(
                               color: Colors.white,
                               fontSize: getProportionateScreenWidth(18),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w400),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'with\n',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(18),
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            TextSpan(
+                              text: 'WellCarebot\n',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(22),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            TextSpan(
+                              text: 'right now\n',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(18),
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
                         ),
-                      )),
-                  Positioned(
-                      left: getProportionateScreenWidth(20),
-                      bottom: getProportionateScreenHeight(15),
-                      child: SizedBox(
-                        width: getProportionateScreenWidth(150),
-                        height: getProportionateScreenHeight(65),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DefaultButton(
-                            text: 'Start',
-                            press: _selectFeelingsDialogue,
-                          ),
-                        ),
-                      ))
+                      ),
+                    ),
+                  ),
+                  // Positioned(
+                  //     left: getProportionateScreenWidth(20),
+                  //     bottom: getProportionateScreenHeight(15),
+                  //     child: SizedBox(
+                  //       width: getProportionateScreenWidth(150),
+                  //       height: getProportionateScreenHeight(65),
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: DefaultButton(
+                  //           text: 'Start',
+                  //           press: _selectFeelingsDialogue,
+                  //         ),
+                  //       ),
+                  //     ),
+                  // ),
                 ],
               ),
               Row(

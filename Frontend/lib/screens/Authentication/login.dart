@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: GoogleFonts.poppins(
                 textStyle: TextStyle(),
               )),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
         ));
       }
     }
@@ -185,10 +186,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.white,
                     fontFamily: 'krona',
                   ),
-                  suffixIcon: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: Color.fromRGBO(3, 226, 246, 1),
-                    size: 20,
+                  suffixIcon: GestureDetector(
+                    onTap: () => setState(() {
+                      _obscureText = !_obscureText;
+                    }),
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
                   ),
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.2),

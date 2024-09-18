@@ -79,7 +79,10 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
       _loadMessages(); // Reload messages after deletion
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete message: $error')),
+        SnackBar(
+          content: Text('Failed to delete message: $error'),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }

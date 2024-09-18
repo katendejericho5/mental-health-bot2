@@ -68,7 +68,9 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    color: Color.fromRGBO(3, 226, 246, 1)));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(

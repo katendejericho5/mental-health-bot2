@@ -1,6 +1,10 @@
 import 'dart:io';
+import 'package:WellCareBot/components/default_button.dart';
+import 'package:WellCareBot/constant/size_config.dart';
+import 'package:WellCareBot/screens/Authentication/login.dart';
 import 'package:WellCareBot/screens/Home/introduction.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,7 +99,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              IntroductionPage(), // Replace with your target screen
+              LoginScreen(), // Replace with your target screen
         ),
       );
     }
@@ -115,187 +119,218 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: _formKey,
-          child: ListView(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(37, 14, 132, 1),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             children: [
-              Column(
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        'Create Your Profile',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 32,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Please enter your details to complete your profile, don't worry your details are private",
-                        maxLines: 3,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: _pickImage,
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage: _profileImage != null
-                            ? FileImage(File(_profileImage!.path))
-                            : null,
-                        child: _profileImage == null
-                            ? Icon(
-                                Icons.camera_alt,
-                                size: 40,
-                                color: Colors.grey[600],
-                              )
-                            : null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Full Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ), // Set black border
-                  ),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your full name';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _fullName = value!;
-                },
-              ),
-              SizedBox(height: 16.0),
-              IntlPhoneField(
-                flagsButtonPadding: const EdgeInsets.all(8),
-                dropdownIconPosition: IconPosition.trailing,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ), // Set black border
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                    // Set black border when focused
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                onChanged: (phone) {
-                  _phoneNumber = phone.completeNumber;
-                  print(phone.completeNumber);
-                },
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 16.0),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'Gender',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ), // Set black border
-                  ),
-                ),
-                value: _selectedGender,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedGender = newValue;
-                  });
-                },
-                items: _genders.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select your gender';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 32.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(right: 8.0),
-                      child: ElevatedButton(
-                        onPressed: _skip,
-                        child: Text('Skip'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: Colors.grey),
-                          padding: EdgeInsets.symmetric(vertical: 15.0),
-                          textStyle: TextStyle(fontSize: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 8.0),
-                      child: ElevatedButton(
-                        onPressed: _continue,
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(vertical: 15.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               )
             ],
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(17, 6, 60, 1),
+                Color.fromRGBO(37, 14, 132, 1)
+              ]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    Column(
+                      children: [
+                        // Text(
+                        //   'Create Your Profile',
+                        //   textAlign: TextAlign.start,
+                        //   style: TextStyle(
+                        //     fontSize: 32,
+                        //   ),
+                        // ),
+                        Text(
+                          "Congratulation 🎉",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(20),
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(height: getProportionateScreenHeight(15)),
+                        Text(
+                          "Set up your profile to embark on this mindful journey!",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(15),
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: _pickImage,
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey[200],
+                          backgroundImage: _profileImage != null
+                              ? FileImage(File(_profileImage!.path))
+                              : null,
+                          child: _profileImage == null
+                              ? Icon(
+                                  Icons.camera_alt,
+                                  size: 40,
+                                  color: Color.fromRGBO(3, 226, 246, 1),
+                                )
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: getProportionateScreenHeight(35)),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Full Name",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
+                    ),
+                    suffixIcon: Icon(
+                      Icons.person,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your full name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _fullName = value!;
+                  },
+                ),
+                SizedBox(height: getProportionateScreenHeight(35)),
+                IntlPhoneField(
+                  flagsButtonPadding: const EdgeInsets.all(8),
+                  dropdownIconPosition: IconPosition.trailing,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
+                    ),
+                    suffixIcon: Icon(
+                      Icons.phone,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  onChanged: (phone) {
+                    _phoneNumber = phone.completeNumber;
+                    print(phone.completeNumber);
+                  },
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 16.0),
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    hintText: "Gender",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
+                    ),
+                    suffixIcon: Icon(
+                      Icons.female,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white)),
+                  ),
+                  value: _selectedGender,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                  },
+                  items: _genders.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please select your gender';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 32.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton(
+                          onPressed: _skip,
+                          child: Text('Skip'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: Colors.grey),
+                            padding: EdgeInsets.symmetric(vertical: 15.0),
+                            textStyle: TextStyle(fontSize: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: DefaultButton(press: _continue, text: 'Continue'),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

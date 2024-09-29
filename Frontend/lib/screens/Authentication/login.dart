@@ -1,5 +1,7 @@
 // login_screen.dart
 
+import 'package:WellCareBot/components/default_button.dart';
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/user_model.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:WellCareBot/services/auth_service.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import 'package:WellCareBot/screens/Authentication/forgot_password.dart';
 import 'package:WellCareBot/screens/Authentication/registration.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,9 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         // Handle login failure (e.g., show an error message)
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed. Please try again.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login failed. Please try again.',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(),
+              )),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ));
       }
     }
   }
@@ -56,56 +63,92 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(37, 14, 132, 1),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(17, 6, 60, 1),
+                Color.fromRGBO(37, 14, 132, 1)
+              ]),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Image(
+                image: AssetImage('assets/images/onboarding/welcome.png'),
+                height: getProportionateScreenHeight(150),
+              ),
+              SizedBox(height: getProportionateScreenHeight(2)),
+              Text(
+                "Sign In",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(28),
+                    fontWeight: FontWeight.w700),
+              ),
+              Text(
+                "Sign in to continue!",
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.w300),
+              ),
+              Row(
                 children: [
-                  ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: [Colors.blue, Colors.green],
-                      tileMode: TileMode.mirror,
-                    ).createShader(bounds),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: 6.0, top: 6.0, bottom: 6.0),
                     child: Text(
-                      'Welcome Back 👋',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            Colors.white, // this will be replaced by gradient
-                      ),
+                      "Email Address",
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w700),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    child: Text(
-                      'Please enter your email and password to sign in',
-                      style: TextStyle(
-                        fontSize: 15,
-                        // fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
+                  SizedBox(width: getProportionateScreenWidth(45))
                 ],
               ),
-              SizedBox(height: 20.0),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                    hintText: "Email",
+                    hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'krona',
+                    ),
+                    suffixIcon: Icon(
+                      Icons.email,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(8),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.white))),
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -119,24 +162,48 @@ class _LoginScreenState extends State<LoginScreen> {
                   _email = value!;
                 },
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: getProportionateScreenHeight(2)),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: 6.0, top: 6.0, bottom: 6.0),
+                    child: Text(
+                      "Password",
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(45))
+                ],
+              ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
+                  hintText: "Password",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'krona',
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () => setState(() {
+                      _obscureText = !_obscureText;
+                    }),
+                    child: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: Color.fromRGBO(3, 226, 246, 1),
+                      size: 20,
                     ),
-                    onPressed: _togglePasswordVisibility,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  contentPadding: const EdgeInsets.all(8),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.white)),
                 ),
+                style: TextStyle(color: Colors.white),
                 obscureText: _obscureText,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -150,45 +217,47 @@ class _LoginScreenState extends State<LoginScreen> {
                   _password = value!;
                 },
               ),
-              SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: _submit,
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  textStyle: TextStyle(fontSize: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+              SizedBox(height: getProportionateScreenHeight(20)),
+              DefaultButton(
+                press: _submit,
+                text: 'Login',
               ),
-              TextButton(
-                onPressed: () {
-                  // Handle forgot password logic
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ForgotPasswordScreen(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Forgot Password?',
-                  style: TextStyle(color: Colors.blue),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    // Handle forgot password logic
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Forgot Password?',
+                        style: GoogleFonts.nunito(
+                            color: Colors.blueAccent,
+                            fontSize: getProportionateScreenWidth(15),
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account?'),
-                  TextButton(
-                    onPressed: () {
+                  Text('Don\'t have an account?',
+                      style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(15),
+                          fontWeight: FontWeight.normal)),
+                  GestureDetector(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -197,11 +266,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      '\tSign Up',
+                      style: GoogleFonts.nunito(
+                          color: Colors.blueAccent,
+                          fontSize: getProportionateScreenWidth(15),
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -210,17 +279,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     child: Divider(
-                      color: Colors.grey,
+                      color: Colors.white.withOpacity(0.8),
                       height: 36,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('or'),
+                    child: Text('or',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(15),
+                            fontWeight: FontWeight.normal)),
                   ),
                   Expanded(
                     child: Divider(
-                      color: Colors.grey,
+                      color: Colors.white.withOpacity(0.8),
                       height: 36,
                     ),
                   ),
@@ -229,30 +302,69 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    icon: Brand(Brands.google),
-                    iconSize: 50.0,
-                    onPressed: () {
-                      // Handle Google login
-                      FirebaseAuthHelper().signInWithGoogle(context);
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.google),
+                      iconSize: 50.0,
+                      onPressed: () {
+                        // Handle Google login
+                        FirebaseAuthHelper().signInWithGoogle(context);
+                      },
+                    ),
                   ),
                   SizedBox(width: 20.0),
-                  IconButton(
-                    icon: Brand(Brands.microsoft),
-                    iconSize: 50.0,
-                    onPressed: () async {
-                      // Handle Microsoft login
-                      FirebaseAuthHelper().signInWithMicrosoft(context);
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.microsoft),
+                      iconSize: 50.0,
+                      onPressed: () async {
+                        // Handle Microsoft login
+                        FirebaseAuthHelper().signInWithMicrosoft(context);
+                      },
+                    ),
                   ),
                   SizedBox(width: 20.0),
-                  IconButton(
-                    icon: Brand(Brands.apple_logo),
-                    iconSize: 50.0,
-                    onPressed: () {
-                      // Handle Apple login
-                    },
+                  Container(
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(2, 106, 111, 0.5),
+                            Color.fromRGBO(3, 226, 246, 0.5)
+                          ]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Brand(Brands.apple_logo),
+                      iconSize: 50.0,
+                      onPressed: () {
+                        // Handle Apple login
+                      },
+                    ),
                   ),
                 ],
               ),

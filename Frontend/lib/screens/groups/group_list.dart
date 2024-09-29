@@ -1,9 +1,12 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/screens/groups/create_group_screen.dart';
 import 'package:WellCareBot/screens/groups/group_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GroupListScreen extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -13,19 +16,25 @@ class GroupListScreen extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
-        title: Text('My Groups', style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        title: Text(
+          'My Groups',
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(22),
+              fontWeight: FontWeight.w700),
+        ),
       ),
       body: StreamBuilder<List<Group>>(
         stream: _firestoreService.getUserGroups(currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    color: Color.fromRGBO(3, 226, 246, 1)));
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -45,38 +54,77 @@ class GroupListScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Center(
+            child: Icon(FontAwesomeIcons.peopleGroup, color: Colors.white)),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateGroupScreen()),
-          );
+          _createNewGroupDilague(context);
         },
         backgroundColor: Colors.blueAccent,
       ),
     );
   }
 
+  Future<void> _createNewGroupDilague(context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 200.0, top: 100),
+            child: AlertDialog(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Create New Group',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(22),
+                            fontWeight: FontWeight.w700)),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(Icons.cancel, color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+                content: CreateGroupScreen(),
+                backgroundColor: Color.fromRGBO(17, 6, 60, 1)),
+          );
+        });
+  }
+
   Widget _buildGroupCard(BuildContext context, Group group) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      color: Color.fromRGBO(62, 82, 213, 0.8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
       margin: EdgeInsets.only(bottom: 16),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: CircleAvatar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.orangeAccent,
           child: Text(
             group.name[0].toUpperCase(),
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         title: Text(
           group.name,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.bold),
         ),
-        subtitle: Text('Tap to join the conversation'),
-        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
+        subtitle: Text('Tap to join the conversation',
+            style: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(18),
+                fontWeight: FontWeight.normal)),
+        trailing: Icon(Icons.arrow_forward_ios,
+            color: Colors.white, size: getProportionateScreenWidth(15)),
         onTap: () {
           Navigator.push(
             context,
@@ -91,45 +139,28 @@ class GroupListScreen extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(
+        child: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.group_off, size: 100, color: Colors.grey[400]),
-          SizedBox(height: 16),
-          Text(
-            'No groups yet',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          SizedBox(height: getProportionateScreenHeight(85)),
+          Image.asset(
+            'assets/images/group/group.png',
+            height: getProportionateScreenHeight(300),
           ),
-          SizedBox(height: 8),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Create a group or join one to start connecting with others.',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-              textAlign: TextAlign.center,
+              'Create a group or join one to\nstart connecting with others\non similar mental health issues.\nTap the button to get started!',
+              style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w500),
             ),
           ),
-          SizedBox(height: 24),
-          ElevatedButton.icon(
-            icon: Icon(Icons.add),
-            label: Text('Create New Group'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateGroupScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
+          SizedBox(height: getProportionateScreenHeight(55))
         ],
       ),
-    );
+    ));
   }
 }

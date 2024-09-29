@@ -65,6 +65,7 @@ class FirestoreService {
   }
 
   Stream<Therapist> getTherapistDetails(String therapistId) {
+    print(therapistId);
     return _db
         .collection('therapists')
         .doc(therapistId)

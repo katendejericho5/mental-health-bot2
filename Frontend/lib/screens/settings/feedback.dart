@@ -1,6 +1,9 @@
+import 'package:WellCareBot/components/default_button.dart';
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/screens/Home/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FeedbackPage extends StatefulWidget {
   @override
@@ -33,7 +36,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
       try {
         await FlutterEmailSender.send(email);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Feedback sent successfully!')),
+          SnackBar(
+            content: Text('Feedback sent successfully!',
+                style: GoogleFonts.poppins()),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
 
         _feedbackController.clear();
@@ -45,7 +52,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
         );
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send feedback')),
+          SnackBar(
+            content: Text(
+              'Failed to send feedback',
+              style: GoogleFonts.poppins(),
+            ),
+            backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+          ),
         );
       } finally {
         setState(() {
@@ -58,26 +71,61 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
-        title: Text('Feedback'),
-      ),
+          backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+          elevation: 0,
+          title: Text(
+            'Feedback',
+            style: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(20),
+                fontWeight: FontWeight.w700),
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(getProportionateScreenHeight(15)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Divider(
+                  color: Colors.white,
+                ),
+              ))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'We value your feedback!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey[800],
-              ),
+              style: GoogleFonts.nunito(
+                  fontSize: getProportionateScreenWidth(24),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             Text(
               'Please let us know how we can improve or if you have any suggestions.',
-              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              style: GoogleFonts.nunito(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal),
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 30),
@@ -91,16 +139,21 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         controller: _feedbackController,
                         maxLines: 5,
                         decoration: InputDecoration(
-                          labelText: 'Your Feedback',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          hintText: 'Enter your feedback here...',
+                          hintText: "Enter your feedback",
+                          hintStyle: GoogleFonts.nunito(
+                              color: Colors.white,
+                              fontSize: getProportionateScreenWidth(18),
+                              fontWeight: FontWeight.w600),
                           filled: true,
-                          fillColor: Colors.grey[200],
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 16.0),
+                          fillColor: Colors.blueAccent.withOpacity(0.5),
+                          contentPadding: const EdgeInsets.all(8),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(62, 82, 213, 1),
+                                  width: 2)),
                         ),
+                        style: TextStyle(color: Colors.white),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your feedback';
@@ -110,24 +163,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       ),
                       SizedBox(height: 20),
                       _isSubmitting
-                          ? CircularProgressIndicator()
-                          : ElevatedButton(
-                              onPressed: _submitFeedback,
-                              child: Text('Submit Feedback'),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.blueGrey[800],
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 15.0,
-                                  horizontal: 40.0,
-                                ),
-                                textStyle: TextStyle(fontSize: 18),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                elevation: 5,
-                              ),
-                            ),
+                          ? CircularProgressIndicator(
+                              color: Color.fromRGBO(3, 226, 246, 1))
+                          : DefaultButton(
+                              press: _submitFeedback, text: 'Submit Feedback'),
                     ],
                   ),
                 ),

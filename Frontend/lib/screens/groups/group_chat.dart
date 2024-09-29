@@ -1,5 +1,7 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/group_model.dart';
 import 'package:WellCareBot/screens/groups/add_members.dart';
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,9 @@ import 'package:WellCareBot/models/chat_model.dart';
 import 'package:WellCareBot/services/cloud_service.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GroupChatScreen extends StatefulWidget {
   final Group group;
@@ -22,6 +27,9 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   final List<types.Message> _messages = [];
   late String _userId = '';
   Map<String, dynamic> _typingUsers = {};
+  final spinkit = SpinKitThreeBounce(
+    color: Colors.blueAccent,
+  );
 
   @override
   void initState() {
@@ -119,12 +127,38 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Delete Message'),
-          content: Text('Are you sure you want to delete this message?'),
+          backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(FontAwesomeIcons.trashCan,
+                    color: Colors.red, size: getProportionateScreenWidth(25)),
+              ),
+              Text(
+                'Delete Message',
+                style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(20),
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to delete this message?',
+            style: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(17),
+                fontWeight: FontWeight.w700),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text('Cancel',
+                  style: GoogleFonts.nunito(
+                      color: Colors.red,
+                      fontSize: getProportionateScreenWidth(16),
+                      fontWeight: FontWeight.w700)),
             ),
             TextButton(
               onPressed: () async {
@@ -137,11 +171,19 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                 } else {
                   print("Message deletion failed");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to delete message')),
+                    SnackBar(
+                      content: Text('Failed to delete message',
+                          style: GoogleFonts.poppins(fontSize: 16)),
+                      backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+                    ),
                   );
                 }
               },
-              child: Text('Delete'),
+              child: Text('Delete',
+                  style: GoogleFonts.nunito(
+                      color: Colors.green,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w700)),
             ),
           ],
         ),
@@ -149,21 +191,89 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     }
   }
 
+  Widget _bubbleBuilder(
+    Widget child, {
+    required message,
+    required nextMessageInGroup,
+  }) =>
+      Bubble(
+        child: child,
+        color: _userId != message.author.id ||
+                message.type == types.MessageType.image
+            ? Color.fromRGBO(108, 104, 250, 1)
+            : Colors.white,
+        margin: nextMessageInGroup
+            ? const BubbleEdges.symmetric(horizontal: 6)
+            : null,
+        nip: nextMessageInGroup
+            ? BubbleNip.no
+            : _userId != message.author.id
+                ? BubbleNip.leftBottom
+                : BubbleNip.rightBottom,
+      );
+
+  Future<void> _showMessageLoader() async {
+    showDialog(
+        context: context,
+        builder: (builder) {
+          return AlertDialog(
+            backgroundColor: Colors.transparent,
+            content: spinkit,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color backgroundColor =
-        theme.brightness == Brightness.light ? Colors.white : Colors.grey[900]!;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(17, 6, 60, 1),
       appBar: AppBar(
-        title: Text(widget.group.name),
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+        elevation: 0,
+        title: Text(
+          widget.group.name,
+          style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.w700),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.group),
+            icon: Icon(
+              FontAwesomeIcons.userGroup,
+              color: Colors.white,
+              size: getProportionateScreenHeight(25),
+            ),
             onPressed: () => _showMembersList(context),
           ),
         ],
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(getProportionateScreenHeight(15)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+              child: Divider(
+                color: Colors.white,
+              ),
+            )),
       ),
       body: Column(
         children: [
@@ -173,34 +283,87 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
               messages: _messages,
               onSendPressed: _handleSendPressed,
               user: types.User(id: _userId),
-              showUserAvatars: true,
-              showUserNames: true,
-              // onMessageVisibilityChanged: (text) {
-              //   _updateTypingStatus(text.isNotEmpty);
-              // },
+              showUserAvatars: false,
+              showUserNames: false,
+              bubbleBuilder: _bubbleBuilder,
               scrollPhysics: const BouncingScrollPhysics(),
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               onMessageLongPress: _handleMessageLongPress,
-
+              emptyState: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: getProportionateScreenHeight(85)),
+                    Image.asset(
+                      'assets/images/bots/nomessages.png',
+                      height: getProportionateScreenHeight(300),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'No messages yet',
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(20),
+                            fontWeight: FontWeight.w600),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               theme: DefaultChatTheme(
-                backgroundColor: backgroundColor,
+                backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+                messageBorderRadius: 15,
+                dateDividerTextStyle: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.w600),
                 inputTextCursorColor: theme.colorScheme.primary,
                 inputSurfaceTintColor: theme.colorScheme.surfaceTint,
                 inputBackgroundColor: theme.colorScheme.surface,
                 inputTextColor: theme.colorScheme.onSurface,
-                sendButtonIcon:
-                    Icon(Icons.send, color: theme.colorScheme.primary),
+                sendButtonIcon: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color.fromRGBO(2, 106, 111, 1),
+                          Color.fromRGBO(3, 226, 246, 1)
+                        ]),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Center(
+                      child: Icon(FontAwesomeIcons.solidPaperPlane,
+                          color: Colors.white,
+                          size: getProportionateScreenWidth(15)),
+                    ),
+                  ),
+                ),
                 inputMargin:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                inputTextStyle: TextStyle(
-                  color: theme.colorScheme.onSurface,
+                inputTextStyle: GoogleFonts.nunito(
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.normal),
+                sentMessageBodyTextStyle: GoogleFonts.poppins(
+                  textStyle: GoogleFonts.nunito(
+                      fontSize: getProportionateScreenWidth(15),
+                      fontWeight: FontWeight.normal),
                 ),
+                receivedMessageBodyTextStyle: GoogleFonts.poppins(
+                    textStyle: GoogleFonts.nunito(
+                        fontSize: getProportionateScreenWidth(15),
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal)),
                 inputBorderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(10),
-                  right: Radius.circular(10),
+                  left: Radius.circular(30),
+                  right: Radius.circular(30),
                 ),
                 inputContainerDecoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
+                  color: Colors.blueAccent.withOpacity(0.2),
                   border:
                       Border.all(color: theme.colorScheme.outline, width: 1.0),
                   borderRadius: const BorderRadius.horizontal(
@@ -217,9 +380,11 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
               padding: EdgeInsets.all(8),
               child: Text(
                 '${_typingUsers.entries.where((entry) => entry.value).map((entry) => entry.key).join(", ")} is typing...',
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),
@@ -231,6 +396,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   void _showMembersList(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Color.fromRGBO(62, 82, 213, 1),
       builder: (BuildContext context) {
         return FutureBuilder<List<DocumentSnapshot>>(
           future: Future.wait(
@@ -239,7 +405,9 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(
+                      color: Color.fromRGBO(3, 226, 246, 1)));
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return Center(child: Text('No members found'));
@@ -247,10 +415,17 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             return Column(
               children: [
                 ListTile(
-                  title: Text('Group Members',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(
+                    'Group Members',
+                    style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: getProportionateScreenWidth(20),
+                        fontWeight: FontWeight.bold),
+                  ),
                   trailing: IconButton(
-                    icon: Icon(Icons.add),
+                    icon: Icon(Icons.add,
+                        color: Colors.white,
+                        size: getProportionateScreenWidth(25)),
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -269,9 +444,30 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     itemBuilder: (context, index) {
                       final user = snapshot.data![index];
                       final userName = user['fullName'] ?? 'Unknown';
-                      return ListTile(
-                        title: Text(userName),
-                        subtitle: Text(user['email'] ?? ''),
+                      final imageUrl = user['profilePictureURL'] ?? '';
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          color: Color.fromRGBO(17, 6, 60, 1),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundImage: NetworkImage(imageUrl)),
+                            title: Text(
+                              userName,
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(18),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            subtitle: Text(
+                              user['email'] ?? '',
+                              style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenWidth(16),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),

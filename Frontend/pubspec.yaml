@@ -60,6 +60,10 @@ dependencies:
   flutter_email_sender: ^6.0.3
   google_sign_in: ^6.2.1
   google_fonts: ^6.2.1
+  carousel_slider: ^5.0.0
+  bubble: ^1.2.1
+  flutter_spinkit: ^5.2.1
+  calendar_view: ^1.2.0
 
 
 
@@ -108,6 +112,13 @@ flutter:
   assets:
     - assets/
     - assets/markdown/
+    - assets/images/onboarding/
+    - assets/images/authentication/
+    - assets/images/home/home/
+    - assets/images/home/emotions/
+    - assets/images/home/modes/
+    - assets/images/bots/
+    - assets/images/group/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

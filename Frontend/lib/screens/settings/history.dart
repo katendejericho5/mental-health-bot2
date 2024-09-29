@@ -1,7 +1,10 @@
+import 'package:WellCareBot/constant/size_config.dart';
 import 'package:WellCareBot/models/history_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends StatefulWidget {
@@ -76,16 +79,19 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
       _loadMessages(); // Reload messages after deletion
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete message: $error')),
+        SnackBar(
+          content: Text('Failed to delete message: $error'),
+          backgroundColor: Color.fromRGBO(3, 226, 246, 1),
+        ),
       );
     }
   }
 
   String _getSenderLabel(String author) {
     if (author == 'user') {
-      return 'From You';
+      return 'You';
     } else if (author == 'bot123') {
-      return 'From WellcareBot';
+      return 'WellcareBot';
     } else {
       return 'From You'; // Fallback for any unexpected values
     }
@@ -102,19 +108,64 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(17, 6, 60, 1),
         appBar: AppBar(
-          title: Text('Chat History'),
+          backgroundColor: Color.fromRGBO(17, 6, 60, 1),
+          elevation: 0,
+          title: Text(
+            'AI Chat History',
+            style: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(20),
+                fontWeight: FontWeight.w700),
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
           actions: [
             IconButton(
               icon: Icon(
                 _isDescending ? Icons.arrow_downward : Icons.arrow_upward,
+                color: Colors.white,
               ),
               onPressed: _toggleSortOrder,
             ),
           ],
           bottom: TabBar(
+            indicatorPadding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              gradient: const LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.blue, Color.fromRGBO(4, 190, 207, 1)]),
+            ),
+            unselectedLabelStyle: GoogleFonts.nunito(
+                color: Colors.white.withOpacity(0.7),
+                fontSize: getProportionateScreenWidth(18),
+                fontWeight: FontWeight.w700),
+            labelStyle: GoogleFonts.nunito(
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(18),
+                fontWeight: FontWeight.w700),
             tabs: [
-              Tab(text: 'Therapist'),
+              Tab(
+                text: 'Therapist',
+              ),
               Tab(text: 'Companion'),
             ],
           ),
@@ -137,11 +188,19 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
       future: messagesFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator(
+            color: Color.fromRGBO(3, 226, 246, 1),
+          ));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No messages found.'));
+          return Center(
+              child: Text('No messages found.',
+                  style: GoogleFonts.nunito(
+                      color: Colors.white.withOpacity(0.7),
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w700)));
         } else {
           final messages = snapshot.data!;
           return ListView.builder(
@@ -150,32 +209,59 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
               final message = messages[index];
               return ListTile(
                 title: Card(
+                  color: _getSenderLabel(
+                            message.author,
+                          ) ==
+                          'WellcareBot'
+                      ? Color.fromRGBO(108, 104, 250, 1)
+                      : Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(message.text),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(message.text,
+                          style: GoogleFonts.nunito(
+                              color: _getSenderLabel(
+                                        message.author,
+                                      ) ==
+                                      'WellcareBot'
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: getProportionateScreenWidth(16),
+                              fontWeight: FontWeight.w400)),
+                    ),
                   ),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _getSenderLabel(message.author),
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _getSenderLabel(
+                          message.author,
+                        ),
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(14),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      _formatDate(message.createdAt),
-                      style: TextStyle(color: Colors.greenAccent),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _formatDate(message.createdAt),
+                        style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: getProportionateScreenWidth(14),
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
                 isThreeLine: true,
                 trailing: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
+                  icon: Icon(FontAwesomeIcons.trashCan, color: Colors.red),
                   onPressed: () {
                     _deleteMessage(threadId, message.id);
                   },
